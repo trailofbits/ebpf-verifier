@@ -1,0 +1,1 @@
+The eBPF Verifier Harness project seeks to isolate the eBPF verifier from the Linux kernel in order to allow efficient verification that an eBPF program will run on various kernel versions. It will also allow for detecting discrepencies in the eBPF verifier between differen kernel versions.
