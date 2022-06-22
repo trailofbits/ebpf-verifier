@@ -26,6 +26,7 @@ def main():
 
   print("Using: ", path_to_compile_commands)
   f = open(path_to_compile_commands)
+  targets = open("compile_cmd_targets.txt", "w")
   if (args.emit_ir):
     script = open("compile_to_llvm_ir.sh", "w")
   else:
@@ -37,6 +38,11 @@ def main():
     prefix = entry["command"][0:cflag_index]
     suffix = entry["command"][cflag_index:]
     suff_list = suffix.split()
+    print(suff_list)
+    # gives list of form ['-c', '-o', 'path/file.o', 'path/file.c']
+    path = suff_list[2]
+    targets.write(path)
+    targets.write('\n')
 
     # for llvm IR (-S)
     if (args.emit_ir):
@@ -59,6 +65,7 @@ def main():
   for l in locations:
     print(l)
   script.close()
+  targets.close()
   return 0
 
 
