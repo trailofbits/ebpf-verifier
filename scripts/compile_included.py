@@ -1,3 +1,10 @@
+# use this file to build the clang commands for the bitcode
+# files that are needed (build_bitcode_needed.sh). (reads the files listed in
+# "bitcode_files"; finds their corresponding base
+# command in compile_to_llvm_bitcode/ir.sh and then
+# addes -include statements for all the header files in
+# "included_headers.txt" and adds flags like "-g -O0")
+
 import argparse
 
 def main():
@@ -6,7 +13,7 @@ def main():
   args = parser.parse_args()
 
   if (args.emit_ir):
-    f = open("compile_to_llvm_if.sh")
+    f = open("compile_to_llvm_ir.sh")
   else:
     f = open("compile_to_llvm_bitcode.sh")
 
@@ -23,7 +30,7 @@ def main():
       if line.strip() in cmd:
         c = cmd.strip()
         for h in headers:
-          c += " -include ../" + h.strip()
+          c += " -include ../" + h.strip() # + " -g -O0"
         res_cmds.append(c)
 
   res = open("build_bitcode_needed.sh", "w")

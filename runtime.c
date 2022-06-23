@@ -1,6 +1,10 @@
 #include <stdlib.h>
+#include <time.h>
 
+// Functions that look like they should only be called in the interpreter
 void bpf_map_write_active(void) { abort(); }
+
+// Unknown
 void refcount_warn_saturate(void) {abort(); } // TODO: what is this function
 void gic_nonsecure_priorities(void) {abort(); } // TODO: ^^^
 void queued_spin_lock_slowpath(void) { abort(); } // TODO
@@ -59,10 +63,22 @@ void idr_preload(void) { abort(); } // TODO --> autogened
 void idr_remove(void) { abort(); } // TODO --> autogened
 void kmemdup(void) { abort(); } // TODO --> autogened
 void kmemdup_nul(void) { abort(); } // TODO --> autogened
-void ktime_get(void) { abort(); } // TODO --> autogened
+
+// ktime accessors
+
+// I only see this called twice in bpf_check --> just seems to be timing the
+// verifier process.
+unsigned long ktime_get(void) {
+  struct timespec ts;
+  clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &ts);
+  return ts.tv_sec;
+}
+
 void ktime_get_boot_fast_ns(void) { abort(); } // TODO --> autogened
 void ktime_get_coarse_ts64(void) { abort(); } // TODO --> autogened
 void ktime_get_mono_fast_ns(void) { abort(); } // TODO --> autogened
+
+
 void kvfree_call_rcu(void) { abort(); } // TODO --> autogened
 void mutex_lock(void) { abort(); } // TODO --> autogened
 void mutex_unlock(void) { abort(); } // TODO --> autogened
@@ -97,6 +113,7 @@ unsigned long jiffies = 1; // TODO
 
 int pagefault_disable() { return 1; }
 
+// Memory related functions.
 // TODO: most of this probably need to actually do something...
 void * kmalloc (size_t size) { return NULL; }
 void * __kmalloc (size_t size) { return NULL; }

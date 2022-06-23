@@ -6,4 +6,5 @@ kernel/bpf/helpers.bc \
 kernel/bpf/verifier.bc \
 ../runtime.c \
 ../main.c \
+-g -O0 \
 -o harness
