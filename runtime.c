@@ -110,9 +110,3 @@ int kvfree(const void *addr) { return 1; }
 int vfree(const void *addr) { return 1; }
 int __vmalloc(unsigned long size) { return 1; }
 int vzalloc(unsigned long size) { return 1; }
-
-
-
-int main() {
-  return 0;
-}
