@@ -1,0 +1,221 @@
+/usr/bin/ld: /tmp/btf-edba1d.o: in function `btf_put':
+btf.c:(.text+0xfd4): undefined reference to `idr_remove'
+/usr/bin/ld: btf.c:(.text+0x1000): undefined reference to `call_rcu'
+/usr/bin/ld: /tmp/btf-edba1d.o: in function `btf_parse_hdr':
+btf.c:(.text+0x2338): undefined reference to `sort'
+/usr/bin/ld: /tmp/btf-edba1d.o: in function `btf_alloc_id':
+btf.c:(.text+0x2b0c): undefined reference to `idr_preload'
+/usr/bin/ld: btf.c:(.text+0x2b84): undefined reference to `idr_alloc_cyclic'
+/usr/bin/ld: btf.c:(.text+0x2bdc): undefined reference to `vabits_actual'
+/usr/bin/ld: btf.c:(.text+0x2be0): undefined reference to `vabits_actual'
+/usr/bin/ld: btf.c:(.text+0x2c08): undefined reference to `__local_bh_enable_ip'
+/usr/bin/ld: /tmp/btf-edba1d.o: in function `btf_seq_show':
+btf.c:(.text+0x7d28): undefined reference to `seq_vprintf'
+/usr/bin/ld: /tmp/btf-edba1d.o: in function `btf_new_fd':
+btf.c:(.text+0x8d34): undefined reference to `anon_inode_getfd'
+/usr/bin/ld: /tmp/btf-edba1d.o: in function `btf_get_by_fd':
+btf.c:(.text+0x8dd8): undefined reference to `__fdget'
+/usr/bin/ld: btf.c:(.text+0x8e38): undefined reference to `fput'
+/usr/bin/ld: btf.c:(.text+0x8ed8): undefined reference to `fput'
+/usr/bin/ld: /tmp/btf-edba1d.o: in function `btf_get_fd_by_id':
+btf.c:(.text+0x9144): undefined reference to `idr_find'
+/usr/bin/ld: btf.c:(.text+0x9240): undefined reference to `anon_inode_getfd'
+/usr/bin/ld: /tmp/btf-edba1d.o: in function `bpf_btf_find_by_name_kind':
+btf.c:(.text+0x94c8): undefined reference to `idr_get_next'
+/usr/bin/ld: btf.c:(.text+0x9550): undefined reference to `vabits_actual'
+/usr/bin/ld: btf.c:(.text+0x9554): undefined reference to `vabits_actual'
+/usr/bin/ld: btf.c:(.text+0x957c): undefined reference to `__local_bh_enable_ip'
+/usr/bin/ld: btf.c:(.text+0x9634): undefined reference to `idr_get_next'
+/usr/bin/ld: btf.c:(.text+0x9670): undefined reference to `vabits_actual'
+/usr/bin/ld: btf.c:(.text+0x9674): undefined reference to `vabits_actual'
+/usr/bin/ld: btf.c:(.text+0x969c): undefined reference to `__local_bh_enable_ip'
+/usr/bin/ld: btf.c:(.text+0x9754): undefined reference to `anon_inode_getfd'
+/usr/bin/ld: /tmp/btf-edba1d.o: in function `register_btf_kfunc_id_set':
+btf.c:(.text+0x9d20): undefined reference to `sort'
+/usr/bin/ld: /tmp/btf-edba1d.o: in function `bpf_core_apply':
+btf.c:(.text+0xa490): undefined reference to `mutex_lock'
+/usr/bin/ld: btf.c:(.text+0xa7c4): undefined reference to `idr_get_next'
+/usr/bin/ld: btf.c:(.text+0xa850): undefined reference to `vabits_actual'
+/usr/bin/ld: btf.c:(.text+0xa854): undefined reference to `vabits_actual'
+/usr/bin/ld: btf.c:(.text+0xa87c): undefined reference to `__local_bh_enable_ip'
+/usr/bin/ld: btf.c:(.text+0xa988): undefined reference to `idr_get_next'
+/usr/bin/ld: btf.c:(.text+0xa9c4): undefined reference to `vabits_actual'
+/usr/bin/ld: btf.c:(.text+0xa9c8): undefined reference to `vabits_actual'
+/usr/bin/ld: btf.c:(.text+0xa9f0): undefined reference to `__local_bh_enable_ip'
+/usr/bin/ld: btf.c:(.text+0xabe0): undefined reference to `bpf_core_calc_relo_insn'
+/usr/bin/ld: btf.c:(.text+0xac14): undefined reference to `bpf_core_patch_insn'
+/usr/bin/ld: btf.c:(.text+0xac54): undefined reference to `mutex_unlock'
+/usr/bin/ld: btf.c:(.text+0xac88): undefined reference to `mutex_lock'
+/usr/bin/ld: btf.c:(.text+0xace0): undefined reference to `mutex_unlock'
+/usr/bin/ld: /tmp/btf-edba1d.o: in function `btf_int_show':
+btf.c:(.text+0xc258): undefined reference to `_ctype'
+/usr/bin/ld: btf.c:(.text+0xc25c): undefined reference to `_ctype'
+/usr/bin/ld: /tmp/btf-edba1d.o: in function `__btf_name_valid':
+btf.c:(.text+0xeefc): undefined reference to `_ctype'
+/usr/bin/ld: btf.c:(.text+0xef00): undefined reference to `_ctype'
+/usr/bin/ld: btf.c:(.text+0xefb0): undefined reference to `_ctype'
+/usr/bin/ld: /tmp/btf-edba1d.o:btf.c:(.text+0xefb4): more undefined references to `_ctype' follow
+/usr/bin/ld: /tmp/btf-edba1d.o: in function `bpf_core_add_cands':
+btf.c:(.text+0x1563c): undefined reference to `__cond_resched'
+/usr/bin/ld: /tmp/btf-edba1d.o: in function `populate_cand_cache':
+btf.c:(.text+0x15848): undefined reference to `kmemdup'
+/usr/bin/ld: btf.c:(.text+0x1589c): undefined reference to `kmemdup_nul'
+/usr/bin/ld: /tmp/btf-edba1d.o:(.rodata+0x438): undefined reference to `htab_map_ops'
+/usr/bin/ld: /tmp/btf-edba1d.o:(.rodata+0x440): undefined reference to `array_map_ops'
+/usr/bin/ld: /tmp/btf-edba1d.o:(.rodata+0x448): undefined reference to `prog_array_map_ops'
+/usr/bin/ld: /tmp/btf-edba1d.o:(.rodata+0x450): undefined reference to `perf_event_array_map_ops'
+/usr/bin/ld: /tmp/btf-edba1d.o:(.rodata+0x458): undefined reference to `htab_percpu_map_ops'
+/usr/bin/ld: /tmp/btf-edba1d.o:(.rodata+0x460): undefined reference to `percpu_array_map_ops'
+/usr/bin/ld: /tmp/btf-edba1d.o:(.rodata+0x478): undefined reference to `htab_lru_map_ops'
+/usr/bin/ld: /tmp/btf-edba1d.o:(.rodata+0x480): undefined reference to `htab_lru_percpu_map_ops'
+/usr/bin/ld: /tmp/btf-edba1d.o:(.rodata+0x488): undefined reference to `trie_map_ops'
+/usr/bin/ld: /tmp/btf-edba1d.o:(.rodata+0x490): undefined reference to `array_of_maps_map_ops'
+/usr/bin/ld: /tmp/btf-edba1d.o:(.rodata+0x498): undefined reference to `htab_of_maps_map_ops'
+/usr/bin/ld: /tmp/btf-edba1d.o:(.rodata+0x4e0): undefined reference to `queue_map_ops'
+/usr/bin/ld: /tmp/btf-edba1d.o:(.rodata+0x4e8): undefined reference to `stack_map_ops'
+/usr/bin/ld: /tmp/btf-edba1d.o:(.rodata+0x508): undefined reference to `ringbuf_map_ops'
+/usr/bin/ld: /tmp/btf-edba1d.o:(.rodata+0x518): undefined reference to `task_storage_map_ops'
+/usr/bin/ld: /tmp/btf-edba1d.o:(.rodata+0x520): undefined reference to `bloom_filter_map_ops'
+/usr/bin/ld: /tmp/core-aa47be.o: in function `bpf_prog_alloc_no_stats':
+core.c:(.text+0x1a8): undefined reference to `__alloc_percpu_gfp'
+/usr/bin/ld: core.c:(.text+0x224): undefined reference to `__mutex_init'
+/usr/bin/ld: core.c:(.text+0x244): undefined reference to `__mutex_init'
+/usr/bin/ld: /tmp/core-aa47be.o: in function `bpf_prog_alloc':
+core.c:(.text+0x2b0): undefined reference to `__alloc_percpu_gfp'
+/usr/bin/ld: core.c:(.text+0x2d0): undefined reference to `free_percpu'
+/usr/bin/ld: /tmp/core-aa47be.o: in function `__bpf_prog_free':
+core.c:(.text+0x6e4): undefined reference to `free_percpu'
+/usr/bin/ld: core.c:(.text+0x6f0): undefined reference to `free_percpu'
+/usr/bin/ld: /tmp/core-aa47be.o: in function `bpf_prog_calc_tag':
+core.c:(.text+0x788): undefined reference to `vmalloc'
+/usr/bin/ld: core.c:(.text+0x7b0): undefined reference to `sha1_init'
+/usr/bin/ld: core.c:(.text+0xa10): undefined reference to `sha1_transform'
+/usr/bin/ld: /tmp/core-aa47be.o: in function `bpf_prog_select_runtime':
+core.c:(.text+0x13a8): undefined reference to `find_vm_area'
+/usr/bin/ld: core.c:(.text+0x13d8): undefined reference to `set_memory_ro'
+/usr/bin/ld: core.c:(.text+0x1400): undefined reference to `mutex_lock'
+/usr/bin/ld: core.c:(.text+0x1510): undefined reference to `mutex_unlock'
+/usr/bin/ld: /tmp/core-aa47be.o: in function `bpf_prog_array_free':
+core.c:(.text+0x15ec): undefined reference to `kvfree_call_rcu'
+/usr/bin/ld: /tmp/core-aa47be.o: in function `__bpf_free_used_maps':
+core.c:(.text+0x1fd4): undefined reference to `bpf_map_put'
+/usr/bin/ld: /tmp/core-aa47be.o: in function `bpf_prog_free':
+core.c:(.text+0x20ac): undefined reference to `bpf_prog_put'
+/usr/bin/ld: core.c:(.text+0x20dc): undefined reference to `system_wq'
+/usr/bin/ld: core.c:(.text+0x20e0): undefined reference to `system_wq'
+/usr/bin/ld: core.c:(.text+0x20e8): undefined reference to `queue_work_on'
+/usr/bin/ld: /tmp/core-aa47be.o: in function `bpf_user_rnd_init_once':
+core.c:(.text+0x22d8): undefined reference to `__do_once_start'
+/usr/bin/ld: core.c:(.text+0x22ec): undefined reference to `prandom_seed_full_state'
+/usr/bin/ld: core.c:(.text+0x2308): undefined reference to `__do_once_done'
+/usr/bin/ld: /tmp/core-aa47be.o: in function `bpf_user_rnd_u32':
+core.c:(.text+0x233c): undefined reference to `prandom_u32_state'
+/usr/bin/ld: /tmp/core-aa47be.o: in function `bpf_get_raw_cpu_id':
+core.c:(.text+0x2358): undefined reference to `cpu_number'
+/usr/bin/ld: core.c:(.text+0x235c): undefined reference to `cpu_number'
+/usr/bin/ld: /tmp/helpers-4d63a8.o: in function `bpf_get_smp_processor_id':
+helpers.c:(.text+0xd8): undefined reference to `cpu_number'
+/usr/bin/ld: helpers.c:(.text+0xdc): undefined reference to `cpu_number'
+/usr/bin/ld: /tmp/helpers-4d63a8.o: in function `bpf_ktime_get_ns':
+helpers.c:(.text+0x100): undefined reference to `ktime_get_mono_fast_ns'
+/usr/bin/ld: /tmp/helpers-4d63a8.o: in function `bpf_ktime_get_boot_ns':
+helpers.c:(.text+0x114): undefined reference to `ktime_get_boot_fast_ns'
+/usr/bin/ld: /tmp/helpers-4d63a8.o: in function `bpf_ktime_get_coarse_ns':
+helpers.c:(.text+0x13c): undefined reference to `ktime_get_coarse_ts64'
+/usr/bin/ld: /tmp/helpers-4d63a8.o: in function `bpf_get_current_comm':
+helpers.c:(.text+0x214): undefined reference to `strscpy'
+/usr/bin/ld: /tmp/helpers-4d63a8.o: in function `bpf_jiffies64':
+helpers.c:(.text+0x5cc): undefined reference to `jiffies'
+/usr/bin/ld: helpers.c:(.text+0x5d0): undefined reference to `jiffies'
+/usr/bin/ld: /tmp/helpers-4d63a8.o: in function `bpf_get_ns_current_pid_tgid':
+helpers.c:(.text+0x698): undefined reference to `task_active_pid_ns'
+/usr/bin/ld: helpers.c:(.text+0x6c4): undefined reference to `ns_match'
+/usr/bin/ld: helpers.c:(.text+0x6e4): undefined reference to `__task_pid_nr_ns'
+/usr/bin/ld: helpers.c:(.text+0x700): undefined reference to `__task_pid_nr_ns'
+/usr/bin/ld: /tmp/helpers-4d63a8.o: in function `bpf_copy_from_user_task':
+helpers.c:(.text+0x888): undefined reference to `access_process_vm'
+/usr/bin/ld: /tmp/helpers-4d63a8.o: in function `bpf_per_cpu_ptr':
+helpers.c:(.text+0x904): undefined reference to `nr_cpu_ids'
+/usr/bin/ld: helpers.c:(.text+0x908): undefined reference to `nr_cpu_ids'
+/usr/bin/ld: helpers.c:(.text+0x92c): undefined reference to `__per_cpu_offset'
+/usr/bin/ld: helpers.c:(.text+0x930): undefined reference to `__per_cpu_offset'
+/usr/bin/ld: /tmp/helpers-4d63a8.o: in function `bpf_bprintf_prepare':
+helpers.c:(.text+0xa04): undefined reference to `strnchr'
+/usr/bin/ld: helpers.c:(.text+0xbb0): undefined reference to `_ctype'
+/usr/bin/ld: helpers.c:(.text+0xbb4): undefined reference to `_ctype'
+/usr/bin/ld: helpers.c:(.text+0xe70): undefined reference to `_ctype'
+/usr/bin/ld: helpers.c:(.text+0xe74): undefined reference to `_ctype'
+/usr/bin/ld: helpers.c:(.text+0x1100): undefined reference to `_ctype'
+/usr/bin/ld: /tmp/helpers-4d63a8.o:helpers.c:(.text+0x1104): more undefined references to `_ctype' follow
+/usr/bin/ld: /tmp/helpers-4d63a8.o: in function `bpf_snprintf':
+helpers.c:(.text+0x15bc): undefined reference to `bstr_printf'
+/usr/bin/ld: /tmp/helpers-4d63a8.o: in function `bpf_timer_init':
+helpers.c:(.text+0x17b0): undefined reference to `hrtimer_init'
+/usr/bin/ld: /tmp/helpers-4d63a8.o: in function `bpf_timer_set_callback':
+helpers.c:(.text+0x195c): undefined reference to `bpf_prog_inc_not_zero'
+/usr/bin/ld: helpers.c:(.text+0x1994): undefined reference to `bpf_prog_put'
+/usr/bin/ld: /tmp/helpers-4d63a8.o: in function `bpf_timer_start':
+helpers.c:(.text+0x1b44): undefined reference to `hrtimer_start_range_ns'
+/usr/bin/ld: /tmp/helpers-4d63a8.o: in function `bpf_timer_cancel':
+helpers.c:(.text+0x1cf4): undefined reference to `bpf_prog_put'
+/usr/bin/ld: helpers.c:(.text+0x1d5c): undefined reference to `hrtimer_cancel'
+/usr/bin/ld: /tmp/helpers-4d63a8.o: in function `bpf_timer_cancel_and_free':
+helpers.c:(.text+0x1e90): undefined reference to `bpf_prog_put'
+/usr/bin/ld: helpers.c:(.text+0x1f2c): undefined reference to `hrtimer_cancel'
+/usr/bin/ld: /tmp/helpers-4d63a8.o: in function `bpf_base_func_proto':
+helpers.c:(.text+0x2298): undefined reference to `bpf_ringbuf_output_proto'
+/usr/bin/ld: helpers.c:(.text+0x229c): undefined reference to `bpf_ringbuf_output_proto'
+/usr/bin/ld: helpers.c:(.text+0x22a8): undefined reference to `bpf_ringbuf_reserve_proto'
+/usr/bin/ld: helpers.c:(.text+0x22ac): undefined reference to `bpf_ringbuf_reserve_proto'
+/usr/bin/ld: helpers.c:(.text+0x22b8): undefined reference to `bpf_ringbuf_submit_proto'
+/usr/bin/ld: helpers.c:(.text+0x22bc): undefined reference to `bpf_ringbuf_submit_proto'
+/usr/bin/ld: helpers.c:(.text+0x22c8): undefined reference to `bpf_ringbuf_discard_proto'
+/usr/bin/ld: helpers.c:(.text+0x22cc): undefined reference to `bpf_ringbuf_discard_proto'
+/usr/bin/ld: helpers.c:(.text+0x22d8): undefined reference to `bpf_ringbuf_query_proto'
+/usr/bin/ld: helpers.c:(.text+0x22dc): undefined reference to `bpf_ringbuf_query_proto'
+/usr/bin/ld: helpers.c:(.text+0x22e8): undefined reference to `bpf_for_each_map_elem_proto'
+/usr/bin/ld: helpers.c:(.text+0x22ec): undefined reference to `bpf_for_each_map_elem_proto'
+/usr/bin/ld: helpers.c:(.text+0x22f8): undefined reference to `bpf_loop_proto'
+/usr/bin/ld: helpers.c:(.text+0x22fc): undefined reference to `bpf_loop_proto'
+/usr/bin/ld: /tmp/verifier-795236.o: in function `bpf_verifier_vlog':
+verifier.c:(.text+0x50): undefined reference to `vscnprintf'
+/usr/bin/ld: /tmp/verifier-795236.o: in function `bpf_check':
+verifier.c:(.text+0x1ccc): undefined reference to `ktime_get'
+/usr/bin/ld: verifier.c:(.text+0x2b5c): undefined reference to `bpf_check_uarg_tail_zero'
+/usr/bin/ld: verifier.c:(.text+0x308c): undefined reference to `bpf_check_uarg_tail_zero'
+/usr/bin/ld: verifier.c:(.text+0x3558): undefined reference to `bpf_check_uarg_tail_zero'
+/usr/bin/ld: verifier.c:(.text+0x3984): undefined reference to `bpf_iter_prog_supported'
+/usr/bin/ld: verifier.c:(.text+0x3e64): undefined reference to `__fdget'
+/usr/bin/ld: verifier.c:(.text+0x3e84): undefined reference to `__bpf_map_get'
+/usr/bin/ld: verifier.c:(.text+0x41cc): undefined reference to `fput'
+/usr/bin/ld: verifier.c:(.text+0x4268): undefined reference to `fput'
+/usr/bin/ld: verifier.c:(.text+0x42c0): undefined reference to `fput'
+/usr/bin/ld: verifier.c:(.text+0x4330): undefined reference to `fput'
+/usr/bin/ld: verifier.c:(.text+0x43e0): undefined reference to `fput'
+/usr/bin/ld: /tmp/verifier-795236.o:verifier.c:(.text+0x4434): more undefined references to `fput' follow
+/usr/bin/ld: /tmp/verifier-795236.o: in function `bpf_check':
+verifier.c:(.text+0x4448): undefined reference to `bpf_map_inc'
+/usr/bin/ld: verifier.c:(.text+0x4490): undefined reference to `fput'
+/usr/bin/ld: verifier.c:(.text+0x7624): undefined reference to `jiffies'
+/usr/bin/ld: verifier.c:(.text+0x7628): undefined reference to `jiffies'
+/usr/bin/ld: verifier.c:(.text+0x7e24): undefined reference to `sort'
+/usr/bin/ld: verifier.c:(.text+0x8100): undefined reference to `get_random_u32'
+/usr/bin/ld: verifier.c:(.text+0x89e8): undefined reference to `__cond_resched'
+/usr/bin/ld: verifier.c:(.text+0x8c54): undefined reference to `__cond_resched'
+/usr/bin/ld: verifier.c:(.text+0x8ce0): undefined reference to `find_vm_area'
+/usr/bin/ld: verifier.c:(.text+0x8d10): undefined reference to `set_memory_ro'
+/usr/bin/ld: verifier.c:(.text+0x939c): undefined reference to `ktime_get'
+/usr/bin/ld: /tmp/verifier-795236.o: in function `find_kfunc_desc_btf':
+verifier.c:(.text+0xd270): undefined reference to `sort'
+/usr/bin/ld: /tmp/verifier-795236.o: in function `add_subprog':
+verifier.c:(.text+0xd4bc): undefined reference to `sort'
+/usr/bin/ld: /tmp/verifier-795236.o: in function `verbose_linfo':
+verifier.c:(.text+0xddec): undefined reference to `_ctype'
+/usr/bin/ld: verifier.c:(.text+0xddf0): undefined reference to `_ctype'
+/usr/bin/ld: /tmp/verifier-795236.o: in function `do_check':
+verifier.c:(.text+0xfb10): undefined reference to `__cond_resched'
+/usr/bin/ld: verifier.c:(.text+0x15128): undefined reference to `strnchr'
+/usr/bin/ld: /tmp/verifier-795236.o: in function `copy_array':
+verifier.c:(.text+0x1d5dc): undefined reference to `vabits_actual'
+/usr/bin/ld: verifier.c:(.text+0x1d5e0): undefined reference to `vabits_actual'
+/usr/bin/ld: /tmp/verifier-795236.o:(.rodata+0x4c0): undefined reference to `bpf_syscall_verifier_ops'

@@ -2,7 +2,6 @@ import argparse
 
 def main():
   parser = argparse.ArgumentParser()
-  parser.add_argument("-a", help="paths to files to include")
   parser.add_argument("-S","--emit_ir", help="emit llvm IR instead of bitcode", action="store_true")
   args = parser.parse_args()
 
@@ -24,12 +23,13 @@ def main():
       if line.strip() in cmd:
         c = cmd.strip()
         for h in headers:
-          c += " -include ../" + h
+          c += " -include ../" + h.strip()
         res_cmds.append(c)
 
   res = open("build_bitcode_needed.sh", "w")
   for line in res_cmds:
     res.write(line)
+    res.write('\n')
 
   res.close()
 
