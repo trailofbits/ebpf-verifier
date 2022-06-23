@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -114,16 +115,34 @@ unsigned long jiffies = 1; // TODO
 int pagefault_disable() { return 1; }
 
 // Memory related functions.
-// TODO: most of this probably need to actually do something...
-void * kmalloc (size_t size) { return NULL; }
-void * __kmalloc (size_t size) { return NULL; }
-int kmalloc_order(size_t size, int flags, unsigned int order) { return 1; }
-void * kvmalloc_node() {return NULL;}
-int __kmalloc_track_caller() { return 1; }
+// TODO: look at intricacies of the different alloc functions and
+// either change them to be different below or reduce redundancy of this code
+void * kmalloc (size_t size) {
+  void * x = malloc(size);
+  return __builtin_memset(x, 0, size);
+}
+void * __kmalloc (size_t size) {
+  void * x = malloc(size);
+  return __builtin_memset(x, 0, size);
+}
+void * kmalloc_order(size_t size, int flags, unsigned int order) {
+  void * x = malloc(size);
+  return __builtin_memset(x, 0, size);
+}
+void * kvmalloc_node(size_t size) {
+  void * x = malloc(size);
+  return __builtin_memset(x, 0, size);
+}
+
+void *  __kmalloc_track_caller(size_t size) {
+  void * x = malloc(size);
+  return __builtin_memset(x, 0, size);
+}
+
 int kfree(const void *objp) { return 1; }
 int krealloc(const void *objp, size_t new_size) { return 1; }
 int ksize(const void *objp) { return 1; }
 int kvfree(const void *addr) { return 1; }
 int vfree(const void *addr) { return 1; }
-int __vmalloc(unsigned long size) { return 1; }
-int vzalloc(unsigned long size) { return 1; }
+void * __vmalloc(unsigned long size) { return malloc(size);}
+void * vzalloc(unsigned long size) { return malloc(size); }
