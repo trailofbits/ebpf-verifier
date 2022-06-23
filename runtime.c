@@ -57,7 +57,6 @@ void idr_find(void) { abort(); } // TODO --> autogened
 void idr_get_next(void) { abort(); } // TODO --> autogened
 void idr_preload(void) { abort(); } // TODO --> autogened
 void idr_remove(void) { abort(); } // TODO --> autogened
-void jiffies(void) { abort(); } // TODO --> autogened
 void kmemdup(void) { abort(); } // TODO --> autogened
 void kmemdup_nul(void) { abort(); } // TODO --> autogened
 void ktime_get(void) { abort(); } // TODO --> autogened
@@ -85,13 +84,16 @@ void sort(void) { abort(); } // TODO --> autogened
 void stack_map_ops(void) { abort(); } // TODO --> autogened
 void strnchr(void) { abort(); } // TODO --> autogened
 void strscpy(void) { abort(); } // TODO --> autogened
-void system_wq(void) { abort(); } // TODO --> autogened
 void task_active_pid_ns(void) { abort(); } // TODO --> autogened
 void task_storage_map_ops(void) { abort(); } // TODO --> autogened
 void trie_map_ops(void) { abort(); } // TODO --> autogened
-void vabits_actual(void) { abort(); } // TODO --> autogened
 void vmalloc(void) { abort(); } // TODO --> autogened
 void vscnprintf(void) { abort(); } // TODO --> autogened
+
+unsigned long			vabits_actual = 64;  // TODO
+void *  system_wq = NULL; // TODO
+unsigned long jiffies = 1; // TODO
+
 
 int pagefault_disable() { return 1; }
 
