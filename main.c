@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-extern int bpf_check(void * a, void * b, void * c);
 
 // TODO: this definitely won't actually work, but it gives me
 // something to pass into bpf_check
@@ -10,10 +9,19 @@ struct bpf_prog {
   uint16_t pages;
 };
 
+union bpf_attr {
+  struct {
+    int	map_type;	/* one of enum bpf_map_type */
+  };
+};
+
+extern int bpf_check(void * a, union bpf_attr *b, void * c);
+
 int main() {
-  printf("hello world\n");
   struct bpf_prog *prog = (struct bpf_prog *) malloc(sizeof(struct bpf_prog));
   prog->pages = 5;
-  bpf_check(&prog, NULL, NULL);
+
+  union bpf_attr at = { 7 };
+  bpf_check(&prog, &at, NULL);
   return 0;
 }

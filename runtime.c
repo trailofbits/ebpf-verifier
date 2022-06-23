@@ -139,10 +139,15 @@ void *  __kmalloc_track_caller(size_t size) {
   return __builtin_memset(x, 0, size);
 }
 
-int kfree(const void *objp) { return 1; }
-int krealloc(const void *objp, size_t new_size) { return 1; }
-int ksize(const void *objp) { return 1; }
-int kvfree(const void *addr) { return 1; }
-int vfree(const void *addr) { return 1; }
 void * __vmalloc(unsigned long size) { return malloc(size);}
 void * vzalloc(unsigned long size) { return malloc(size); }
+
+// TODO: these don't currently do anything
+int krealloc(void *objp, size_t new_size) { return 1; }
+int ksize(const void *objp) { return 1; }
+
+void kfree(void *objp) { free(objp); }
+void kvfree(void *addr) { free(addr); }
+void vfree(void *addr) { free(addr); }
+
+
