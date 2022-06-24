@@ -1,4 +1,5 @@
-clang-12 kernel/bpf/btf.bc \
+clang-12 \
+kernel/bpf/btf.bc \
 kernel/bpf/tnum.bc \
 kernel/bpf/disasm.bc \
 kernel/bpf/core.bc \
