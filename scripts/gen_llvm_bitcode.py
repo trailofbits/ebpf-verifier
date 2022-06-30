@@ -14,14 +14,16 @@ def main():
   # read in the json file from path given as argument
   # convert the json into a python list
   #path_to_compile_commands = input("Path to compile_commands.json: ")
-  path_to_compile_commands = "linux-5.18.4/compile_commands.json"
+  path_to_compile_commands = "/home/parallels/linux-5.15/compile_commands.json"
+  print(path_to_compile_commands)
 
   parser = argparse.ArgumentParser()
   parser.add_argument("-p", help="path to compile_commands.json")
   parser.add_argument("-S","--emit_ir", help="emit llvm IR instead of bitcode", action="store_true")
   args = parser.parse_args()
 
-  path_to_compile_commands = args.p
+  if args.p != None:
+    path_to_compile_commands = args.p
 
 
   print("Using: ", path_to_compile_commands)
