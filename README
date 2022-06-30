@@ -9,3 +9,5 @@ dependency requires.
 main.c runs the actual harness.
 
 .h files include additional stubbed out functions/macros.
+
+The verifier is called using the syscall interface.
