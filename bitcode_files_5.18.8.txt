@@ -1,0 +1,6 @@
+kernel/bpf/btf.bc
+kernel/bpf/tnum.bc
+kernel/bpf/disasm.bc
+kernel/bpf/core.bc
+kernel/bpf/helpers.bc
+kernel/bpf/verifier.bc

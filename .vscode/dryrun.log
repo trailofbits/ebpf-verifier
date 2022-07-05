@@ -1,0 +1,31 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory '/home/parallels/ebpf-verifier'
+cd ../clang_compiled/linux-5.18.8/ && \
+pwd && \
+python3 ../../ebpf-verifier/scripts/clang_cmds.py \
+-B ../../ebpf-verifier/bitcode_files_5.18.8.txt \
+-H ../../ebpf-verifier/included_headers_5.18.8.txt \
+-O ../../ebpf-verifier/clang_cmds_5.18.8.sh
+chmod +x clang_cmds_5.18.8.sh
+cd ../clang_compiled/linux-5.18.8/ && \
+../../ebpf-verifier/clang_cmds_5.18.8.sh
+cd ../clang_compiled/linux-5.15.51/ && \
+pwd && \
+python3 ../../ebpf-verifier/scripts/clang_cmds.py \
+-B ../../ebpf-verifier/bitcode_files_5.15.51.txt \
+-H ../../ebpf-verifier/included_headers_5.15.51.txt \
+-O ../../ebpf-verifier/clang_cmds_5.15.51.sh
+chmod +x clang_cmds_5.15.51.sh
+cd ../clang_compiled/linux-5.15.51/ && \
+../../ebpf-verifier/clang_cmds_5.15.51.sh
+cd ../clang_compiled/linux-5.15/ && \
+pwd && \
+python3 ../../ebpf-verifier/scripts/clang_cmds.py \
+-B ../../ebpf-verifier/bitcode_files_5.15.txt \
+-H ../../ebpf-verifier/included_headers_5.15.txt \
+-O ../../ebpf-verifier/clang_cmds_5.15.sh
+chmod +x clang_cmds_5.15.sh
+cd ../clang_compiled/linux-5.15/ && \
+../../ebpf-verifier/clang_cmds_5.15.sh
+make: Leaving directory '/home/parallels/ebpf-verifier'
+ 
