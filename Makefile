@@ -25,6 +25,10 @@ $(KERNEL_VERSIONS): %: ../clang_compiled/linux-%/ bitcode_files_%.txt included_h
 	cd $< && \
 	../../ebpf-verifier/clang_cmds_$@.sh
 
+clang_cmds_%: ../clang_compiled/linux-%/ clang_cmds_%.sh
+	cd $< && \
+	../../ebpf-verifier/clang_cmds_$*.sh
+
 
 # currently only works for kernel version 18
 # TODO: automate getting the bitcode files into the command

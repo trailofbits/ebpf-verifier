@@ -56,6 +56,8 @@ def main():
     if output_file + "\n" in bfs:
       for h in headers:
         new_cmd += " -include ../../ebpf-verifier/" + h.strip() # + " -g -O0"
+      #new_cmd += " -g -O0"
+      new_cmd += " -g "
       final_commands.append(new_cmd)
       output_filef.write(new_cmd)
       output_filef.write("\n")
