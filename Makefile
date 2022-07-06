@@ -32,6 +32,20 @@ clang_cmds_%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 
 # currently only works for kernel version 18
 # TODO: automate getting the bitcode files into the command
+simple-harness-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
+	cd $< && \
+	pwd && \
+	clang \
+	-I $(PATH_TO_KERNEL)$*/usr/include/ \
+	$(BC_FILES_5.18.8) \
+	../../ebpf-verifier/runtime_simple_$*.c \
+	../../ebpf-verifier/main_simple_$*.c \
+	-mcmodel=large \
+	-g -O0 -v \
+	-o ../../ebpf-verifier/harness_simple_$*
+
+# currently only works for kernel version 18
+# TODO: automate getting the bitcode files into the command
 harness-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 	cd $< && \
 	pwd && \
@@ -45,30 +59,6 @@ harness-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 	-o ../../ebpf-verifier/harness_$*
 
 
-old-harness-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
-	cd $< && \
-	pwd && \
-	clang \
-	kernel/bpf/btf.bc \
-	kernel/bpf/tnum.bc \
-	kernel/bpf/disasm.bc \
-	kernel/bpf/core.bc \
-	kernel/bpf/helpers.bc \
-	kernel/bpf/verifier.bc \
-	../../ebpf-verifier/runtime.c \
-	../../ebpf-verifier/old_main.c \
-	-g -O0 \
-	-o ../../ebpf-verifier/harness_$@
-
-basic: ../clang_compiled/linux-5.18.8/
-	cd $< && \
-	pwd && \
-	clang \
-
-	kernel/bpf/verifier.bc \
-	../../ebpf-verifier/runtime.c
-	../../ebpf-verifier/main.c
-
-
 clean:
-	rm -f harness
+	rm -f harness*
+	rm -f clang_cmds*

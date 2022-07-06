@@ -2,21 +2,13 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 make: *** No rule to make target 'all'.  Stop.
 
 # GNU Make 4.2.1
- 
 # Built for aarch64-unknown-linux-gnu
- 
 # Copyright (C) 1988-2016 Free Software Foundation, Inc.
- 
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
- 
 # This is free software: you are free to change and redistribute it.
- 
 # There is NO WARRANTY, to the extent permitted by law.
- 
 
- 
-# Make data base, printed on Wed Jul  6 22:21:20 2022
- 
+# Make data base, printed on Wed Jul  6 23:10:54 2022
 
 # Variables
 
@@ -47,33 +39,19 @@ CURDIR := /home/parallels/ebpf-verifier
 # makefile
 SHELL = /bin/sh
 # environment
- 
 VSCODE_NLS_CONFIG = {"locale":"en","availableLanguages":{}}
- 
 # environment
- 
 _ = /home/parallels/.vscode-server/bin/30d9c6cd9483b2cc586687151bcbcd635f373630/node
- 
 # makefile (from 'Makefile', line 1)
- 
 MAKEFILE_LIST :=  Makefile
- 
 # environment
- 
 HISTCONTROL = erasedups
- 
 # 'override' directive
- 
 GNUMAKEFLAGS := 
- 
 # environment
- 
 XDG_DATA_DIRS = /usr/local/share:/usr/share:/var/lib/snapd/desktop
- 
 # environment
- 
 DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
- 
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
@@ -212,8 +190,21 @@ clang_cmds_%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 	cd $< && \
 	../../ebpf-verifier/clang_cmds_$*.sh
 
-harness-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
+simple-harness-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 #  recipe to execute (from 'Makefile', line 36):
+	cd $< && \
+	pwd && \
+	clang \
+	-I $(PATH_TO_KERNEL)$*/usr/include/ \
+	$(BC_FILES_5.18.8) \
+	../../ebpf-verifier/runtime_simple_$*.c \
+	../../ebpf-verifier/main_simple_$*.c \
+	-mcmodel=large \
+	-g -O0 -v \
+	-o ../../ebpf-verifier/harness_simple_$*
+
+harness-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
+#  recipe to execute (from 'Makefile', line 50):
 	cd $< && \
 	pwd && \
 	clang \
@@ -225,98 +216,47 @@ harness-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 	-g -O0 -v \
 	-o ../../ebpf-verifier/harness_$*
 
-old-harness-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
-#  recipe to execute (from 'Makefile', line 49):
-	cd $< && \
-	pwd && \
-	clang \
-	kernel/bpf/btf.bc \
-	kernel/bpf/tnum.bc \
-	kernel/bpf/disasm.bc \
-	kernel/bpf/core.bc \
-	kernel/bpf/helpers.bc \
-	kernel/bpf/verifier.bc \
-	../../ebpf-verifier/runtime.c \
-	../../ebpf-verifier/old_main.c \
-	-g -O0 \
-	-o ../../ebpf-verifier/harness_$@
-
 # 3 implicit rules, 0 (0.0%) terminal.
 
 # Files
- 
 
- 
 # Not a target:
- 
 bitcode_files_5.18.8.txt:
- 
 #  Implicit rule search has not been done.
- 
 #  Modification time never checked.
- 
 #  File has not been updated.
- 
 
- 
 # Not a target:
- 
 all:
- 
 #  Command line target.
- 
 #  Implicit rule search has been done.
- 
 #  File does not exist.
- 
 #  File has not been updated.
- 
 
- 
 # Not a target:
- 
 ../clang_compiled/linux-5.18.8/:
- 
 #  Implicit rule search has not been done.
- 
 #  Modification time never checked.
- 
 #  File has not been updated.
- 
 
- 
 # Not a target:
- 
 included_headers_5.15.txt:
- 
 #  Implicit rule search has not been done.
- 
 #  Modification time never checked.
- 
 #  File has not been updated.
- 
 
- 
 5.15.51: ../clang_compiled/linux-5.15.51/ bitcode_files_5.15.51.txt included_headers_5.15.51.txt
- 
 #  Implicit rule search has not been done.
- 
 #  Implicit/static pattern stem: '5.15.51'
- 
 #  Modification time never checked.
- 
 #  File has not been updated.
- 
 #  recipe to execute (from 'Makefile', line 18):
- 
 	cd $< && \
 	pwd && \
 	python3 ../../ebpf-verifier/scripts/clang_cmds.py \
 	-B ../../ebpf-verifier/bitcode_files_$@.txt \
 	-H ../../ebpf-verifier/included_headers_$@.txt \
- 
 	-O ../../ebpf-verifier/clang_cmds_$@.sh
- 
 	chmod +x clang_cmds_$@.sh
 	cd $< && \
 	../../ebpf-verifier/clang_cmds_$@.sh
@@ -324,7 +264,7 @@ included_headers_5.15.txt:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-06 22:21:18.355699623
+#  Last modified 2022-07-06 23:10:05.2632227
 #  File has been updated.
 #  Successfully updated.
 
@@ -333,19 +273,6 @@ bitcode_files_5.15.51.txt:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-
-basic: ../clang_compiled/linux-5.18.8/
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 64):
-	cd $< && \
-	pwd && \
-	clang \
-
-	kernel/bpf/verifier.bc \
-	../../ebpf-verifier/runtime.c
-	../../ebpf-verifier/main.c
 
 # Not a target:
 included_headers_5.18.8.txt:
@@ -372,7 +299,9 @@ bitcode: backup/ 5.18.8 5.15.51 5.15
 
 # Not a target:
 .DEFAULT:
+ 
 #  Implicit rule search has not been done.
+ 
 #  Modification time never checked.
 #  File has not been updated.
 
@@ -396,8 +325,9 @@ clean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 74):
-	rm -f harness
+#  recipe to execute (from 'Makefile', line 63):
+	rm -f harness*
+	rm -f clang_cmds*
 
 # Not a target:
 included_headers_5.15.51.txt:
@@ -434,19 +364,19 @@ bitcode_files_5.15.txt:
 	../../ebpf-verifier/clang_cmds_$@.sh
 
 # files hash-table stats:
-# Load=20/1024=2%, Rehash=0, Collisions=0/47=0%
+# Load=19/1024=2%, Rehash=0, Collisions=0/45=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 53 / storage = 739 B / avg = 13 B
-# current buf: size = 8162 B / used = 739 B / count = 53 / avg = 13 B
+# strcache buffers: 1 (0) / strings = 52 / storage = 740 B / avg = 14 B
+# current buf: size = 8162 B / used = 740 B / count = 52 / avg = 14 B
 
-# strcache performance: lookups = 81 / hit rate = 34%
+# strcache performance: lookups = 78 / hit rate = 33%
 # hash-table stats:
-# Load=53/8192=1%, Rehash=0, Collisions=1/81=1%
-# Finished Make data base on Wed Jul  6 22:21:20 2022
+# Load=52/8192=1%, Rehash=0, Collisions=1/78=1%
+# Finished Make data base on Wed Jul  6 23:10:54 2022
 
  
