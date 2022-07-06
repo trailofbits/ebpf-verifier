@@ -4,8 +4,9 @@ BC_FILES_5.18.8 = kernel/bpf/btf.bc \
 									kernel/bpf/disasm.bc \
 									kernel/bpf/core.bc \
 									kernel/bpf/helpers.bc \
-									kernel/bpf/verifier.bc \
+									kernel/bpf/verifier.bc
 
+PATH_TO_KERNEL = /home/parallels/clang_compiled/linux-
 
 
 # make the bitcode for all of the kernel versions
@@ -31,9 +32,11 @@ harness-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 	cd $< && \
 	pwd && \
 	clang \
+	-I $(PATH_TO_KERNEL)$*/usr/include/ \
 	$(BC_FILES_5.18.8) \
 	../../ebpf-verifier/runtime_$*.c \
 	../../ebpf-verifier/main_$*.c \
+	-mcmodel=large \
 	-g -O0 -v \
 	-o ../../ebpf-verifier/harness_$*
 
