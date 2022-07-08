@@ -10,10 +10,10 @@ BC_FILES_5.18.8 = kernel/bpf/btf.bc \
 
 PATH_TO_KERNEL = /home/parallels/clang_compiled/linux-
 
-
 # make the bitcode for all of the kernel versions
 # bitcode: backup/ $(filter $(KERNEL_VERSIONS), $(wildcard *))
 bitcode: backup/ $(KERNEL_VERSIONS)
+
 
 # cd into linux source dir and call build_bitcode_needed.sh
 $(KERNEL_VERSIONS): %: ../clang_compiled/linux-%/ bitcode_files_%.txt included_headers_%.txt
@@ -46,6 +46,8 @@ simple-harness-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 	-g -O0 -v \
 	-fdebug-default-version=4 \
 	-o ../../ebpf-verifier/harness_simple_$*
+
+
 
 runmain-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 	cd $< && \
@@ -83,6 +85,7 @@ runtime-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 	-c -emit-llvm \
 	-fdebug-default-version=4 \
 	-o ../../ebpf-verifier/runtime_$*.bc
+
 
 
 clean:
