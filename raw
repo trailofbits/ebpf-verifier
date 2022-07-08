@@ -1,0 +1,13 @@
+-I$(PATH_TO_KERNEL)$*/arch/arm64/include \
+	-I$(PATH_TO_KERNEL)$*/arch/arm64/include/generated  \
+	-I$(PATH_TO_KERNEL)$*/include \
+	-I$(PATH_TO_KERNEL)$*/arch/arm64/include/uapi \
+	-I$(PATH_TO_KERNEL)$*/arch/arm64/include/generated/uapi \
+	-I$(PATH_TO_KERNEL)$*/include/uapi \
+	-I$(PATH_TO_KERNEL)$*/include/generated/uapi \
+	-include $(PATH_TO_KERNEL)$*/include/linux/kconfig.h \
+	-include $(PATH_TO_KERNEL)$*/include/linux/compiler_types.h \
+	-include $(PATH_TO_KERNEL)$*/include/linux/compiler.h \
+	-include $(PATH_TO_KERNEL)$*/include/linux/compiler-version.h \
+	-include $(PATH_TO_KERNEL)$*/include/linux/preempt.h \
+	-include /home/parallels/ebpf-verifier/runtime_5.18.8.h \

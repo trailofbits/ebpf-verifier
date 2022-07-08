@@ -4,7 +4,8 @@ BC_FILES_5.18.8 = kernel/bpf/btf.bc \
 									kernel/bpf/disasm.bc \
 									kernel/bpf/core.bc \
 									kernel/bpf/helpers.bc \
-									kernel/bpf/verifier.bc
+									kernel/bpf/verifier.bc \
+									kernel/bpf/syscall.bc
 
 PATH_TO_KERNEL = /home/parallels/clang_compiled/linux-
 
@@ -50,13 +51,23 @@ harness-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 	cd $< && \
 	pwd && \
 	clang \
-	-I $(PATH_TO_KERNEL)$*/usr/include/ \
+	-nostdinc \
+	-I $(PATH_TO_KERNEL)$*/usr/include \
 	$(BC_FILES_5.18.8) \
-	../../ebpf-verifier/runtime_$*.c \
+	/home/parallels/ebpf-verifier/runtime_5.18.8.bc \
 	../../ebpf-verifier/main_$*.c \
 	-mcmodel=large \
 	-g -O0 -v \
 	-o ../../ebpf-verifier/harness_$*
+
+runtime-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
+	cd $< && \
+	pwd && \
+	clang \
+	../../ebpf-verifier/runtime_$*.c \
+	-g -O0 -v \
+	-c -emit-llvm \
+	-o ../../ebpf-verifier/runtime_$*.bc
 
 
 clean:

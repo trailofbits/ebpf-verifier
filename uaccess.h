@@ -5,6 +5,7 @@
 #define __ASM_UACCESS_H
 
 extern unsigned long strlen(const char *str);
+extern  unsigned long check_zeroed_user(const void *from, unsigned long size);
 
 inline static unsigned long raw_copy_from_user(void * to, const void * from, unsigned long n) {
   __builtin_memcpy(to, from, n);
