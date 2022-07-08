@@ -1,4 +1,4 @@
-make --dry-run --always-make --keep-going --print-directory
+make --dry-run --keep-going --print-directory
 make: Entering directory '/home/parallels/ebpf-verifier'
 cd ../clang_compiled/linux-5.18.8/ && \
 pwd && \
@@ -9,6 +9,7 @@ python3 ../../ebpf-verifier/scripts/clang_cmds.py \
 chmod +x clang_cmds_5.18.8.sh
 cd ../clang_compiled/linux-5.18.8/ && \
 ../../ebpf-verifier/clang_cmds_5.18.8.sh
+ 
 cd ../clang_compiled/linux-5.15.51/ && \
 pwd && \
 python3 ../../ebpf-verifier/scripts/clang_cmds.py \
@@ -18,6 +19,7 @@ python3 ../../ebpf-verifier/scripts/clang_cmds.py \
 chmod +x clang_cmds_5.15.51.sh
 cd ../clang_compiled/linux-5.15.51/ && \
 ../../ebpf-verifier/clang_cmds_5.15.51.sh
+ 
 cd ../clang_compiled/linux-5.15/ && \
 pwd && \
 python3 ../../ebpf-verifier/scripts/clang_cmds.py \

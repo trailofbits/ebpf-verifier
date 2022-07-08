@@ -57,7 +57,8 @@ def main():
       for h in headers:
         new_cmd += " -include ../../ebpf-verifier/" + h.strip() # + " -g -O0"
       #new_cmd += " -g -O0"
-      new_cmd += " -g "
+      new_cmd += " -g -v "
+      new_cmd += " -fdebug-default-version=4 " # otherwise valgrind doesn't understand
       final_commands.append(new_cmd)
       output_filef.write(new_cmd)
       output_filef.write("\n")

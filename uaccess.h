@@ -1,8 +1,17 @@
-// first part covering stuff found in arch/arm64/include/asm/uaccess.h
-// second part covering stuff found in include/linux/uaccess.h
-
 #ifndef __ASM_UACCESS_H
 #define __ASM_UACCESS_H
+
+
+
+
+
+static inline void __uaccess_enable_tco_async(void) {};
+static inline void __uaccess_disable_tco_async(void) {};
+
+
+// This is from the first try (diff kernel version)
+// first part covering stuff found in arch/arm64/include/asm/uaccess.h
+// second part covering stuff found in include/linux/uaccess.h
 
 extern unsigned long strlen(const char *str);
 extern  unsigned long check_zeroed_user(const void *from, unsigned long size);

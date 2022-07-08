@@ -2,178 +2,92 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 make: *** No rule to make target 'all'.  Stop.
 
 # GNU Make 4.2.1
- 
 # Built for aarch64-unknown-linux-gnu
- 
 # Copyright (C) 1988-2016 Free Software Foundation, Inc.
- 
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
- 
 # This is free software: you are free to change and redistribute it.
- 
 # There is NO WARRANTY, to the extent permitted by law.
- 
 
- 
-# Make data base, printed on Fri Jul  8 16:41:37 2022
- 
+# Make data base, printed on Fri Jul  8 23:26:21 2022
 
 # Variables
- 
 
- 
 # automatic
- 
 <D = $(patsubst %/,%,$(dir $<))
- 
 # automatic
- 
 ?F = $(notdir $?)
- 
 # default
- 
 .SHELLFLAGS := -c
- 
 # environment
- 
 XDG_SESSION_CLASS = user
- 
 # environment
- 
 VSCODE_AGENT_FOLDER = /home/parallels/.vscode-server
- 
 # environment
- 
 XDG_SESSION_TYPE = tty
- 
 # environment
- 
 VSCODE_LOG_NATIVE = false
- 
 # automatic
- 
 ?D = $(patsubst %/,%,$(dir $?))
- 
 # automatic
- 
 @D = $(patsubst %/,%,$(dir $@))
- 
 # automatic
- 
 @F = $(notdir $@)
- 
 # default
- 
 MAKE_VERSION := 4.2.1
- 
 # makefile
- 
 CURDIR := /home/parallels/ebpf-verifier
- 
 # makefile
- 
 SHELL = /bin/sh
- 
 # environment
- 
 VSCODE_NLS_CONFIG = {"locale":"en","availableLanguages":{}}
- 
 # environment
- 
 _ = /home/parallels/.vscode-server/bin/30d9c6cd9483b2cc586687151bcbcd635f373630/node
- 
 # makefile (from 'Makefile', line 1)
- 
 MAKEFILE_LIST :=  Makefile
- 
 # environment
- 
 HISTCONTROL = erasedups
- 
 # 'override' directive
- 
 GNUMAKEFLAGS := 
- 
 # environment
- 
 XDG_DATA_DIRS = /usr/local/share:/usr/share:/var/lib/snapd/desktop
- 
 # environment
- 
 DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
- 
 # environment
- 
 VSCODE_VERBOSE_LOGGING = true
- 
 # environment
- 
 LESSOPEN = | /usr/bin/lesspipe %s
- 
 # environment
- 
 VSCODE_CWD = /home/parallels
- 
 # makefile (from 'Makefile', line 2)
- 
-BC_FILES_5.18.8 = kernel/bpf/btf.bc kernel/bpf/tnum.bc kernel/bpf/disasm.bc kernel/bpf/core.bc kernel/bpf/helpers.bc kernel/bpf/verifier.bc kernel/bpf/syscall.bc
- 
+BC_FILES_5.18.8 = kernel/bpf/btf.bc kernel/bpf/tnum.bc kernel/bpf/disasm.bc kernel/bpf/core.bc kernel/bpf/helpers.bc kernel/bpf/verifier.bc kernel/bpf/syscall.bc lib/string.bc
 # environment
- 
 SSH_CONNECTION = 10.5.5.47 56923 10.5.5.73 22
- 
 # environment
- 
 PATH = /home/parallels/.vscode-server/bin/30d9c6cd9483b2cc586687151bcbcd635f373630/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
- 
 # environment
- 
 XDG_RUNTIME_DIR = /run/user/1000
- 
 # environment
- 
 VSCODE_LOG_STACK = false
- 
 # environment
- 
 VSCODE_IPC_HOOK_CLI = /run/user/1000/vscode-ipc-eea1780f-77c2-48ca-9e91-7d7089a9234c.sock
- 
 # default
- 
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
- 
 # environment
- 
 LS_COLORS = 
- 
 # automatic
- 
 %F = $(notdir $%)
- 
 # environment
- 
 HISTFILESIZE = 
- 
 # environment
- 
 VSCODE_PIPE_LOGGING = true
- 
 # environment
- 
 PWD = /home/parallels/ebpf-verifier
- 
 # default
- 
 .LOADED := 
- 
 # automatic
- 
 *D = $(patsubst %/,%,$(dir $*))
- 
 # environment
- 
 HISTTIMEFORMAT = [%F %T] 
- 
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
@@ -228,7 +142,7 @@ BROWSER = /home/parallels/.vscode-server/bin/30d9c6cd9483b2cc586687151bcbcd635f3
 KERNEL_VERSIONS = 5.18.8 5.15.51 5.15
 # environment
 VSCODE_HANDLES_SIGPIPE = true
-# makefile (from 'Makefile', line 10)
+# makefile (from 'Makefile', line 11)
 PATH_TO_KERNEL = /home/parallels/clang_compiled/linux-
 # default
 MAKEFILES := 
@@ -263,19 +177,19 @@ MOTD_SHOWN = pam
 
 # Directories
 
-# . (device 2050, inode 1866731): 33 files, no impossibilities.
+# . (device 2050, inode 1866731): 35 files, no impossibilities.
 
-# 33 files, no impossibilities in 1 directories.
+# 35 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
 clang_cmds_%: ../clang_compiled/linux-%/ clang_cmds_%.sh
-#  recipe to execute (from 'Makefile', line 30):
+#  recipe to execute (from 'Makefile', line 31):
 	cd $< && \
 	../../ebpf-verifier/clang_cmds_$*.sh
 
 simple-harness-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
-#  recipe to execute (from 'Makefile', line 37):
+#  recipe to execute (from 'Makefile', line 38):
 	cd $< && \
 	pwd && \
 	clang \
@@ -285,33 +199,48 @@ simple-harness-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 	../../ebpf-verifier/main_simple_$*.c \
 	-mcmodel=large \
 	-g -O0 -v \
+	-fdebug-default-version=4 \
 	-o ../../ebpf-verifier/harness_simple_$*
 
-harness-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
+runmain-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 #  recipe to execute (from 'Makefile', line 51):
 	cd $< && \
 	pwd && \
 	clang \
-	-nostdinc \
+	$(BC_FILES_5.18.8) \
+	../../ebpf-verifier/runtime_$*.c \
+	../../ebpf-verifier/main_$*.c \
+	-mcmodel=large \
+	-g -O0 -v \
+	-fdebug-default-version=4 \
+	-o ../../ebpf-verifier/harness_$*
+
+harness-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
+#  recipe to execute (from 'Makefile', line 65):
+	cd $< && \
+	pwd && \
+	clang \
 	-I $(PATH_TO_KERNEL)$*/usr/include \
 	$(BC_FILES_5.18.8) \
 	/home/parallels/ebpf-verifier/runtime_5.18.8.bc \
 	../../ebpf-verifier/main_$*.c \
 	-mcmodel=large \
 	-g -O0 -v \
+	-fdebug-default-version=4  \
 	-o ../../ebpf-verifier/harness_$*
 
 runtime-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
-#  recipe to execute (from 'Makefile', line 64):
+#  recipe to execute (from 'Makefile', line 78):
 	cd $< && \
 	pwd && \
 	clang \
 	../../ebpf-verifier/runtime_$*.c \
 	-g -O0 -v \
 	-c -emit-llvm \
+	-fdebug-default-version=4 \
 	-o ../../ebpf-verifier/runtime_$*.bc
 
-# 4 implicit rules, 0 (0.0%) terminal.
+# 5 implicit rules, 0 (0.0%) terminal.
 
 # Files
 
@@ -345,7 +274,7 @@ included_headers_5.15.txt:
 #  Implicit/static pattern stem: '5.15.51'
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 19):
+#  recipe to execute (from 'Makefile', line 20):
 	cd $< && \
 	pwd && \
 	python3 ../../ebpf-verifier/scripts/clang_cmds.py \
@@ -359,7 +288,7 @@ included_headers_5.15.txt:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-08 00:03:51.316873055
+#  Last modified 2022-07-08 23:25:59.899381614
 #  File has been updated.
 #  Successfully updated.
 
@@ -403,13 +332,14 @@ bitcode: backup/ 5.18.8 5.15.51 5.15
 #  Implicit/static pattern stem: '5.15'
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 19):
+#  recipe to execute (from 'Makefile', line 20):
 	cd $< && \
 	pwd && \
 	python3 ../../ebpf-verifier/scripts/clang_cmds.py \
 	-B ../../ebpf-verifier/bitcode_files_$@.txt \
 	-H ../../ebpf-verifier/included_headers_$@.txt \
 	-O ../../ebpf-verifier/clang_cmds_$@.sh
+ 
 	chmod +x clang_cmds_$@.sh
 	cd $< && \
 	../../ebpf-verifier/clang_cmds_$@.sh
@@ -418,7 +348,7 @@ clean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 74):
+#  recipe to execute (from 'Makefile', line 89):
 	rm -f harness*
 	rm -f clang_cmds*
 
@@ -445,7 +375,7 @@ bitcode_files_5.15.txt:
 #  Implicit/static pattern stem: '5.18.8'
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 19):
+#  recipe to execute (from 'Makefile', line 20):
 	cd $< && \
 	pwd && \
 	python3 ../../ebpf-verifier/scripts/clang_cmds.py \
@@ -464,12 +394,12 @@ bitcode_files_5.15.txt:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 56 / storage = 789 B / avg = 14 B
-# current buf: size = 8162 B / used = 789 B / count = 56 / avg = 14 B
+# strcache buffers: 1 (0) / strings = 59 / storage = 822 B / avg = 13 B
+# current buf: size = 8162 B / used = 822 B / count = 59 / avg = 13 B
 
-# strcache performance: lookups = 84 / hit rate = 33%
+# strcache performance: lookups = 89 / hit rate = 33%
 # hash-table stats:
-# Load=56/8192=1%, Rehash=0, Collisions=1/84=1%
-# Finished Make data base on Fri Jul  8 16:41:37 2022
+# Load=59/8192=1%, Rehash=0, Collisions=1/89=1%
+# Finished Make data base on Fri Jul  8 23:26:21 2022
 
  
