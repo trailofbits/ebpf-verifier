@@ -15,7 +15,7 @@ PATH_TO_KERNEL = /home/parallels/clang_compiled/linux-
 bitcode: backup/ $(KERNEL_VERSIONS)
 
 
-# cd into linux source dir and call build_bitcode_needed.sh
+# generates clang_cmds_<version>.sh
 $(KERNEL_VERSIONS): %: ../clang_compiled/linux-%/ bitcode_files_%.txt included_headers_%.txt
 	cd $< && \
 	pwd && \
@@ -27,10 +27,10 @@ $(KERNEL_VERSIONS): %: ../clang_compiled/linux-%/ bitcode_files_%.txt included_h
 	cd $< && \
 	../../ebpf-verifier/clang_cmds_$@.sh
 
+# rebuilds the bitcode files from the existing clang_cmds.sh
 clang_cmds_%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 	cd $< && \
 	../../ebpf-verifier/clang_cmds_$*.sh
-
 
 # currently only works for kernel version 18
 # TODO: automate getting the bitcode files into the command
@@ -48,7 +48,7 @@ simple-harness-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 	-o ../../ebpf-verifier/harness_simple_$*
 
 
-
+# compiles both runtime.c and main.c together with all the other bc files
 runmain-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 	cd $< && \
 	pwd && \
@@ -61,6 +61,15 @@ runmain-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 	-fdebug-default-version=4 \
 	-o ../../ebpf-verifier/harness_$*
 
+test-%:
+	make clang_cmds_$*
+	make runmain-$*
+
+test-fresh-%:
+	make $*
+	make runmain-$*
+
+# compiles main.c with bc files and runtime.bc
 # currently only works for kernel version 18
 # TODO: automate getting the bitcode files into the command
 harness-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
@@ -76,6 +85,8 @@ harness-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 	-fdebug-default-version=4  \
 	-o ../../ebpf-verifier/harness_$*
 
+
+# makes runtime.bc
 runtime-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 	cd $< && \
 	pwd && \
