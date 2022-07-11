@@ -21,6 +21,8 @@ unsigned long ktime_get(void) {
   return ts.tv_sec;
 }
 
+void _find_next_bit(void) { abort(); }
+
 void __alloc_percpu_gfp(void) { abort(); } // TODO --> autogened
 void __bitmap_clear(void) { abort(); } // TODO --> autogened
 void __bitmap_set(void) { abort(); } // TODO --> autogened

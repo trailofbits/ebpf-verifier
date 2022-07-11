@@ -33,18 +33,16 @@ def main():
   final_commands = []
 
   for entry in raw_commands:
-    # print("hey")
     cflag_index = entry["command"].find("-c ")
     prefix = entry["command"][0:cflag_index]
     suffix = entry["command"][cflag_index:]
     suff_list = suffix.split()
-    # print(suff_list)
     # gives list of form ['-c', '-o', 'path/file.o', 'path/file.c']
     path = suff_list[2]
 
     # for llvm IR (-S)
     if (args.emit_ir):
-      output_file = suff_list[2][:-1] + "S"
+      output_file = suff_list[2][:-1] + "ll"
       new_suffix = "-emit-llvm -S -o " + output_file + " " + suff_list[3]
     else:
       # for llvm bitcode (-c)
@@ -55,52 +53,26 @@ def main():
 
     if output_file + "\n" in bfs:
       for h in headers:
-        new_cmd += " -include ../../ebpf-verifier/" + h.strip() # + " -g -O0"
-      #new_cmd += " -g -O0"
+        new_cmd += " -include ../../ebpf-verifier/" + h.strip()
+
+      # change O2 to O0
+      new_cmd = new_cmd.replace("O2", "O0")
+
+      # remove unwanted compile flags
+      new_cmd = new_cmd.replace("-fno-PIE", "")
+      new_cmd = new_cmd.replace("-Wno-frame-address", "")
+      new_cmd = new_cmd.replace("-Wframe-larger-than=2048", "")
+      new_cmd = new_cmd.replace("-fstack-protector-strong", "")
+
       new_cmd += " -g -v "
       new_cmd += " -fdebug-default-version=4 " # otherwise valgrind doesn't understand
       final_commands.append(new_cmd)
       output_filef.write(new_cmd)
       output_filef.write("\n")
-      # print(new_cmd, '/n')
 
   output_filef.close()
 
   print("Sucessfully found", len(final_commands), " commands out of ", len(bfs))
-
-
-
-
-
-
-
-  # if (args.emit_ir):
-  #   f = open("/tmp/compile_to_llvm_ir.sh")
-  # else:
-  #   f = open("/tmp/compile_to_llvm_bitcode.sh")
-
-  # commands = f.readlines()
-
-  # include_headers = open("included_headers.txt")
-  # headers = include_headers.readlines()
-  # bitcode_files = open("bitcode_files.txt")
-
-  # res_cmds = []
-
-  # for line in bitcode_files.readlines():
-  #   for cmd in commands:
-  #     if line.strip() in cmd:
-  #       c = cmd.strip()
-  #       for h in headers:
-  #         c += " -include ../" + h.strip() # + " -g -O0"
-  #       res_cmds.append(c)
-
-  # res = open("build_bitcode_needed.sh", "w")
-  # for line in res_cmds:
-  #   res.write(line)
-  #   res.write('\n')
-
-  # res.close()
 
 if __name__ == "__main__":
     main()

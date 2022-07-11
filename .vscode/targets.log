@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Jul  8 23:26:21 2022
+# Make data base, printed on Mon Jul 11 15:46:34 2022
 
 # Variables
 
@@ -61,7 +61,7 @@ VSCODE_CWD = /home/parallels
 # makefile (from 'Makefile', line 2)
 BC_FILES_5.18.8 = kernel/bpf/btf.bc kernel/bpf/tnum.bc kernel/bpf/disasm.bc kernel/bpf/core.bc kernel/bpf/helpers.bc kernel/bpf/verifier.bc kernel/bpf/syscall.bc lib/string.bc
 # environment
-SSH_CONNECTION = 10.5.5.47 56923 10.5.5.73 22
+SSH_CONNECTION = 10.5.5.47 51254 10.5.5.78 22
 # environment
 PATH = /home/parallels/.vscode-server/bin/30d9c6cd9483b2cc586687151bcbcd635f373630/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 # environment
@@ -69,7 +69,7 @@ XDG_RUNTIME_DIR = /run/user/1000
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /run/user/1000/vscode-ipc-eea1780f-77c2-48ca-9e91-7d7089a9234c.sock
+VSCODE_IPC_HOOK_CLI = /run/user/1000/vscode-ipc-9f91e2c7-0294-4535-a67e-f612502fc344.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -113,7 +113,7 @@ MAKECMDGOALS := all
 # environment
 SHLVL = 1
 # environment
-XDG_SESSION_ID = 6
+XDG_SESSION_ID = 128
 # environment
 USER = parallels
 # makefile
@@ -133,7 +133,7 @@ MAKEFLAGS = pqrR
 # environment
 MFLAGS = -pqrR
 # environment
-SSH_CLIENT = 10.5.5.47 56923 22
+SSH_CLIENT = 10.5.5.47 51254 22
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
 # environment
@@ -177,9 +177,9 @@ MOTD_SHOWN = pam
 
 # Directories
 
-# . (device 2050, inode 1866731): 35 files, no impossibilities.
+# . (device 2050, inode 1866731): 36 files, no impossibilities.
 
-# 35 files, no impossibilities in 1 directories.
+# 36 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -203,7 +203,7 @@ simple-harness-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 	-o ../../ebpf-verifier/harness_simple_$*
 
 runmain-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
-#  recipe to execute (from 'Makefile', line 51):
+#  recipe to execute (from 'Makefile', line 53):
 	cd $< && \
 	pwd && \
 	clang \
@@ -216,7 +216,7 @@ runmain-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 	-o ../../ebpf-verifier/harness_$*
 
 harness-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
-#  recipe to execute (from 'Makefile', line 65):
+#  recipe to execute (from 'Makefile', line 67):
 	cd $< && \
 	pwd && \
 	clang \
@@ -230,7 +230,7 @@ harness-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 	-o ../../ebpf-verifier/harness_$*
 
 runtime-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
-#  recipe to execute (from 'Makefile', line 78):
+#  recipe to execute (from 'Makefile', line 80):
 	cd $< && \
 	pwd && \
 	clang \
@@ -288,7 +288,7 @@ included_headers_5.15.txt:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-08 23:25:59.899381614
+#  Last modified 2022-07-08 23:46:50.733909021
 #  File has been updated.
 #  Successfully updated.
 
@@ -315,6 +315,7 @@ backup/:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
+ 
 
 bitcode: backup/ 5.18.8 5.15.51 5.15
 #  Implicit rule search has not been done.
@@ -339,7 +340,6 @@ bitcode: backup/ 5.18.8 5.15.51 5.15
 	-B ../../ebpf-verifier/bitcode_files_$@.txt \
 	-H ../../ebpf-verifier/included_headers_$@.txt \
 	-O ../../ebpf-verifier/clang_cmds_$@.sh
- 
 	chmod +x clang_cmds_$@.sh
 	cd $< && \
 	../../ebpf-verifier/clang_cmds_$@.sh
@@ -348,7 +348,7 @@ clean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 89):
+#  recipe to execute (from 'Makefile', line 92):
 	rm -f harness*
 	rm -f clang_cmds*
 
@@ -394,12 +394,12 @@ bitcode_files_5.15.txt:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 59 / storage = 822 B / avg = 13 B
-# current buf: size = 8162 B / used = 822 B / count = 59 / avg = 13 B
+# strcache buffers: 1 (0) / strings = 60 / storage = 837 B / avg = 13 B
+# current buf: size = 8162 B / used = 837 B / count = 60 / avg = 13 B
 
-# strcache performance: lookups = 89 / hit rate = 33%
+# strcache performance: lookups = 90 / hit rate = 33%
 # hash-table stats:
-# Load=59/8192=1%, Rehash=0, Collisions=1/89=1%
-# Finished Make data base on Fri Jul  8 23:26:21 2022
+# Load=60/8192=1%, Rehash=0, Collisions=1/90=1%
+# Finished Make data base on Mon Jul 11 15:46:34 2022
 
  
