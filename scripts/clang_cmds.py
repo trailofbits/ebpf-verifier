@@ -61,15 +61,16 @@ def main():
       # for f in asm_stub_files:
       #   new_cmd += " -include ../../ebpf-verifier/asm_stubs/" + f + " "
 
-
+      # new_cmd += "-include ../../ebpf-verifier/asm_stubs.h " + prefix[first_I:]
+      new_cmd += prefix[first_I:]
 
       for h in headers:
         new_cmd += " -include ../../ebpf-verifier/" + h.strip()
 
-      new_cmd += prefix[first_I:]
+
 
       # change O2 to O0
-      new_cmd = new_cmd.replace("O2", "O0")
+      new_cmd = new_cmd.replace("O2", "Og")
 
       # remove unwanted compile flags
       new_cmd = new_cmd.replace("-fno-PIE", "")
@@ -78,6 +79,7 @@ def main():
       new_cmd = new_cmd.replace("-fstack-protector-strong", "")
 
       new_cmd += " -g "
+      #new_cmd += " -v "
       new_cmd += " -fdebug-default-version=4 " # otherwise valgrind doesn't understand
       new_cmd += new_suffix
 
