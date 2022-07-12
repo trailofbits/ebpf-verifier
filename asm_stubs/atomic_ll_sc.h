@@ -1,0 +1,1 @@
+#define __ASM_ATOMIC_LL_SC_H

@@ -1,0 +1,1 @@
+#define __ASM_STAGE2_PGTABLE_H

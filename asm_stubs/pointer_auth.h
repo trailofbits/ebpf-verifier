@@ -1,0 +1,1 @@
+#define __ASM_POINTER_AUTH_H

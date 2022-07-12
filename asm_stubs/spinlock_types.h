@@ -1,0 +1,1 @@
+#define __ASM_SPINLOCK_TYPES_H

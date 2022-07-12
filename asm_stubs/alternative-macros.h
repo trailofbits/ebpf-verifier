@@ -1,0 +1,1 @@
+#define __ASM_ALTERNATIVE_MACROS_H

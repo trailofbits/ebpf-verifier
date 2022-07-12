@@ -6,6 +6,8 @@
 import argparse
 import sys
 import json
+from os import listdir
+from os.path import isfile, join
 
 def main():
   parser = argparse.ArgumentParser()
@@ -49,11 +51,22 @@ def main():
       output_file = suff_list[2][:-1] + "bc"
       new_suffix = "-emit-llvm -c -o " + output_file + " " + suff_list[3]
 
-    new_cmd = prefix + new_suffix
+    first_I = prefix.find("-I")
+    new_cmd = prefix[0:first_I]
+
 
     if output_file + "\n" in bfs:
+      # path = "../../ebpf-verifier/asm_stubs"
+      # asm_stub_files = [f for f in listdir(path) if isfile(join(path, f))]
+      # for f in asm_stub_files:
+      #   new_cmd += " -include ../../ebpf-verifier/asm_stubs/" + f + " "
+
+
+
       for h in headers:
         new_cmd += " -include ../../ebpf-verifier/" + h.strip()
+
+      new_cmd += prefix[first_I:]
 
       # change O2 to O0
       new_cmd = new_cmd.replace("O2", "O0")
@@ -64,11 +77,15 @@ def main():
       new_cmd = new_cmd.replace("-Wframe-larger-than=2048", "")
       new_cmd = new_cmd.replace("-fstack-protector-strong", "")
 
-      new_cmd += " -g -v "
+      new_cmd += " -g "
       new_cmd += " -fdebug-default-version=4 " # otherwise valgrind doesn't understand
+      new_cmd += new_suffix
+
       final_commands.append(new_cmd)
       output_filef.write(new_cmd)
       output_filef.write("\n")
+
+
 
   output_filef.close()
 

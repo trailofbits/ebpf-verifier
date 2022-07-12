@@ -1,0 +1,1 @@
+#define __ASM_WORD_AT_A_TIME_H
