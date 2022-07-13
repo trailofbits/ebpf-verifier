@@ -1,4 +1,4 @@
-make --dry-run --always-make --keep-going --print-directory
+make --dry-run --keep-going --print-directory
 make: Entering directory '/home/parallels/ebpf-verifier'
 cd ../clang_compiled/linux-5.18.8/ && \
 pwd && \

@@ -54,6 +54,8 @@ def main():
     first_I = prefix.find("-I")
     new_cmd = prefix[0:first_I]
 
+    # new_cmd += " -I ../../ebpf-verifier/ "
+
 
     if output_file + "\n" in bfs:
       # path = "../../ebpf-verifier/asm_stubs"
@@ -65,7 +67,7 @@ def main():
       new_cmd += prefix[first_I:]
 
       for h in headers:
-        new_cmd += " -include ../../ebpf-verifier/" + h.strip()
+        new_cmd += " -include ../../ebpf-verifier/linux/" + h.strip()
 
 
 

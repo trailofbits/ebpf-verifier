@@ -2,3 +2,5 @@ uaccess.h
 word-at-a-time.h
 slab.h
 cred.h
+current.h
+signal.h

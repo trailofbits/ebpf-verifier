@@ -70,7 +70,7 @@ int main() {
 			    //  const struct bpf_prog_load_opts *opts);
 
 	enum bpf_prog_type prog_type = BPF_PROG_TYPE_XDP;
-	char *prog_name = "test";
+	char *prog_name = "test"; // this has to be less than 8 characters I think
 	char *license = "GPL";
 	struct bpf_insn *insns = prog;
 	size_t insn_cnt = ARRAY_SIZE(prog);
@@ -84,9 +84,6 @@ int main() {
 	a->license = (__u64) (unsigned long) license;
 	a->insns = (__u64) (unsigned long) insns;
 	a->insn_cnt = (__u32) insn_cnt;
-
-
-
 
 	// what is uattr supposed to point to for bpf_prog_load?
   bpfptr_t * b = (bpfptr_t *) malloc(sizeof(bpfptr_t));

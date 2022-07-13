@@ -6,3 +6,4 @@ kernel/bpf/helpers.bc
 kernel/bpf/verifier.bc
 kernel/bpf/syscall.bc
 lib/string.bc
+lib/sha1.bc

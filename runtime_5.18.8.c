@@ -14,6 +14,9 @@ void * vzalloc(size_t size) { return malloc(size);  } // TODO --> autogened
 void vfree(void *ptr) { free(ptr); } // TODO --> autogened
 void kfree(void *ptr) { free(ptr); } // TODO --> autogened
 
+void * vmalloc(unsigned long size) { return malloc(size); } // TODO --> autogened
+void kvfree(void *ptr) { free(ptr); } // TODO --> autogened
+
 void kmalloc(void) { abort(); }
 void kvmalloc(void) { abort(); }
 void kcalloc(void) { abort(); }
@@ -219,7 +222,7 @@ void ktime_get_boot_fast_ns(void) { abort(); } // TODO --> autogened
 void ktime_get_coarse_ts64(void) { abort(); } // TODO --> autogened
 void ktime_get_mono_fast_ns(void) { abort(); } // TODO --> autogened
 
-void kvfree(void) { abort(); } // TODO --> autogened
+
 void kvfree_call_rcu(void) { abort(); } // TODO --> autogened
 void kvmalloc_node(void) { abort(); } // TODO --> autogened
 void lwt_in_prog_ops(void) { abort(); } // TODO --> autogened
@@ -283,8 +286,6 @@ void seq_printf(void) { abort(); } // TODO --> autogened
 void seq_vprintf(void) { abort(); } // TODO --> autogened
 void set_memory_ro(void) { abort(); } // TODO --> autogened
 void set_memory_x(void) { abort(); } // TODO --> autogened
-void sha1_init(void) { abort(); } // TODO --> autogened
-void sha1_transform(void) { abort(); } // TODO --> autogened
 void sk_filter_prog_ops(void) { abort(); } // TODO --> autogened
 void sk_filter_verifier_ops(void) { abort(); } // TODO --> autogened
 void sk_lookup_prog_ops(void) { abort(); } // TODO --> autogened
@@ -319,7 +320,7 @@ void tc_cls_act_prog_ops(void) { abort(); } // TODO --> autogened
 void tc_cls_act_verifier_ops(void) { abort(); } // TODO --> autogened
 void trie_map_ops(void) { abort(); } // TODO --> autogened
 void vabits_actual(void) { abort(); } // TODO --> autogened
-void vmalloc(void) { abort(); } // TODO --> autogened
+
 void vmemdup_user(void) { abort(); } // TODO --> autogened
 void vscnprintf(void) { abort(); } // TODO --> autogened
 void xdp_prog_ops(void) { abort(); } // TODO --> autogened

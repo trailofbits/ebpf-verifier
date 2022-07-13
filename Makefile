@@ -6,7 +6,8 @@ BC_FILES_5.18.8 = kernel/bpf/btf.bc \
 									kernel/bpf/helpers.bc \
 									kernel/bpf/verifier.bc \
 									kernel/bpf/syscall.bc \
-									lib/string.bc
+									lib/string.bc \
+									lib/sha1.bc
 
 PATH_TO_KERNEL = /home/parallels/clang_compiled/linux-
 
@@ -38,6 +39,7 @@ simple-harness-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 	cd $< && \
 	pwd && \
 	clang \
+	-I ../../ebpf-verifier/ \
 	-I $(PATH_TO_KERNEL)$*/usr/include/ \
 	$(BC_FILES_5.18.8) \
 	../../ebpf-verifier/runtime_simple_$*.c \
