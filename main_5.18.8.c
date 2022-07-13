@@ -47,7 +47,7 @@ typedef struct {
 		void	*kernel;
 		void 	*user;
 	};
-	bool		is_kernel : 1;
+	bool		is_kernel : true;
 } sockptr_t;
 
 typedef sockptr_t bpfptr_t;
@@ -70,7 +70,7 @@ int main() {
 			    //  const struct bpf_prog_load_opts *opts);
 
 	enum bpf_prog_type prog_type = BPF_PROG_TYPE_XDP;
-	char *prog_name = "sample prog";
+	char *prog_name = "test";
 	char *license = "GPL";
 	struct bpf_insn *insns = prog;
 	size_t insn_cnt = ARRAY_SIZE(prog);
@@ -90,6 +90,9 @@ int main() {
 
 	// what is uattr supposed to point to for bpf_prog_load?
   bpfptr_t * b = (bpfptr_t *) malloc(sizeof(bpfptr_t));
+	b->is_kernel = true;
+	b->kernel = NULL;
+	b->user = NULL;
 
   bpf_prog_load(a, *b);
 

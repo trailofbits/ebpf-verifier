@@ -43,6 +43,8 @@ void current_cred(void) { abort(); }
 void free_uid(struct user_struct *) { return; } // TODO --> autogened
 void security_bpf_prog_free(struct bpf_prog_aux *) { return; } // TODO --> autogened
 
+int ktime_get_with_offset(void) { return 0; } // don't think time is actually relevant
+
 void _find_next_bit(void) { abort(); }
 
 
@@ -216,7 +218,7 @@ void krealloc(void) { abort(); } // TODO --> autogened
 void ktime_get_boot_fast_ns(void) { abort(); } // TODO --> autogened
 void ktime_get_coarse_ts64(void) { abort(); } // TODO --> autogened
 void ktime_get_mono_fast_ns(void) { abort(); } // TODO --> autogened
-void ktime_get_with_offset(void) { abort(); } // TODO --> autogened
+
 void kvfree(void) { abort(); } // TODO --> autogened
 void kvfree_call_rcu(void) { abort(); } // TODO --> autogened
 void kvmalloc_node(void) { abort(); } // TODO --> autogened
