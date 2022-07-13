@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Tue Jul 12 17:04:31 2022
+# Make data base, printed on Wed Jul 13 14:46:02 2022
 
 # Variables
 
@@ -69,7 +69,7 @@ XDG_RUNTIME_DIR = /run/user/1000
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /run/user/1000/vscode-ipc-67cc0697-4c53-46db-9ea0-023ca5c6da3d.sock
+VSCODE_IPC_HOOK_CLI = /run/user/1000/vscode-ipc-2259c9e5-19f3-4fd3-a9a8-8dd0067695bb.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -177,9 +177,9 @@ MOTD_SHOWN = pam
 
 # Directories
 
-# . (device 2050, inode 1866731): 44 files, no impossibilities.
+# . (device 2050, inode 1866731): 45 files, no impossibilities.
 
-# 44 files, no impossibilities in 1 directories.
+# 45 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -207,6 +207,7 @@ runmain-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 	cd $< && \
 	pwd && \
 	clang \
+	-I $(PATH_TO_KERNEL)$*/usr/include/ \
 	$(BC_FILES_5.18.8) \
 	../../ebpf-verifier/runtime_$*.c \
 	../../ebpf-verifier/main_$*.c \
@@ -216,17 +217,17 @@ runmain-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 	-o ../../ebpf-verifier/harness_$*
 
 test-%:
-#  recipe to execute (from 'Makefile', line 65):
+#  recipe to execute (from 'Makefile', line 81):
 	make clang_cmds_$*
 	make runmain-$*
 
 test-fresh-%:
-#  recipe to execute (from 'Makefile', line 69):
+#  recipe to execute (from 'Makefile', line 85):
 	make $*
 	make runmain-$*
 
 harness-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
-#  recipe to execute (from 'Makefile', line 76):
+#  recipe to execute (from 'Makefile', line 92):
 	cd $< && \
 	pwd && \
 	clang \
@@ -240,7 +241,7 @@ harness-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 	-o ../../ebpf-verifier/harness_$*
 
 runtime-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
-#  recipe to execute (from 'Makefile', line 91):
+#  recipe to execute (from 'Makefile', line 107):
 	cd $< && \
 	pwd && \
 	clang \
@@ -298,7 +299,7 @@ included_headers_5.15.txt:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-11 17:31:27.791509682
+#  Last modified 2022-07-12 22:35:43.053714733
 #  File has been updated.
 #  Successfully updated.
 
@@ -314,9 +315,9 @@ included_headers_5.18.8.txt:
 #  Modification time never checked.
 #  File has not been updated.
 
+ 
 # Not a target:
 ../clang_compiled/linux-5.15.51/:
- 
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -338,6 +339,18 @@ bitcode: backup/ 5.18.8 5.15.51 5.15
 #  Modification time never checked.
 #  File has not been updated.
 
+baby-test:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 66):
+	clang \
+	-I $(PATH_TO_KERNEL)5.18.8/usr/include/ \
+	-nostdinc \
+	sample.c \
+	-v -g -O0 \
+	-o sample
+
 5.15: ../clang_compiled/linux-5.15/ bitcode_files_5.15.txt included_headers_5.15.txt
 #  Implicit rule search has not been done.
 #  Implicit/static pattern stem: '5.15'
@@ -358,9 +371,20 @@ clean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 103):
+#  recipe to execute (from 'Makefile', line 119):
 	rm -f harness*
 	rm -f clang_cmds*
+
+baby-test-2:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 74):
+	clang \
+	-I $(PATH_TO_KERNEL)5.18.8/usr/include/ \
+	sample.c \
+	-v -g -O0 \
+	-o sample
 
 # Not a target:
 included_headers_5.15.51.txt:
@@ -397,19 +421,19 @@ bitcode_files_5.15.txt:
 	../../ebpf-verifier/clang_cmds_$@.sh
 
 # files hash-table stats:
-# Load=19/1024=2%, Rehash=0, Collisions=0/45=0%
+# Load=21/1024=2%, Rehash=0, Collisions=0/47=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 70 / storage = 970 B / avg = 13 B
-# current buf: size = 8162 B / used = 970 B / count = 70 / avg = 13 B
+# strcache buffers: 1 (0) / strings = 73 / storage = 974 B / avg = 13 B
+# current buf: size = 8162 B / used = 974 B / count = 73 / avg = 13 B
 
-# strcache performance: lookups = 100 / hit rate = 30%
+# strcache performance: lookups = 105 / hit rate = 30%
 # hash-table stats:
-# Load=70/8192=1%, Rehash=0, Collisions=1/100=1%
-# Finished Make data base on Tue Jul 12 17:04:31 2022
+# Load=73/8192=1%, Rehash=0, Collisions=1/105=1%
+# Finished Make data base on Wed Jul 13 14:46:02 2022
 
  

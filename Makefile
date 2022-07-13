@@ -53,6 +53,7 @@ runmain-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 	cd $< && \
 	pwd && \
 	clang \
+	-I $(PATH_TO_KERNEL)$*/usr/include/ \
 	$(BC_FILES_5.18.8) \
 	../../ebpf-verifier/runtime_$*.c \
 	../../ebpf-verifier/main_$*.c \
@@ -60,6 +61,21 @@ runmain-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 	-g -O0 -v \
 	-fdebug-default-version=4 \
 	-o ../../ebpf-verifier/harness_$*
+
+baby-test:
+	clang \
+	-I $(PATH_TO_KERNEL)5.18.8/usr/include/ \
+	-nostdinc \
+	sample.c \
+	-v -g -O0 \
+	-o sample
+
+baby-test-2:
+	clang \
+	-I $(PATH_TO_KERNEL)5.18.8/usr/include/ \
+	sample.c \
+	-v -g -O0 \
+	-o sample
 
 test-%:
 	make clang_cmds_$*

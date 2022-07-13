@@ -8,10 +8,19 @@
 void * kzalloc(size_t size) { return malloc(size); }
 void * kvcalloc(size_t n, size_t size) { return calloc(n, size); }
 
+void * __vmalloc(unsigned long size) { return malloc(size); } // TODO --> autogened
 
 void * vzalloc(size_t size) { return malloc(size);  } // TODO --> autogened
 void vfree(void *ptr) { free(ptr); } // TODO --> autogened
 void kfree(void *ptr) { free(ptr); } // TODO --> autogened
+
+void kmalloc(void) { abort(); }
+void kvmalloc(void) { abort(); }
+void kcalloc(void) { abort(); }
+void kmalloc_array(void) { abort(); }
+void krealloc_array(void) { abort(); }
+void kmalloc_node(void) { abort(); }
+
 
 // // I only see this called twice in bpf_check --> just seems to be timing the
 // // verifier process.
@@ -21,9 +30,22 @@ unsigned long ktime_get(void) {
   return ts.tv_sec;
 }
 
+bool capable(int cap) { return true; } // always true for test harness
+
+void * __alloc_percpu_gfp(size_t size, size_t align) { return malloc(size); } // TODO --> autogened
+void __mutex_init(void) { return; } // TODO --> autogened
+int security_bpf_prog_alloc(struct bpf_prog_aux *aux) { return 0; } // TODO --> autogened
+
+struct user_struct *get_current_user() { return NULL; }
+void current_uid_gid(int *uid, int *gid) { abort(); }
+void current_cred(void) { abort(); }
+
+void free_uid(struct user_struct *) { return; } // TODO --> autogened
+void security_bpf_prog_free(struct bpf_prog_aux *) { return; } // TODO --> autogened
+
 void _find_next_bit(void) { abort(); }
 
-void __alloc_percpu_gfp(void) { abort(); } // TODO --> autogened
+
 void __bitmap_clear(void) { abort(); } // TODO --> autogened
 void __bitmap_set(void) { abort(); } // TODO --> autogened
 void __bitmap_weight(void) { abort(); } // TODO --> autogened
@@ -35,7 +57,7 @@ void __do_once_start(void) { abort(); } // TODO --> autogened
 void __fdget(void) { abort(); } // TODO --> autogened
 void __kmalloc(void) { abort(); } // TODO --> autogened
 void __kmalloc_node(void) { abort(); } // TODO --> autogened
-void __mutex_init(void) { abort(); } // TODO --> autogened
+
 void __per_cpu_offset(void) { abort(); } // TODO --> autogened
 void __put_task_struct(void) { abort(); } // TODO --> autogened
 void __rcu_read_lock(void) { abort(); } // TODO --> autogened
@@ -43,7 +65,7 @@ void __rcu_read_unlock(void) { abort(); } // TODO --> autogened
 void __sw_hweight64(void) { abort(); } // TODO --> autogened
 //void __sys_bpf(void) { abort(); } // TODO --> autogened
 void __task_pid_nr_ns(void) { abort(); } // TODO --> autogened
-void __vmalloc(void) { abort(); } // TODO --> autogened
+
 void __vmalloc_node_range(void) { abort(); } // TODO --> autogened
 void __warn_printk(void) { abort(); } // TODO --> autogened
 void _ctype(void) { abort(); } // TODO --> autogened
@@ -124,7 +146,7 @@ void bstr_printf(void) { abort(); } // TODO --> autogened
 void btf_sock_ids(void) { abort(); } // TODO --> autogened
 void call_rcu(void) { abort(); } // TODO --> autogened
 void call_rcu_tasks_trace(void) { abort(); } // TODO --> autogened
-void capable(void) { abort(); } // TODO --> autogened
+
 void cg_dev_prog_ops(void) { abort(); } // TODO --> autogened
 void cg_dev_verifier_ops(void) { abort(); } // TODO --> autogened
 void cg_skb_prog_ops(void) { abort(); } // TODO --> autogened
@@ -159,7 +181,7 @@ void flow_dissector_prog_ops(void) { abort(); } // TODO --> autogened
 void flow_dissector_verifier_ops(void) { abort(); } // TODO --> autogened
 void fput(void) { abort(); } // TODO --> autogened
 void free_percpu(void) { abort(); } // TODO --> autogened
-void free_uid(void) { abort(); } // TODO --> autogened
+
 void from_kgid(void) { abort(); } // TODO --> autogened
 void from_kuid(void) { abort(); } // TODO --> autogened
 void from_kuid_munged(void) { abort(); } // TODO --> autogened
@@ -252,8 +274,8 @@ void security_bpf_map(void) { abort(); } // TODO --> autogened
 void security_bpf_map_alloc(void) { abort(); } // TODO --> autogened
 void security_bpf_map_free(void) { abort(); } // TODO --> autogened
 void security_bpf_prog(void) { abort(); } // TODO --> autogened
-void security_bpf_prog_alloc(void) { abort(); } // TODO --> autogened
-void security_bpf_prog_free(void) { abort(); } // TODO --> autogened
+
+
 void security_locked_down(void) { abort(); } // TODO --> autogened
 void seq_printf(void) { abort(); } // TODO --> autogened
 void seq_vprintf(void) { abort(); } // TODO --> autogened
