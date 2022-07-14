@@ -39,7 +39,6 @@ simple-harness-%: ../clang_compiled/linux-%/ clang_cmds_%.sh
 	cd $< && \
 	pwd && \
 	clang \
-	-I ../../ebpf-verifier/ \
 	-I $(PATH_TO_KERNEL)$*/usr/include/ \
 	$(BC_FILES_5.18.8) \
 	../../ebpf-verifier/runtime_simple_$*.c \

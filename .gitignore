@@ -1,2 +1,5 @@
 backup/*/vmlinux
 .vscode/*
+harness_*
+old_harness
+sample

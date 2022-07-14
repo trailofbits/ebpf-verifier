@@ -3,4 +3,5 @@ word-at-a-time.h
 slab.h
 cred.h
 current.h
+sched.h
 signal.h
