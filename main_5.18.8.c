@@ -1,4 +1,3 @@
-#include <linux/types.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -6,7 +5,7 @@
 #include <stdio.h>
 
 #include <linux/bpf.h> // make sure this links to the correct one when compiling
-#include <linux/filter.h>
+// #include <linux/filter.h>
 
 extern size_t strlcpy(char *, const char *, size_t);
 
