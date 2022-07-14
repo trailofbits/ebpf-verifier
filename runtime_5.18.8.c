@@ -2,6 +2,30 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <time.h>
+#include <setjmp.h>
+
+#include <linux/bpf.h> // make sure this links to the correct one when compiling
+
+typedef struct {
+	union {
+		void	*kernel;
+		void 	*user;
+	};
+	bool		is_kernel : true;
+} sockptr_t;
+
+typedef sockptr_t bpfptr_t;
+
+extern int bpf_prog_load(union bpf_attr *, bpfptr_t);
+jmp_buf env_buffer;
+
+void test(union bpf_attr * a, bpfptr_t *b) {
+
+  if (setjmp(env_buffer) != 0) {
+		printf("Returned from a longjmp()\n");
+	}
+	bpf_prog_load(a, *b);
+}
 
 
 // stubbed out (decl as extern in "slab.h")
@@ -23,6 +47,16 @@ void kcalloc(void) { abort(); }
 void kmalloc_array(void) { abort(); }
 void krealloc_array(void) { abort(); }
 void kmalloc_node(void) { abort(); }
+
+// add to core.bc compile command: -Dbpf_prog_select_runtime=bpf_prog_select_runtime_orig -Dbpf_prog_kallsyms_del_all=bpf_prog_kallsyms_del_all_orig
+void bpf_prog_kallsyms_del_all(struct bpf_prog *fp) {
+	printf("Finished bpf_check with an error\n");
+	longjmp(env_buffer, 1);
+}
+void bpf_prog_select_runtime(struct bpf_prog *fp, int *err) {
+	printf("Finished bpf_check without error\n");
+	longjmp(env_buffer, 2);
+}
 
 
 // // I only see this called twice in bpf_check --> just seems to be timing the

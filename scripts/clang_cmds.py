@@ -83,6 +83,8 @@ def main():
       new_cmd += " -g "
       #new_cmd += " -v "
       new_cmd += " -fdebug-default-version=4 " # otherwise valgrind doesn't understand
+      if output_file == "kernel/bpf/core.bc":
+        new_cmd += " -Dbpf_prog_select_runtime=bpf_prog_select_runtime_orig -Dbpf_prog_kallsyms_del_all=bpf_prog_kallsyms_del_all_orig "
       new_cmd += new_suffix
 
       final_commands.append(new_cmd)

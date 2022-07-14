@@ -5,9 +5,9 @@
 #include <stdio.h>
 
 #include <linux/bpf.h> // make sure this links to the correct one when compiling
-// #include <linux/filter.h>
 
 extern size_t strlcpy(char *, const char *, size_t);
+
 
 #define MAX_INSNS	BPF_MAXINSNS
 
@@ -51,8 +51,7 @@ typedef struct {
 
 typedef sockptr_t bpfptr_t;
 
-
-extern int bpf_prog_load(union bpf_attr *, bpfptr_t);
+extern void test(union bpf_attr *, bpfptr_t *);
 
 int main() {
 
@@ -90,7 +89,8 @@ int main() {
 	b->kernel = NULL;
 	b->user = NULL;
 
-  bpf_prog_load(a, *b);
+	test(a, b);
+	printf("returned from test\n");
 
   return 0;
 }
