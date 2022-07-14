@@ -14,7 +14,13 @@
 //#ifndef _LINUX_SLAB_H
 #define	_LINUX_SLAB_H
 
+#define ARCH_KMALLOC_MINALIGN __alignof__(unsigned long long)
+extern void kfree_sensitive(const void *objp);
+
 #ifdef CONFIG_SLAB
+
+
+
 /*
  * The largest kmalloc size supported by the SLAB allocators is
  * 32 megabyte (2^25) or the maximum allocatable page order if that is

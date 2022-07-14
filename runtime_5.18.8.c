@@ -33,6 +33,9 @@ unsigned long ktime_get(void) {
   return ts.tv_sec;
 }
 
+// TODO: modify this so that custom capabilities can be specified
+// and so that we can record what functions are asking about which
+// capabilities.
 bool capable(int cap) { return true; } // always true for test harness
 
 void * __alloc_percpu_gfp(size_t size, size_t align) { return malloc(size); } // TODO --> autogened
@@ -336,7 +339,7 @@ void bpf_prog_offload_remove_insns(void) { abort(); } // TODO --> autogened
 void bpf_prog_offload_replace_insn(void) { abort(); } // TODO --> autogened
 void bpf_prog_offload_verifier_prep(void) { abort(); } // TODO --> autogened
 void bpf_prog_offload_verify_insn(void) { abort(); } // TODO --> autogened
-void bpf_sock_common_is_valid_access(void) { abort(); } // TODO --> autogened
+//void bpf_sock_common_is_valid_access(void) { abort(); } // TODO --> autogened
 void bpf_sock_convert_ctx_access(void) { abort(); } // TODO --> autogened
 void bpf_sock_is_valid_access(void) { abort(); } // TODO --> autogened
 void bpf_struct_ops_find(void) { abort(); } // TODO --> autogened
