@@ -9,33 +9,20 @@ CURR = $(HOME)/ebpf-verifier/$(KVERSION)
 EBPF = $(HOME)/ebpf-verifier
 
 # generate clang_cmds.sh
-clang_cmds: $(KERNEL) bitcode_files.txt included_headers.txt
-	cd $< && \
-	python3 $(EBPF)/scripts/clang_cmds.py \
-	-B $(CURR)/bitcode_files.txt \
-	-H $(CURR)/included_headers.txt \
-	-O $(CURR)/clang_cmds.sh
-	chmod +x clang_cmds.sh
+clang_cmds:
+	cd $(EBPF) && \
+	make clang_cmds_$(KVERSION)
 
 # run clang_cmds.sh
-bitcode: $(KERNEL) clang_cmds.sh
-	cd $< && \
-	$(CURR)/clang_cmds.sh
+bitcode:
+	cd $(EBPF) && \
+	make bitcode_$(KVERSION)
 
 
 # build harness
-harness: $(KERNEL) clang_cmds.sh bitcode_files.txt
-	cd $< && \
-	clang \
-	-I $(KERNEL)/usr/include/ \
-	$(BC_FILES) \
-	-include $(EBPF)/runtime.h \
-	$(CURR)/runtime.c \
-	$(EBPF)/main.c \
-	-mcmodel=large \
-	-g -O0 -v \
-	-fdebug-default-version=4 \
-	-o $(CURR)/harness
+harness: $(KERNEL)
+	cd $(EBPF) && \
+	make harness_$(KVERSION)
 
 # just bitcode and harness (existing clang cmds)
 test:
