@@ -68,9 +68,7 @@ def main():
 
       if output_file != "lib/sort.bc":
         for h in headers:
-          new_cmd += " -include /home/parallels/ebpf-verifier/linux/" + h.strip()
-
-
+          new_cmd += " -include /home/parallels/ebpf-verifier/header_stubs/linux/" + h.strip()
 
       # change O2 to O0
       new_cmd = new_cmd.replace("O2", "Og")

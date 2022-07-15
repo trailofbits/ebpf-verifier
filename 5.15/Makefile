@@ -6,7 +6,7 @@ BC_FILES=$(shell cat $(BC_FILE))
 HOME = /home/parallels
 KERNEL = $(HOME)/clang_compiled/linux-$(KVERSION)
 CURR = $(HOME)/ebpf-verifier/$(KVERSION)
-MAIN = $(HOME)/ebpf-verifier/main.c
+EBPF = $(HOME)/ebpf-verifier
 
 # generate clang_cmds.sh
 clang_cmds: $(KERNEL) bitcode_files.txt included_headers.txt
@@ -28,9 +28,9 @@ harness: $(KERNEL) clang_cmds.sh bitcode_files.txt
 	clang \
 	-I $(KERNEL)/usr/include/ \
 	$(BC_FILES) \
-	-include $(CURR)/../runtime.h \
+	-include $(EBPF)/runtime.h \
 	$(CURR)/runtime.c \
-	$(MAIN) \
+	$(EBPF)/main.c \
 	-mcmodel=large \
 	-g -O0 -v \
 	-fdebug-default-version=4 \
