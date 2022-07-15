@@ -1,11 +1,5 @@
 KVERSION = 5.15.51
 
-BC_FILE=bitcode_files.txt
-BC_FILES=$(shell cat $(BC_FILE))
-
-HOME = /home/parallels
-KERNEL = $(HOME)/clang_compiled/linux-$(KVERSION)
-CURR = $(HOME)/ebpf-verifier/$(KVERSION)
 EBPF = $(HOME)/ebpf-verifier
 
 # generate clang_cmds.sh

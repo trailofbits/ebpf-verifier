@@ -2,8 +2,6 @@ KERNEL_VERSIONS = 5.18.8 5.15.51 5.15
 
 BC_FILE=bitcode_files.txt
 
-HOME = /home/parallels
-
 KERNEL = $(HOME)/clang_compiled/linux-
 EBPF = $(HOME)/ebpf-verifier
 
