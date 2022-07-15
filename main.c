@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "runtime_5.18.8.h"
-
 extern size_t strlcpy(char *, const char *, size_t);
 
 #define MAX_INSNS	BPF_MAXINSNS

@@ -1,5 +1,5 @@
 #include <linux/bpf.h> // make sure this links to the correct one when compiling
-
+#include <stdbool.h>
 
 typedef struct {
 	union {

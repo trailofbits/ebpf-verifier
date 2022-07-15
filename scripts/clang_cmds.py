@@ -68,7 +68,7 @@ def main():
 
       if output_file != "lib/sort.bc":
         for h in headers:
-          new_cmd += " -include ../../ebpf-verifier/linux/" + h.strip()
+          new_cmd += " -include /home/parallels/ebpf-verifier/linux/" + h.strip()
 
 
 

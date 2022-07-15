@@ -3,8 +3,6 @@
 #include <time.h>
 #include <setjmp.h>
 
-#include "runtime_5.18.8.h"
-
 extern int bpf_prog_load(union bpf_attr *, bpfptr_t);
 jmp_buf env_buffer;
 
