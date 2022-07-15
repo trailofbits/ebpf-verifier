@@ -2,12 +2,10 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <stdio.h>
 
-#include <linux/bpf.h> // make sure this links to the correct one when compiling
+#include "runtime_5.18.8.h"
 
 extern size_t strlcpy(char *, const char *, size_t);
-
 
 #define MAX_INSNS	BPF_MAXINSNS
 
@@ -41,17 +39,6 @@ struct bpf_test {
 	enum bpf_prog_type prog_type;
 };
 
-typedef struct {
-	union {
-		void	*kernel;
-		void 	*user;
-	};
-	bool		is_kernel : true;
-} sockptr_t;
-
-typedef sockptr_t bpfptr_t;
-
-extern void test(union bpf_attr *, bpfptr_t *);
 
 int main() {
 
@@ -90,7 +77,9 @@ int main() {
 	b->user = NULL;
 
 	test(a, b);
-	printf("returned from test\n");
+
+	free(b);
+	free(a);
 
   return 0;
 }

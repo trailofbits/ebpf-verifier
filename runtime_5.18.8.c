@@ -1,39 +1,37 @@
 #include <stdlib.h>
 #include <stdbool.h>
-#include <stdio.h>
 #include <time.h>
 #include <setjmp.h>
 
-#include <linux/bpf.h> // make sure this links to the correct one when compiling
-
-typedef struct {
-	union {
-		void	*kernel;
-		void 	*user;
-	};
-	bool		is_kernel : true;
-} sockptr_t;
-
-typedef sockptr_t bpfptr_t;
+#include "runtime_5.18.8.h"
 
 extern int bpf_prog_load(union bpf_attr *, bpfptr_t);
 jmp_buf env_buffer;
 
-void test(union bpf_attr * a, bpfptr_t *b) {
+void test(union bpf_attr *a, bpfptr_t *b) {
   if (setjmp(env_buffer) != 0) {
-		printf("Returned from a longjmp()\n");
+		return;
 	} else {
 		bpf_prog_load(a, *b);
 	}
 }
 
 // stubbed out (decl as extern in "slab.h")
-void * kzalloc(size_t size) { return malloc(size); }
+void * kzalloc(size_t size) {
+	void * res = malloc(size);
+	memset(res, 0, size);
+	return res;
+}
 void * kvcalloc(size_t n, size_t size) { return calloc(n, size); }
 
 void * __vmalloc(unsigned long size) { return malloc(size); } // TODO --> autogened
 
-void * vzalloc(size_t size) { return malloc(size);  } // TODO --> autogened
+void * vzalloc(size_t size) {
+	void * res = malloc(size);
+	memset(res, 0, size);
+	return res;
+} // TODO --> autogened
+
 void vfree(void *ptr) { free(ptr); } // TODO --> autogened
 void kfree(void *ptr) { free(ptr); } // TODO --> autogened
 
@@ -49,11 +47,13 @@ void kmalloc_node(void) { abort(); }
 
 // add to core.bc compile command: -Dbpf_prog_select_runtime=bpf_prog_select_runtime_orig -Dbpf_prog_kallsyms_del_all=bpf_prog_kallsyms_del_all_orig
 void bpf_prog_kallsyms_del_all(struct bpf_prog *fp) {
-	printf("Finished bpf_check with an error\n");
+	//printf("Finished bpf_check with an error\n");
+	__bpf_prog_free(fp);
 	longjmp(env_buffer, 1);
 }
 void bpf_prog_select_runtime(struct bpf_prog *fp, int *err) {
-	printf("Finished bpf_check without error\n");
+	__bpf_prog_free(fp);
+	//printf("Finished bpf_check without error\n");
 	longjmp(env_buffer, 2);
 }
 
@@ -72,6 +72,9 @@ unsigned long ktime_get(void) {
 bool capable(int cap) { return true; } // always true for test harness
 
 void * __alloc_percpu_gfp(size_t size, size_t align) { return malloc(size); } // TODO --> autogened
+void free_percpu(void * ptr) { free(ptr); } // TODO --> autogened
+
+
 void __mutex_init(void) { return; } // TODO --> autogened
 int security_bpf_prog_alloc(struct bpf_prog_aux *aux) { return 0; } // TODO --> autogened
 
@@ -83,6 +86,11 @@ void free_uid(struct user_struct *) { return; } // TODO --> autogened
 void security_bpf_prog_free(struct bpf_prog_aux *) { return; } // TODO --> autogened
 
 int ktime_get_with_offset(void) { return 0; } // don't think time is actually relevant
+
+// don't think this matters --> maybe makes more sense to just
+// stub out workqueue.h???
+// this may not even be needed anymore
+bool queue_work_on(void) { return true; } // TODO --> autogened
 
 void _find_next_bit(void) { abort(); }
 
@@ -258,7 +266,7 @@ void fib_table_lookup(void) { abort(); } // TODO --> autogened
 void find_vm_area(void) { abort(); } // TODO --> autogened
 void find_vpid(void) { abort(); } // TODO --> autogened
 void fput(void) { abort(); } // TODO --> autogened
-void free_percpu(void) { abort(); } // TODO --> autogened
+
 void from_kuid_munged(void) { abort(); } // TODO --> autogened
 void generic_xdp_tx(void) { abort(); } // TODO --> autogened
 void get_callchain_buffers(void) { abort(); } // TODO --> autogened
@@ -344,7 +352,7 @@ void pskb_expand_head(void) { abort(); } // TODO --> autogened
 void put_callchain_buffers(void) { abort(); } // TODO --> autogened
 void put_unused_fd(void) { abort(); } // TODO --> autogened
 void queue_map_ops(void) { abort(); } // TODO --> autogened
-void queue_work_on(void) { abort(); } // TODO --> autogened
+
 void queued_spin_lock_slowpath(void) { abort(); } // TODO --> autogened
 void rb_erase(void) { abort(); } // TODO --> autogened
 void rb_insert_color(void) { abort(); } // TODO --> autogened

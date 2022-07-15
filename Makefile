@@ -85,6 +85,7 @@ test-%:
 	make runmain-$*
 
 test-fresh-%:
+	make clean
 	make $*
 	make runmain-$*
 
