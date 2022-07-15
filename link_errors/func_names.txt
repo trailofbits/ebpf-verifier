@@ -1,4 +1,6 @@
 ___pskb_trim
+__arch_copy_from_user
+__arch_copy_to_user
 __bitmap_clear
 __bitmap_set
 __bitmap_weight
@@ -16,14 +18,12 @@ __inet_bind
 __inet_lookup_established
 __inet_lookup_listener
 __ipv6_addr_type
-__kmalloc_track_caller
 __local_bh_enable_ip
 __neigh_create
 __per_cpu_offset
 __pskb_pull_tail
 __put_net
 __put_page
-__put_task_struct
 __rcu_read_lock
 __rcu_read_unlock
 __sk_mem_reclaim
@@ -144,6 +144,7 @@ cgroup_bpf_prog_query
 cgroup_storage_map_ops
 check_zeroed_user
 close_fd
+copy_from_kernel_nofault
 cpu_hwcap_keys
 cpu_map_enqueue
 cpu_map_generic_redirect
@@ -170,7 +171,6 @@ fib_table_lookup
 find_vm_area
 find_vpid
 fput
-free_percpu
 from_kuid_munged
 generic_xdp_tx
 get_callchain_buffers
@@ -208,8 +208,6 @@ kallsyms_show_value
 kfree_skb_reason
 kmemdup
 kmemdup_nul
-krealloc
-ksize
 ktime_get_boot_fast_ns
 ktime_get_coarse_ts64
 ktime_get_mono_fast_ns
@@ -256,7 +254,6 @@ pskb_expand_head
 put_callchain_buffers
 put_unused_fd
 queue_map_ops
-queue_work_on
 queued_spin_lock_slowpath
 rb_erase
 rb_insert_color
@@ -301,12 +298,14 @@ sock_map_prog_detach
 sock_map_update_elem_sys
 sock_pfree
 softnet_data
-sort
 stack_map_ops
 stack_trace_map_ops
 static_key_count
 static_key_slow_dec
 static_key_slow_inc
+strncpy_from_kernel_nofault
+strncpy_from_user
+strncpy_from_user_nofault
 synchronize_rcu
 sysctl_optmem_max
 sysctl_perf_event_max_stack

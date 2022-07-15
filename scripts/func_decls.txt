@@ -1,0 +1,26 @@
+extern void ERO_OR_NULL_PTR(void); // TODO --> fix params + return
+extern void free(void); // TODO --> fix params + return
+extern void malloc_array(void); // TODO --> fix params + return
+extern void malloc_node(void); // TODO --> fix params + return
+extern void malloc_track_caller(void); // TODO --> fix params + return
+extern void mem_cache_alloc(void); // TODO --> fix params + return
+extern void mem_cache_alloc_lru(void); // TODO --> fix params + return
+extern void mem_cache_free(void); // TODO --> fix params + return
+extern void size(void); // TODO --> fix params + return
+extern void vfree(void); // TODO --> fix params + return
+extern void vmalloc(void); // TODO --> fix params + return
+extern void vmalloc_array(void); // TODO --> fix params + return
+extern void zalloc(void); // TODO --> fix params + return
+void ERO_OR_NULL_PTR(void) { abort(); } // TODO --> autogened
+void free(void) { abort(); } // TODO --> autogened
+void malloc_array(void) { abort(); } // TODO --> autogened
+void malloc_node(void) { abort(); } // TODO --> autogened
+void malloc_track_caller(void) { abort(); } // TODO --> autogened
+void mem_cache_alloc(void) { abort(); } // TODO --> autogened
+void mem_cache_alloc_lru(void) { abort(); } // TODO --> autogened
+void mem_cache_free(void) { abort(); } // TODO --> autogened
+void size(void) { abort(); } // TODO --> autogened
+void vfree(void) { abort(); } // TODO --> autogened
+void vmalloc(void) { abort(); } // TODO --> autogened
+void vmalloc_array(void) { abort(); } // TODO --> autogened
+void zalloc(void) { abort(); } // TODO --> autogened

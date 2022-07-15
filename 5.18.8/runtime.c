@@ -3,6 +3,8 @@
 #include <time.h>
 #include <setjmp.h>
 
+
+// TODO: split testing functions out to a separate file.
 extern int bpf_prog_load(union bpf_attr *, bpfptr_t);
 jmp_buf env_buffer;
 
@@ -13,35 +15,6 @@ void test(union bpf_attr *a, bpfptr_t *b) {
 		bpf_prog_load(a, *b);
 	}
 }
-
-// stubbed out (decl as extern in "slab.h")
-void * kzalloc(size_t size) {
-	void * res = malloc(size);
-	memset(res, 0, size);
-	return res;
-}
-void * kvcalloc(size_t n, size_t size) { return calloc(n, size); }
-
-void * __vmalloc(unsigned long size) { return malloc(size); } // TODO --> autogened
-
-void * vzalloc(size_t size) {
-	void * res = malloc(size);
-	memset(res, 0, size);
-	return res;
-} // TODO --> autogened
-
-void vfree(void *ptr) { free(ptr); } // TODO --> autogened
-void kfree(void *ptr) { free(ptr); } // TODO --> autogened
-
-void * vmalloc(unsigned long size) { return malloc(size); } // TODO --> autogened
-void kvfree(void *ptr) { free(ptr); } // TODO --> autogened
-
-void kmalloc(void) { abort(); }
-void kvmalloc(void) { abort(); }
-void kcalloc(void) { abort(); }
-void kmalloc_array(void) { abort(); }
-void krealloc_array(void) { abort(); }
-void kmalloc_node(void) { abort(); }
 
 // add to core.bc compile command: -Dbpf_prog_select_runtime=bpf_prog_select_runtime_orig -Dbpf_prog_kallsyms_del_all=bpf_prog_kallsyms_del_all_orig
 void bpf_prog_kallsyms_del_all(struct bpf_prog *fp) {
@@ -55,6 +28,53 @@ void bpf_prog_select_runtime(struct bpf_prog *fp, int *err) {
 	longjmp(env_buffer, 2);
 }
 
+// For slab.h
+// stubbed out (decl as extern in "slab.h")
+// TODO: some implemented may never be used
+// some unimplemented may sometimes be used
+void * kzalloc(size_t size) {
+	void * res = malloc(size);
+	memset(res, 0, size);
+	return res;
+}
+void * kvcalloc(size_t n, size_t size) { return calloc(n, size); }
+void * __vmalloc(unsigned long size) { return malloc(size); }
+void * vzalloc(size_t size) {
+	void * res = malloc(size);
+	memset(res, 0, size);
+	return res;
+}
+void * vmalloc(unsigned long size) { return malloc(size); }
+
+void kfree(void *ptr) { free(ptr); }
+void vfree(void *ptr) { free(ptr); }
+void kvfree(void *ptr) { free(ptr); }
+
+void __kmalloc_track_caller(void) { abort(); } // TODO --> autogened
+void kcalloc(void) { abort(); } // TODO --> autogened
+void kmalloc(void) { abort(); } // TODO --> autogened
+void kmalloc_array(void) { abort(); } // TODO --> autogened
+void kmalloc_node(void) { abort(); } // TODO --> autogened
+void krealloc(void) { abort(); } // TODO --> autogened
+void krealloc_array(void) { abort(); } // TODO --> autogened
+void ksize(void) { abort(); } // TODO --> autogened
+void kvmalloc(void) { abort(); } // TODO --> autogened
+
+// from signal.h
+int signal_pending(struct task_struct *p) { return false; }
+
+void clear_siginfo(void) { abort(); } // TODO --> autogened
+void fatal_signal_pending(void) { abort(); } // TODO --> autogened
+void force_sig_info(void) { abort(); } // TODO --> autogened
+void put_task_struct(void) { abort(); } // TODO --> autogened
+void same_thread_group(void) { abort(); } // TODO --> autogened
+void send_sig(void) { abort(); } // TODO --> autogened
+void sigaddset(void) { abort(); } // TODO --> autogened
+void task_set_jobctl_pending(void) { abort(); } // TODO --> autogened
+void task_tgid(void) { abort(); } // TODO --> autogened
+
+// for current.h
+struct task_struct *get_current(void) { return NULL; }
 
 // // I only see this called twice in bpf_check --> just seems to be timing the
 // // verifier process.
@@ -90,9 +110,9 @@ int ktime_get_with_offset(void) { return 0; } // don't think time is actually re
 // this may not even be needed anymore
 bool queue_work_on(void) { return true; } // TODO --> autogened
 
-void _find_next_bit(void) { abort(); }
-
 void ___pskb_trim(void) { abort(); } // TODO --> autogened
+void __arch_copy_from_user(void) { abort(); } // TODO --> autogened
+void __arch_copy_to_user(void) { abort(); } // TODO --> autogened
 void __bitmap_clear(void) { abort(); } // TODO --> autogened
 void __bitmap_set(void) { abort(); } // TODO --> autogened
 void __bitmap_weight(void) { abort(); } // TODO --> autogened
@@ -110,14 +130,12 @@ void __inet_bind(void) { abort(); } // TODO --> autogened
 void __inet_lookup_established(void) { abort(); } // TODO --> autogened
 void __inet_lookup_listener(void) { abort(); } // TODO --> autogened
 void __ipv6_addr_type(void) { abort(); } // TODO --> autogened
-void __kmalloc_track_caller(void) { abort(); } // TODO --> autogened
 void __local_bh_enable_ip(void) { abort(); } // TODO --> autogened
 void __neigh_create(void) { abort(); } // TODO --> autogened
 void __per_cpu_offset(void) { abort(); } // TODO --> autogened
 void __pskb_pull_tail(void) { abort(); } // TODO --> autogened
 void __put_net(void) { abort(); } // TODO --> autogened
 void __put_page(void) { abort(); } // TODO --> autogened
-void __put_task_struct(void) { abort(); } // TODO --> autogened
 void __rcu_read_lock(void) { abort(); } // TODO --> autogened
 void __rcu_read_unlock(void) { abort(); } // TODO --> autogened
 void __sk_mem_reclaim(void) { abort(); } // TODO --> autogened
@@ -238,6 +256,7 @@ void cgroup_bpf_prog_query(void) { abort(); } // TODO --> autogened
 void cgroup_storage_map_ops(void) { abort(); } // TODO --> autogened
 void check_zeroed_user(void) { abort(); } // TODO --> autogened
 void close_fd(void) { abort(); } // TODO --> autogened
+void copy_from_kernel_nofault(void) { abort(); } // TODO --> autogened
 void cpu_hwcap_keys(void) { abort(); } // TODO --> autogened
 void cpu_map_enqueue(void) { abort(); } // TODO --> autogened
 void cpu_map_generic_redirect(void) { abort(); } // TODO --> autogened
@@ -264,7 +283,6 @@ void fib_table_lookup(void) { abort(); } // TODO --> autogened
 void find_vm_area(void) { abort(); } // TODO --> autogened
 void find_vpid(void) { abort(); } // TODO --> autogened
 void fput(void) { abort(); } // TODO --> autogened
-
 void from_kuid_munged(void) { abort(); } // TODO --> autogened
 void generic_xdp_tx(void) { abort(); } // TODO --> autogened
 void get_callchain_buffers(void) { abort(); } // TODO --> autogened
@@ -302,8 +320,6 @@ void kallsyms_show_value(void) { abort(); } // TODO --> autogened
 void kfree_skb_reason(void) { abort(); } // TODO --> autogened
 void kmemdup(void) { abort(); } // TODO --> autogened
 void kmemdup_nul(void) { abort(); } // TODO --> autogened
-void krealloc(void) { abort(); } // TODO --> autogened
-void ksize(void) { abort(); } // TODO --> autogened
 void ktime_get_boot_fast_ns(void) { abort(); } // TODO --> autogened
 void ktime_get_coarse_ts64(void) { abort(); } // TODO --> autogened
 void ktime_get_mono_fast_ns(void) { abort(); } // TODO --> autogened
@@ -350,7 +366,6 @@ void pskb_expand_head(void) { abort(); } // TODO --> autogened
 void put_callchain_buffers(void) { abort(); } // TODO --> autogened
 void put_unused_fd(void) { abort(); } // TODO --> autogened
 void queue_map_ops(void) { abort(); } // TODO --> autogened
-
 void queued_spin_lock_slowpath(void) { abort(); } // TODO --> autogened
 void rb_erase(void) { abort(); } // TODO --> autogened
 void rb_insert_color(void) { abort(); } // TODO --> autogened
@@ -395,12 +410,14 @@ void sock_map_prog_detach(void) { abort(); } // TODO --> autogened
 void sock_map_update_elem_sys(void) { abort(); } // TODO --> autogened
 void sock_pfree(void) { abort(); } // TODO --> autogened
 void softnet_data(void) { abort(); } // TODO --> autogened
-
 void stack_map_ops(void) { abort(); } // TODO --> autogened
 void stack_trace_map_ops(void) { abort(); } // TODO --> autogened
 void static_key_count(void) { abort(); } // TODO --> autogened
 void static_key_slow_dec(void) { abort(); } // TODO --> autogened
 void static_key_slow_inc(void) { abort(); } // TODO --> autogened
+void strncpy_from_kernel_nofault(void) { abort(); } // TODO --> autogened
+void strncpy_from_user(void) { abort(); } // TODO --> autogened
+void strncpy_from_user_nofault(void) { abort(); } // TODO --> autogened
 void synchronize_rcu(void) { abort(); } // TODO --> autogened
 void sysctl_optmem_max(void) { abort(); } // TODO --> autogened
 void sysctl_perf_event_max_stack(void) { abort(); } // TODO --> autogened
@@ -422,5 +439,3 @@ void vmemdup_user(void) { abort(); } // TODO --> autogened
 void vscnprintf(void) { abort(); } // TODO --> autogened
 void xdp_convert_zc_to_xdp_frame(void) { abort(); } // TODO --> autogened
 void xdp_warn(void) { abort(); } // TODO --> autogened
-
-

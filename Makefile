@@ -34,6 +34,22 @@ harness_%: $(KERNEL)% %/clang_cmds.sh %/bitcode_files.txt
 	-fdebug-default-version=4 \
 	-o $(EBPF)/$*/harness
 
+link_errors_%:
+	rm $(EBPF)/link_errors/error_output_raw.txt
+	touch $(EBPF)/link_errors/error_output_raw.txt
+	-make harness_$* 2> $(EBPF)/link_errors/error_output_raw.txt
+	cd $(EBPF)/link_errors && \
+	pwd && \
+	python3 scripts/get_info.py
+	cat link_errors/func_decls.txt
+
+implicit_defs_%:
+	touch $(EBPF)/scripts/raw.txt
+	-make bitcode_$* 2> $(EBPF)/scripts/raw.txt
+	cd $(EBPF)/scripts && \
+	python3 implicit_def_scraper.py
+	rm $(EBPF)/scripts/raw.txt
+
 
 build-all:
 	for dir in $(KERNEL_VERSIONS) ; do \

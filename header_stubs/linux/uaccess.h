@@ -44,15 +44,15 @@ inline static long strncpy_from_user(char *dest, const char *src, long count) {
 inline static long put_user(unsigned long x, void *ptr) {return 0;}
 #endif
 
-#ifndef __LINUX_UACCESS_H__
-#define __LINUX_UACCESS_H__
+// #ifndef __LINUX_UACCESS_H__
+// #define __LINUX_UACCESS_H__
 
-extern int pagefault_disable(void);
-extern int pagefault_enable(void);
+// extern int pagefault_disable(void);
+// extern int pagefault_enable(void);
 
-#define _copy_to_user raw_copy_to_user
-#define _copy_from_user raw_copy_from_user
-#define copy_to_user raw_copy_to_user
-#define copy_from_user raw_copy_from_user
+// #define _copy_to_user raw_copy_to_user
+// #define _copy_from_user raw_copy_from_user
+// #define copy_to_user raw_copy_to_user
+// #define copy_from_user raw_copy_from_user
 
-#endif
+// #endif
