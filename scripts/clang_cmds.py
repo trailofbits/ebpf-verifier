@@ -66,8 +66,9 @@ def main():
       # new_cmd += "-include ../../ebpf-verifier/asm_stubs.h " + prefix[first_I:]
       new_cmd += prefix[first_I:]
 
-      for h in headers:
-        new_cmd += " -include ../../ebpf-verifier/linux/" + h.strip()
+      if output_file != "lib/sort.bc":
+        for h in headers:
+          new_cmd += " -include ../../ebpf-verifier/linux/" + h.strip()
 
 
 

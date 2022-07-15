@@ -8,7 +8,8 @@ BC_FILES_5.18.8 = kernel/bpf/btf.bc \
 									kernel/bpf/syscall.bc \
 									lib/string.bc \
 									lib/sha1.bc \
-									net/core/filter.bc
+									net/core/filter.bc \
+									lib/sort.bc
 
 PATH_TO_KERNEL = /home/parallels/clang_compiled/linux-
 

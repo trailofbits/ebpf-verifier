@@ -8,3 +8,4 @@ kernel/bpf/syscall.bc
 lib/string.bc
 lib/sha1.bc
 net/core/filter.bc
+lib/sort.bc

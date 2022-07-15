@@ -20,13 +20,12 @@ extern int bpf_prog_load(union bpf_attr *, bpfptr_t);
 jmp_buf env_buffer;
 
 void test(union bpf_attr * a, bpfptr_t *b) {
-
   if (setjmp(env_buffer) != 0) {
 		printf("Returned from a longjmp()\n");
+	} else {
+		bpf_prog_load(a, *b);
 	}
-	bpf_prog_load(a, *b);
 }
-
 
 // stubbed out (decl as extern in "slab.h")
 void * kzalloc(size_t size) { return malloc(size); }
@@ -390,7 +389,7 @@ void sock_map_prog_detach(void) { abort(); } // TODO --> autogened
 void sock_map_update_elem_sys(void) { abort(); } // TODO --> autogened
 void sock_pfree(void) { abort(); } // TODO --> autogened
 void softnet_data(void) { abort(); } // TODO --> autogened
-void sort(void) { abort(); } // TODO --> autogened
+
 void stack_map_ops(void) { abort(); } // TODO --> autogened
 void stack_trace_map_ops(void) { abort(); } // TODO --> autogened
 void static_key_count(void) { abort(); } // TODO --> autogened
