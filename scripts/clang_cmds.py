@@ -68,6 +68,8 @@ def main():
 
       if output_file != "lib/sort.bc":
         for h in headers:
+          if h.strip() == "SKIP":
+            break
           new_cmd += " -include /home/parallels/ebpf-verifier/header_stubs/linux/" + h.strip()
 
       # change O2 to O0
