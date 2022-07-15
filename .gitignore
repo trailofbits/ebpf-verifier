@@ -1,5 +1,5 @@
 backup/*/vmlinux
 .vscode/*
-harness_*
-old_harness
-sample
+harness*
+*/harness
+*/clang_cmds.sh
