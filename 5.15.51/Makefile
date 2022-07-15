@@ -1,4 +1,4 @@
-KVERSION = 5.18.8
+KVERSION = 5.15.51
 
 BC_FILE=bitcode_files.txt
 BC_FILES=$(shell cat $(BC_FILE))
