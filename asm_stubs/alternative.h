@@ -1,1 +1,0 @@
-#define __ASM_ALTERNATIVE_H

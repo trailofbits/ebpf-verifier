@@ -1,1 +1,0 @@
-#define __ASM_CPUFEATURE_H

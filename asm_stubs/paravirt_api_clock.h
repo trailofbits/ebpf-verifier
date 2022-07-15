@@ -1,1 +1,0 @@
-#define __ASM_PARAVIRT_API_CLOCK_H

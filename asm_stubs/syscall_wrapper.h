@@ -1,1 +1,0 @@
-#define __ASM_SYSCALL_WRAPPER_H

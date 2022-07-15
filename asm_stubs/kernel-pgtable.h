@@ -1,1 +1,0 @@
-#define __ASM_KERNEL_PGTABLE_H
