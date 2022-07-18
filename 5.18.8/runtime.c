@@ -6,8 +6,9 @@
 extern int bpf_prog_load(union bpf_attr *, bpfptr_t);
 jmp_buf env_buffer;
 
-void test(union bpf_attr *a, bpfptr_t *b) {
+void test(union bpf_attr *a, bpfptr_t *b, int c, char * descr ) {
   if (setjmp(env_buffer) != 0) {
+		printf("returned from setjmp %d %s\n", c, descr);
 		return;
 	} else {
 		bpf_prog_load(a, *b);
@@ -45,13 +46,13 @@ void kmalloc_node(void) { abort(); }
 
 // add to core.bc compile command: -Dbpf_prog_select_runtime=bpf_prog_select_runtime_orig -Dbpf_prog_kallsyms_del_all=bpf_prog_kallsyms_del_all_orig
 void bpf_prog_kallsyms_del_all(struct bpf_prog *fp) {
-	//printf("Finished bpf_check with an error\n");
+	printf("Finished bpf_check with an error\n");
 	__bpf_prog_free(fp);
 	longjmp(env_buffer, 1);
 }
 void bpf_prog_select_runtime(struct bpf_prog *fp, int *err) {
 	__bpf_prog_free(fp);
-	//printf("Finished bpf_check without error\n");
+	printf("Finished bpf_check without error\n");
 	longjmp(env_buffer, 2);
 }
 

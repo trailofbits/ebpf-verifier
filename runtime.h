@@ -12,4 +12,4 @@ typedef struct {
 typedef sockptr_t bpfptr_t;
 
 
-void test(union bpf_attr *, bpfptr_t *);
+void test(union bpf_attr *, bpfptr_t *, int, char *);
