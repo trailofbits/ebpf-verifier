@@ -14,18 +14,20 @@ bitcode:
 
 
 # build harness
-harness: $(KERNEL)
+harness: $(KERNEL) runtime.c ../runtime.h ../main.c
 	cd $(EBPF) && \
 	make harness_$(KVERSION)
 
 # just bitcode and harness (existing clang cmds)
 test:
 	make bitcode
+	-rm -f harness
 	make harness
 
 all:
 	make clang_cmds
 	make bitcode
+	-rm -f harness
 	make harness
 
 clean:

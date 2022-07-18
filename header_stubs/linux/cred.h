@@ -2,18 +2,6 @@
 
 #include <linux/uidgid.h>
 
-
-// typedef unsigned int uid_t;
-// typedef unsigned int gid_t;
-
-// typedef struct {
-// 	uid_t val;
-// } kuid_t;
-
-// typedef struct {
-//   gid_t val;
-// } kgid_t;
-
 struct user_struct {
   kuid_t uid;
 };
