@@ -29,4 +29,4 @@ extern int test_thread_flag(int);
 extern void check_object_size(const void *ptr, unsigned long n,
 					bool to_user);
 
-#define SECCOMP -666 // can't find where this is really defined in linux kernel???
+#define SECCOMP -666 // TODO: can't find where this is really defined in linux kernel???
