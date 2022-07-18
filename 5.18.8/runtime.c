@@ -26,14 +26,15 @@ void test(union bpf_attr *a, bpfptr_t *b, char * descr ) {
 	}
 }
 
+
 // add to core.bc compile command: -Dbpf_prog_select_runtime=bpf_prog_select_runtime_orig -Dbpf_prog_kallsyms_del_all=bpf_prog_kallsyms_del_all_orig
 void bpf_prog_kallsyms_del_all(struct bpf_prog *fp) {
 	__bpf_prog_free(fp);
-	longjmp(env_buffer, 1);
+	longjmp(env_buffer, 1); // REJECTED
 }
 void bpf_prog_select_runtime(struct bpf_prog *fp, int *err) {
 	__bpf_prog_free(fp);
-	longjmp(env_buffer, 2);
+	longjmp(env_buffer, 2); // ACCEPTED
 }
 
 // stubbed out (decl as extern in "slab.h")
@@ -66,6 +67,18 @@ void krealloc(void) { abort(); } // TODO --> autogened
 void krealloc_array(void) { abort(); } // TODO --> autogened
 void ksize(void) { abort(); } // TODO --> autogened
 void kvmalloc(void) { abort(); } // TODO --> autogened
+
+void check_copy_size(void) {abort();}
+void test_thread_flag(void) {abort();}
+bool tif_need_resched(void) {return false;}
+
+void __task_pid_nr_ns(void) {abort();}
+void init_user_ns(void) {abort();}
+void from_kgid(void) {abort();}
+void from_kuid(void) {abort();}
+void task_active_pid_ns(void) {abort();}
+void ns_match(void) {abort();}
+void __put_task_struct(void) {abort();}
 
 // from signal.h
 int signal_pending(struct task_struct *p) { return false; }

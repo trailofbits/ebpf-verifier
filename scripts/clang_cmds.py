@@ -66,11 +66,18 @@ def main():
       # new_cmd += "-include ../../ebpf-verifier/asm_stubs.h " + prefix[first_I:]
       new_cmd += prefix[first_I:]
 
-      if output_file != "lib/sort.bc":
-        for h in headers:
-          if h.strip() == "SKIP":
-            break
-          new_cmd += " -include /home/parallels/ebpf-verifier/header_stubs/linux/" + h.strip()
+
+      include_prefix = " -include /home/parallels/ebpf-verifier/header_stubs/linux/"
+
+      for header in headers:
+        files = header.split()
+        h = files[0].strip()
+        if h == "SKIP":
+          break
+        if output_file in files[1:]:
+          new_cmd += include_prefix + h
+        elif len(files) > 1 and files[1] == "*":
+          new_cmd += include_prefix + h
 
       # change O2 to O0
       new_cmd = new_cmd.replace("O2", "Og")
@@ -86,6 +93,7 @@ def main():
       new_cmd += " -fdebug-default-version=4 " # otherwise valgrind doesn't understand
       if output_file == "kernel/bpf/core.bc":
         new_cmd += " -Dbpf_prog_select_runtime=bpf_prog_select_runtime_orig -Dbpf_prog_kallsyms_del_all=bpf_prog_kallsyms_del_all_orig "
+
       new_cmd += new_suffix
 
       final_commands.append(new_cmd)
