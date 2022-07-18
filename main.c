@@ -74,8 +74,8 @@ int main() {
 	b->kernel = NULL;
 	b->user = NULL;
 
-	test(a, b, 7, "hot test");
-
+	test(a, b, "hot test");
+	test(a, b, "hot test two");
 	free(b);
 	free(a);
 

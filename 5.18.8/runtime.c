@@ -6,13 +6,32 @@
 extern int bpf_prog_load(union bpf_attr *, bpfptr_t);
 jmp_buf env_buffer;
 
-void test(union bpf_attr *a, bpfptr_t *b, int c, char * descr ) {
-  if (setjmp(env_buffer) != 0) {
-		printf("returned from setjmp %d %s\n", c, descr);
-		return;
+void test(union bpf_attr *a, bpfptr_t *b, char * descr ) {
+	int res = setjmp(env_buffer);
+	if (res != 0) {
+		switch (res) {
+			case 1:
+				printf("Test \"%s\": REJECTED\n", descr);
+				break;
+			case 2:
+				printf("Test \"%s\": ACCEPTED\n", descr);
+				break;
+			default:
+				printf("Unrecognized return value %d.\n", res);
+		}
 	} else {
 		bpf_prog_load(a, *b);
 	}
+}
+
+// add to core.bc compile command: -Dbpf_prog_select_runtime=bpf_prog_select_runtime_orig -Dbpf_prog_kallsyms_del_all=bpf_prog_kallsyms_del_all_orig
+void bpf_prog_kallsyms_del_all(struct bpf_prog *fp) {
+	__bpf_prog_free(fp);
+	longjmp(env_buffer, 1);
+}
+void bpf_prog_select_runtime(struct bpf_prog *fp, int *err) {
+	__bpf_prog_free(fp);
+	longjmp(env_buffer, 2);
 }
 
 // stubbed out (decl as extern in "slab.h")
@@ -43,18 +62,6 @@ void kcalloc(void) { abort(); }
 void kmalloc_array(void) { abort(); }
 void krealloc_array(void) { abort(); }
 void kmalloc_node(void) { abort(); }
-
-// add to core.bc compile command: -Dbpf_prog_select_runtime=bpf_prog_select_runtime_orig -Dbpf_prog_kallsyms_del_all=bpf_prog_kallsyms_del_all_orig
-void bpf_prog_kallsyms_del_all(struct bpf_prog *fp) {
-	printf("Finished bpf_check with an error\n");
-	__bpf_prog_free(fp);
-	longjmp(env_buffer, 1);
-}
-void bpf_prog_select_runtime(struct bpf_prog *fp, int *err) {
-	__bpf_prog_free(fp);
-	printf("Finished bpf_check without error\n");
-	longjmp(env_buffer, 2);
-}
 
 
 // // I only see this called twice in bpf_check --> just seems to be timing the
