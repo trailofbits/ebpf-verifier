@@ -8,9 +8,19 @@
 extern int bpf_prog_load(union bpf_attr *, bpfptr_t);
 jmp_buf env_buffer;
 
-void test(union bpf_attr *a, bpfptr_t *b) {
-  if (setjmp(env_buffer) != 0) {
-		return;
+void test(union bpf_attr *a, bpfptr_t *b, char * descr ) {
+	int res = setjmp(env_buffer);
+	if (res != 0) {
+		switch (res) {
+			case 1:
+				printf("Test \"%s\": REJECTED\n", descr);
+				break;
+			case 2:
+				printf("Test \"%s\": ACCEPTED\n", descr);
+				break;
+			default:
+				printf("Unrecognized return value %d.\n", res);
+		}
 	} else {
 		bpf_prog_load(a, *b);
 	}
@@ -18,17 +28,14 @@ void test(union bpf_attr *a, bpfptr_t *b) {
 
 // add to core.bc compile command: -Dbpf_prog_select_runtime=bpf_prog_select_runtime_orig -Dbpf_prog_kallsyms_del_all=bpf_prog_kallsyms_del_all_orig
 void bpf_prog_kallsyms_del_all(struct bpf_prog *fp) {
-	//printf("Finished bpf_check with an error\n");
 	__bpf_prog_free(fp);
 	longjmp(env_buffer, 1);
 }
 void bpf_prog_select_runtime(struct bpf_prog *fp, int *err) {
 	__bpf_prog_free(fp);
-	//printf("Finished bpf_check without error\n");
 	longjmp(env_buffer, 2);
 }
 
-// For slab.h
 // stubbed out (decl as extern in "slab.h")
 // TODO: some implemented may never be used
 // some unimplemented may sometimes be used
