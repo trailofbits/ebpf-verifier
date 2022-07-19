@@ -14,7 +14,7 @@ bitcode:
 
 
 # build harness
-harness: $(KERNEL) runtime.c ../runtime.h ../main.c
+harness: $(KERNEL) runtime.c ../test.h ../main.c
 	cd $(EBPF) && \
 	make harness_$(KVERSION)
 

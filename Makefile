@@ -26,7 +26,8 @@ harness_%: $(KERNEL)% %/clang_cmds.sh %/bitcode_files.txt
 	clang \
 	-I $(KERNEL)$*/usr/include/ \
 	$(shell cat $*/$(BC_FILE)) \
-	-include $(EBPF)/runtime.h \
+	-include $(EBPF)/test.h \
+	$(EBPF)/test.c \
 	$(EBPF)/$*/runtime.c \
 	$(EBPF)/main.c \
 	-mcmodel=large \
