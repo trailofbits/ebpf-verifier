@@ -13,7 +13,6 @@ typedef struct {
 } sockptr_t;
 
 typedef sockptr_t bpfptr_t;
-static jmp_buf env_buffer;
 
 void test(union bpf_attr *, bpfptr_t *, char *);
 

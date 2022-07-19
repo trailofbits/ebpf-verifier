@@ -1,22 +1,11 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <time.h>
-#include <setjmp.h>
+
 // TODO: modify this so that custom capabilities can be specified
 // and so that we can record what functions are asking about which
 // capabilities.
 bool capable(int cap) { return true; } // always true for test harness
-
-
-// add to core.bc compile command: -Dbpf_prog_select_runtime=bpf_prog_select_runtime_orig -Dbpf_prog_kallsyms_del_all=bpf_prog_kallsyms_del_all_orig
-void bpf_prog_kallsyms_del_all(struct bpf_prog *fp) {
-	__bpf_prog_free(fp);
-	longjmp(env_buffer, 1); // REJECTED
-}
-void bpf_prog_select_runtime(struct bpf_prog *fp, int *err) {
-	__bpf_prog_free(fp);
-	longjmp(env_buffer, 2); // ACCEPTED
-}
 
 // originally from /include/linux/slab.h
 // stubbed out (decl as extern in "slab.h")
