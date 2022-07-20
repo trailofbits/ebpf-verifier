@@ -6,3 +6,4 @@ harness*
 link_errors/error_output_raw.txt
 link_errors/func_decls.txt
 link_errors/func_names.txt
+hello-bpf/libbpf/*

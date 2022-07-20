@@ -35,6 +35,22 @@ harness_%: $(KERNEL)% %/clang_cmds.sh %/bitcode_files.txt
 	-fdebug-default-version=4 \
 	-o $(EBPF)/$*/harness
 
+hello_%: $(KERNEL)% %/clang_cmds.sh %/bitcode_files.txt
+	cd $< && \
+	clang \
+	-I $(KERNEL)$*/usr/include/ \
+	-I $(KERNEL)$*/tools/lib/ \
+	$(shell cat $*/$(BC_FILE)) \
+	-include $(EBPF)/test.h \
+	$(EBPF)/test.c \
+	$(EBPF)/$*/runtime.c \
+	$(EBPF)/hello-ebpf/hello.c \
+	$(EBPF)/hello-ebpf/libbpf/build/libbpf.a \
+	-mcmodel=large \
+	-g -O0 -v \
+	-fdebug-default-version=4 \
+	-o $(EBPF)/hello-ebpf/hello
+
 link_errors_%:
 	-rm $(EBPF)/link_errors/error_output_raw.txt
 	touch $(EBPF)/link_errors/error_output_raw.txt
