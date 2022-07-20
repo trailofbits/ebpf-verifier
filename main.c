@@ -83,8 +83,13 @@ int main() {
 	b->user = NULL;
 
 	test(a, b, "hot test");
+<<<<<<< HEAD
 
 	printf("%s", (char *) a->log_buf);
+=======
+	test(a, b, "hot test two");
+
+>>>>>>> minor changes
 
 	free(b);
 	free(a);
