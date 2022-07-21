@@ -7,3 +7,6 @@ link_errors/error_output_raw.txt
 link_errors/func_decls.txt
 link_errors/func_names.txt
 hello-bpf/libbpf/*
+sample/src/minimal
+sample/src/*.o
+sample/src/*.skel.h
