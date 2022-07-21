@@ -35,6 +35,7 @@ harness_%: $(KERNEL)% %/clang_cmds.sh %/bitcode_files.txt
 	-fdebug-default-version=4 \
 	-o $(EBPF)/$*/harness
 
+# attempt to compile example program and call test from it.
 hello_%: $(KERNEL)% %/clang_cmds.sh %/bitcode_files.txt
 	cd $< && \
 	clang \
