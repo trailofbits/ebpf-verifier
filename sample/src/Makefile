@@ -44,7 +44,7 @@ INCLUDES := -I$(KERNEL)/tools/lib/ -I$(KERNEL)/usr/include/ -I$(dir $(VMLINUX))
 CFLAGS := -g -Wall
 ALL_LDFLAGS := $(LDFLAGS) $(EXTRA_LDFLAGS)
 
-APPS = minimal
+APPS = minimal trivial
 
 .PHONY: all
 all: $(APPS)
@@ -60,7 +60,7 @@ clean:
 %.bpf.o: %.bpf.c $(LIBBPF_OBJ) $(wildcard %.h) $(VMLINUX)
 	$(call msg,BPF,$@)
 	$(Q)$(CLANG) -g -O2 -target bpf -D__TARGET_ARCH_$(ARCH) $(INCLUDES) $(CLANG_BPF_SYS_INCLUDES) -c $(filter %.c,$^) -o $@
-	$(Q)$(LLVM_STRIP) -g $@ # strip useless DWARF info
+	$(Q)$(LLVM_STRIP) -g $@
 
 
 # Generate BPF skeletons
@@ -82,4 +82,5 @@ $(APPS): %: %.o $(LIBBPF_OBJ)
 	$(Q)$(CC) $(CFLAGS) $^ $(ALL_LDFLAGS) -lelf -lz -o $@
 
 # delete failed targets
-.DELETE_ON_ERROR:
+# .DELETE_ON_ERROR:
+.SECONDARY:
