@@ -1,5 +1,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <string.h>
 #include <time.h>
 
 // TODO: modify this so that custom capabilities can be specified
@@ -74,11 +77,59 @@ void free_percpu(void * ptr) { free(ptr); }
 // originally a macro in include/linux/mutex.h
 void __mutex_init(void) { return; }
 
+// TODO: any need for real locks when verifying within harness?
+void mutex_lock(void) { return; }
+void mutex_unlock(void) { return; }
+
 // originally decl in include/linux/security.h
 int security_bpf_prog_alloc(struct bpf_prog_aux *aux) { return 0; }
 
 // include/linux/cred.h
 struct user_struct *get_current_user() { return NULL; }
+
+// orig. in lib/vsprintf.c
+int vscnprintf(char *buf, size_t size, const char *fmt, va_list args) { return snprintf(buf, size, fmt, args); }
+
+int _printk(const char *fmt, ...) {
+	char buf[10];
+	va_list args;
+	va_start(args, fmt);
+	// int x = strlen(fmt);
+	char fmt_buf [100];
+	// strcpy(fmt_buf, "%d: ");
+	// strcpy(fmt_buf + 4, fmt)
+	// memcpy(fmt_buf, "%d: ", 4);
+	memcpy(fmt_buf, fmt + 2, 96);
+	printf(fmt_buf, args[0], args[1]);
+	int n =  snprintf(buf, 10, fmt_buf, args);
+	va_end(args);
+	if (n < 0) abort();
+	return n;
+} // TODO: actuall implement logging.
+
+
+// TODO: deal with this appropriately. Caused by includeing kernel/ksysfs.bc
+void crash_get_memory_size(void) { abort(); } // TODO --> autogened
+void crash_shrink_memory(void) { abort(); } // TODO --> autogened
+void create_proc_profile(void) { abort(); } // TODO --> autogened
+void file_caps_enabled(void) { abort(); } // TODO --> autogened
+void kexec_crash_loaded(void) { abort(); } // TODO --> autogened
+void kexec_image(void) { abort(); } // TODO --> autogened
+void kobject_create_and_add(void) { abort(); } // TODO --> autogened
+void kobject_put(void) { abort(); } // TODO --> autogened
+void kstrtoint(void) { abort(); } // TODO --> autogened
+void kstrtoull(void) { abort(); } // TODO --> autogened
+void paddr_vmcoreinfo_note(void) { abort(); } // TODO --> autogened
+void prof_on(void) { abort(); } // TODO --> autogened
+void profile_init(void) { abort(); } // TODO --> autogened
+void profile_setup(void) { abort(); } // TODO --> autogened
+void register_module_notifier(void) { abort(); } // TODO --> autogened
+void sysfs_create_bin_file(void) { abort(); } // TODO --> autogened
+void sysfs_create_group(void) { abort(); } // TODO --> autogened
+void sysfs_remove_bin_file(void) { abort(); } // TODO --> autogened
+void sysfs_remove_group(void) { abort(); } // TODO --> autogened
+void try_module_get(void) { abort(); } // TODO --> autogened
+void uevent_seqnum(void) { abort(); } // TODO --> autogened
 
 
 
@@ -125,7 +176,6 @@ void __xdp_return(void) { abort(); }
 void _ctype(void) { abort(); }
 void _parse_integer(void) { abort(); }
 void _parse_integer_fixup_radix(void) { abort(); }
-void _printk(void) { abort(); }
 void _raw_spin_lock(void) { abort(); }
 void _raw_spin_lock_bh(void) { abort(); }
 void _raw_spin_lock_irqsave(void) { abort(); }
@@ -323,8 +373,6 @@ void module_alloc(void) { abort(); }
 void module_memfree(void) { abort(); }
 void module_put(void) { abort(); }
 void msg_zerocopy_callback(void) { abort(); }
-void mutex_lock(void) { abort(); }
-void mutex_unlock(void) { abort(); }
 void net_ratelimit(void) { abort(); }
 void netdev_core_stats_alloc(void) { abort(); }
 void netdev_master_upper_dev_get_rcu(void) { abort(); }
@@ -430,6 +478,5 @@ void trie_map_ops(void) { abort(); }
 void udp_table(void) { abort(); }
 void vabits_actual(void) { abort(); }
 void vmemdup_user(void) { abort(); }
-void vscnprintf(void) { abort(); }
 void xdp_convert_zc_to_xdp_frame(void) { abort(); }
 void xdp_warn(void) { abort(); }

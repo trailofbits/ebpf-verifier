@@ -1,3 +1,4 @@
+kernel/bpf/sysfs_btf.bc
 kernel/bpf/btf.bc
 kernel/bpf/tnum.bc
 kernel/bpf/disasm.bc
@@ -5,6 +6,7 @@ kernel/bpf/core.bc
 kernel/bpf/helpers.bc
 kernel/bpf/verifier.bc
 kernel/bpf/syscall.bc
+kernel/ksysfs.bc
 lib/string.bc
 lib/sha1.bc
 net/core/filter.bc

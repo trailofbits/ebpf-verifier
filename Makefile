@@ -36,7 +36,7 @@ harness_%: $(KERNEL)% %/clang_cmds.sh %/bitcode_files.txt
 	-o $(EBPF)/$*/harness
 
 link_errors_%:
-	rm $(EBPF)/link_errors/error_output_raw.txt
+	-rm $(EBPF)/link_errors/error_output_raw.txt
 	touch $(EBPF)/link_errors/error_output_raw.txt
 	-make harness_$* 2> $(EBPF)/link_errors/error_output_raw.txt
 	cd $(EBPF)/link_errors && \

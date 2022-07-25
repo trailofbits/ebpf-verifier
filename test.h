@@ -2,7 +2,6 @@
 #define _TEST_H
 #include <linux/bpf.h> // make sure this links to the correct one when compiling
 #include <stdbool.h>
-#include <setjmp.h>
 
 typedef struct {
 	union {
