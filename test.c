@@ -1,5 +1,8 @@
+#include <setjmp.h>
+
 // TODO: split testing functions out to a separate file.
 extern int bpf_prog_load(union bpf_attr *, bpfptr_t);
+extern void __bpf_prog_free(struct bpf_prog *);
 
 static jmp_buf env_buffer;
 
