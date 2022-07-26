@@ -1,3 +1,4 @@
+#include <limits.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdarg.h>
@@ -90,24 +91,9 @@ struct user_struct *get_current_user() { return NULL; }
 // orig. in lib/vsprintf.c
 int vscnprintf(char *buf, size_t size, const char *fmt, va_list args) { return snprintf(buf, size, fmt, args); }
 
-// int _printk(const char *fmt, ...) {
-// 	char buf[10];
-// 	va_list args;
-// 	va_start(args, fmt);
-// 	// int x = strlen(fmt);
-// 	char fmt_buf [100];
-// 	// strcpy(fmt_buf, "%d: ");
-// 	// strcpy(fmt_buf + 4, fmt)
-// 	// memcpy(fmt_buf, "%d: ", 4);
-// 	memcpy(fmt_buf, fmt + 2, 96);
-// 	printf(fmt_buf, args[0], args[1]);
-// 	int n =  snprintf(buf, 10, fmt_buf, args);
-// 	va_end(args);
-// 	if (n < 0) abort();
-// 	return n;
-// } // TODO: actuall implement logging.
-
 void _printk(void) { abort(); }
+
+
 
 
 // TODO: deal with this appropriately. Caused by includeing kernel/ksysfs.bc

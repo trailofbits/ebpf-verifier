@@ -4,6 +4,7 @@
 #include <stdbool.h>
 
 extern size_t strlcpy(char *, const char *, size_t);
+extern int printf(const char *fmt, ...);
 
 #define MAX_INSNS	BPF_MAXINSNS
 
@@ -68,6 +69,13 @@ int main() {
 	a->insns = (__u64) (unsigned long) insns;
 	a->insn_cnt = (__u32) insn_cnt;
 
+	a->log_level = 4;
+	a->log_size = 1024;
+	a->log_buf = (__u64) malloc(1024);
+	if (!a->log_buf) {
+		return -1;
+	}
+
 	// what is uattr supposed to point to for bpf_prog_load?
   bpfptr_t * b = (bpfptr_t *) malloc(sizeof(bpfptr_t));
 	b->is_kernel = true;
@@ -75,7 +83,9 @@ int main() {
 	b->user = NULL;
 
 	test(a, b, "hot test");
-	test(a, b, "hot test two");
+
+	printf("%s", (char *) a->log_buf);
+
 	free(b);
 	free(a);
 
