@@ -18,10 +18,10 @@
 # Substitue bpf_object__load_skeleton with custom __bpf_object__load_skeleton:
 
 stub:
-	clang -I/home/parallels/clang_compiled/linux-5.18.8/tools/lib test.c -o test.o -c && llvm-strip -g test.o
-	llvm-strip -g test.o
+	clang -I/home/parallels/clang_compiled/linux-5.18.8/tools/lib minimal.c -o minimal.o -c && llvm-strip -g minimal.o
+	llvm-strip -g minimal.o
 	clang -g -Wall -I/home/parallels/clang_compiled/linux-5.18.8/tools/lib -I/home/parallels/clang_compiled/linux-5.18.8/usr/include/ -I/home/parallels/clang_compiled/linux-5.18.8/ -c minimal.c -o minimal.o
-	clang -g -Wall minimal.o /home/parallels/clang_compiled/linux-5.18.8/tools/lib/bpf/libbpf.a test.o -lelf -lz -o minimal
+	clang -g -Wall /home/parallels/clang_compiled/linux-5.18.8/tools/lib/bpf/libbpf.a minimal.o -lelf -lz -o minimal
 
 
 
