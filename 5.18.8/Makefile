@@ -1,6 +1,7 @@
 KVERSION = 5.18.8
 
 EBPF = $(HOME)/ebpf-verifier
+SRC = $(EBPF)/src
 
 # generate clang_cmds.sh
 clang_cmds:
@@ -14,7 +15,7 @@ bitcode:
 
 
 # build harness
-harness: $(KERNEL) runtime.c ../test.h ../main.c
+harness: $(KERNEL) runtime.c $(SRC)/test.h $(SRC)/main.c
 	cd $(EBPF) && \
 	make harness_$(KVERSION)
 
