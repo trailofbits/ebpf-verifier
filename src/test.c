@@ -6,7 +6,7 @@ extern void __bpf_prog_free(struct bpf_prog *);
 
 static jmp_buf env_buffer;
 
-void test(union bpf_attr *a, bpfptr_t *b, char * descr ) {
+int test(union bpf_attr *a, bpfptr_t *b, char * descr ) {
 	int res = setjmp(env_buffer);
 	if (res != 0) {
 		switch (res) {
@@ -20,8 +20,9 @@ void test(union bpf_attr *a, bpfptr_t *b, char * descr ) {
 				printf("Unrecognized return value %d.\n", res);
 		}
 	} else {
-		bpf_prog_load(a, *b);
+		return bpf_prog_load(a, *b);
 	}
+	return 7; // TODO: return and end behavior of test is going to need to be redone.
 }
 
 // first functions called in verifier.c (within bpf_check) after completing verification

@@ -94,6 +94,15 @@ def main():
       if output_file == "kernel/bpf/core.bc":
         new_cmd += " -Dbpf_prog_select_runtime=bpf_prog_select_runtime_orig -Dbpf_prog_kallsyms_del_all=bpf_prog_kallsyms_del_all_orig "
 
+      libbpf = True
+      if output_file == "kernel/bpf/btf.bc" and libbpf:
+        print("modifing btf.bc for libbpf. change script if running old harness.")
+        new_cmd += " -Dbtf_parse_vmlinux=btf_parse_vmlinux_og "
+      if output_file == "kernel/bpf/verifier.bc" and libbpf:
+        new_cmd += " -Dbtf_parse_vmlinux=btf__load_vmlinux_btf "
+      # if output_file == "kernel/bpf/syscall.bc" and libbpf:
+      #   new_cmd = new_cmd.replace("Og", "O0")
+
       new_cmd += new_suffix
 
       final_commands.append(new_cmd)
