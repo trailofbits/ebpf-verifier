@@ -68,8 +68,6 @@ $(APPS)-reg: %-reg : $(SRC)/%.c $(REGLIBBPF) $(SRC)/%.skel.h $(BIN)/%.bpf.o
 	$(CC) $(CFLAGS) $(INCLUDES) $(SRC)/$*.c \
 	$(REGLIBBPF) -lelf -lz -o $(BIN)/$@
 
-
-
 # build harness
 harness_%: $(KERNEL)% %/clang_cmds.sh %/bitcode_files.txt
 	cd $< && \
