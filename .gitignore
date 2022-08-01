@@ -6,7 +6,8 @@ harness*
 link_errors/error_output_raw.txt
 link_errors/func_decls.txt
 link_errors/func_names.txt
-bin/*
+*/bin/*
 **.o
 **.skel.h
 linux-5.18.8
+

@@ -12,7 +12,8 @@ from os.path import isfile, join
 def main():
   parser = argparse.ArgumentParser()
   parser.add_argument("-S","--emit_ir", help="emit llvm IR instead of bitcode", action="store_true")
-  parser.add_argument("-B","--bitcode_files", help="file with list of bitcode files needed", action="store", dest="bitcode_files")
+  parser.add_argument("-B", "--emit_bc", help="emit llvm bitcode instead of machine code", action="store_true")
+  parser.add_argument("-K","--kernel_files", help="file with list of kernel src files needed", action="store", dest="kernel_src_files")
   parser.add_argument("-H","--included_headers", help="file with list of headers needed when making bitcode files", action="store", dest="included_headers")
   parser.add_argument("-O","--output_file", help="where to write compile commands", action="store", dest="output_file")
 
@@ -27,8 +28,8 @@ def main():
   include_header_file = open(args.included_headers)
   headers = include_header_file.readlines()
 
-  bf = open(args.bitcode_files)
-  bfs = bf.readlines()
+  kf = open(args.kernel_src_files)
+  kfs = kf.readlines()
 
   f = open(path_to_compile_commands)
   raw_commands = json.loads(f.read())
@@ -46,26 +47,19 @@ def main():
     if (args.emit_ir):
       output_file = suff_list[2][:-1] + "ll"
       new_suffix = "-emit-llvm -S -o " + output_file + " " + suff_list[3]
-    else:
+    elif args.emit_bc:
       # for llvm bitcode (-c)
       output_file = suff_list[2][:-1] + "bc"
       new_suffix = "-emit-llvm -c -o " + output_file + " " + suff_list[3]
+    else: # regular object files
+      output_file = suff_list[2][:-1] + "o"
+      new_suffix = "-c -o " + output_file + " " + suff_list[3] # this is redundant
 
     first_I = prefix.find("-I")
     new_cmd = prefix[0:first_I]
 
-    # new_cmd += " -I ../../ebpf-verifier/ "
-
-
-    if output_file + "\n" in bfs:
-      # path = "../../ebpf-verifier/asm_stubs"
-      # asm_stub_files = [f for f in listdir(path) if isfile(join(path, f))]
-      # for f in asm_stub_files:
-      #   new_cmd += " -include ../../ebpf-verifier/asm_stubs/" + f + " "
-
-      # new_cmd += "-include ../../ebpf-verifier/asm_stubs.h " + prefix[first_I:]
+    if output_file + "\n" in kfs:
       new_cmd += prefix[first_I:]
-
 
       include_prefix = " -include /home/parallels/ebpf-verifier/header_stubs/linux/"
 
@@ -91,29 +85,26 @@ def main():
       new_cmd += " -g "
       #new_cmd += " -v "
       new_cmd += " -fdebug-default-version=4 " # otherwise valgrind doesn't understand
-      if output_file == "kernel/bpf/core.bc":
+      if output_file == "kernel/bpf/core.o":
         new_cmd += " -Dbpf_prog_select_runtime=bpf_prog_select_runtime_orig -Dbpf_prog_kallsyms_del_all=bpf_prog_kallsyms_del_all_orig "
 
       libbpf = True
-      if output_file == "kernel/bpf/btf.bc" and libbpf:
-        print("modifing btf.bc for libbpf. change script if running old harness.")
+      if output_file == "kernel/bpf/btf.o" and libbpf:
+        print("modifing btf.o for libbpf. change script if running old harness.")
         new_cmd += " -Dbtf_parse_vmlinux=btf_parse_vmlinux_og "
-      if output_file == "kernel/bpf/verifier.bc" and libbpf:
+      if output_file == "kernel/bpf/verifier.o" and libbpf:
         new_cmd += " -Dbtf_parse_vmlinux=btf__load_vmlinux_btf "
-      # if output_file == "kernel/bpf/syscall.bc" and libbpf:
-      #   new_cmd = new_cmd.replace("Og", "O0")
 
       new_cmd += new_suffix
+      new_cmd += " -mcmodel=large "
 
       final_commands.append(new_cmd)
       output_filef.write(new_cmd)
       output_filef.write("\n")
 
-
-
   output_filef.close()
 
-  print("Sucessfully found", len(final_commands), " commands out of ", len(bfs))
+  print("Sucessfully found", len(final_commands), " commands out of ", len(kfs))
 
 if __name__ == "__main__":
     main()
