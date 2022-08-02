@@ -1,33 +1,26 @@
 KVERSION = 5.15
 
-EBPF = $(HOME)/ebpf-verifier
+EBPF := $(HOME)/ebpf-verifier
+CURR := $(EBPF)/$(KVERSION)
+SRC := $(EBPF)/src
 
 # generate clang_cmds.sh
-clang_cmds:
+clang_cmds.sh:
 	cd $(EBPF) && \
-	make clang_cmds_$(KVERSION)
+	make $(EBPF)/$(KVERSION)/$@
 
-# run clang_cmds.sh
-bitcode:
+# run clang_cmds.sh and generate kernel library
+kernel.a: clang_cmds.sh
 	cd $(EBPF) && \
-	make bitcode_$(KVERSION)
+	make $(CURR)/$@
 
-
-# build harness
-harness: $(KERNEL)
+%:
 	cd $(EBPF) && \
-	make harness_$(KVERSION)
+	make $@ KV=$(KVERSION)
 
-# just bitcode and harness (existing clang cmds)
-test:
-	make bitcode
-	make harness
-
-all:
-	make clang_cmds
-	make bitcode
-	make harness
 
 clean:
-	rm -f harness
 	rm -f clang_cmds.sh
+	rm -f kernel.a
+	rm -f kernel.o
+	rm bin/*

@@ -1,34 +1,37 @@
 KERNEL_VERSIONS = 5.18.8 5.15.51 5.15
 
-BC_FILE=bitcode_files.txt
+# defaults to this kernel version, but can be specifed on cmd line
+KV ?=5.18.8
 
-KERNEL = $(HOME)/clang_compiled/linux-
+
+KFILES=kernel_src_files.txt
+
+# kernel src directory
+KERNEL = $(HOME)/clang_compiled/linux-$(KV)
+
+# harness directory
 EBPF = $(HOME)/ebpf-verifier
-BIN = $(EBPF)/bin
+
+BIN = $(EBPF)/$(KV)/bin
 SRC = $(EBPF)/src
-
-# generate clang_cmds.sh
-clang_cmds_%: $(KERNEL)% %/bitcode_files.txt %/included_headers.txt
-	cd $< && \
-	python3 $(EBPF)/scripts/clang_cmds.py \
-	-B $(EBPF)/$*/bitcode_files.txt \
-	-H $(EBPF)/$*/included_headers.txt \
-	-O $(EBPF)/$*/clang_cmds.sh
-	chmod +x $*/clang_cmds.sh
-
-# run clang_cmds.sh
-bitcode_%: $(KERNEL)% %/clang_cmds.sh
-	cd $< && \
-	$(EBPF)/$*/clang_cmds.sh
-
 # build libbpf hooked into harness
 LIBBPF := libbpf.a
 REGLIBBPF := reg_libbpf.a
 VMLINUX := vmlinux.h
-INCLUDES := -I$(KERNEL)5.18.8/tools/lib/ -I$(KERNEL)5.18.8/usr/include/ -iquote.
+INCLUDES := -I$(KERNEL)/tools/lib/ -I$(KERNEL)/usr/include/ -iquote.
 CC := clang
 CFLAGS := -g -O2 -fdebug-default-version=4
+
 APPS := sample
+
+# generate clang_cmds.sh
+$(EBPF)/%/clang_cmds.sh: $(KERNEL) %/$(KFILES) %/included_headers.txt
+	cd $< && \
+	python3 $(EBPF)/scripts/clang_cmds.py \
+	-K $(EBPF)/$*/kernel_src_files.txt \
+	-H $(EBPF)/$*/included_headers.txt \
+	-O $(EBPF)/$*/clang_cmds.sh
+	chmod +x $*/clang_cmds.sh
 
 #ARCH???
 # generate bpf bytecode
@@ -40,65 +43,35 @@ $(BIN)/%.bpf.o: $(SRC)/%.bpf.c $(LIBBPF) $(VMLINUX)
 $(SRC)/%.skel.h: $(BIN)/%.bpf.o
 	bpftool gen skeleton $< > $@
 
-# generate bpf loader executable
-$(APPS): % : $(SRC)/%.c $(LIBBPF) $(SRC)/%.skel.h $(BIN)/%.bpf.o
+objs_%: $(EBPF)/%/clang_cmds.sh $(KERNEL)
+	cd $(KERNEL) && \
+	$<
+
+$(EBPF)/%/kernel.o: $(KERNEL) objs_%
+	cd $< && \
+	ld.lld -r -o $@ \
+	$(shell cat $(EBPF)/$*/$(KFILES))
+
+$(EBPF)/%/kernel.a: $(EBPF)/%/kernel.o
+	llvm-ar rcs $@ $<
+
+# generate bpf loader executable (will call into my_syscall)
+$(APPS): % : $(SRC)/%.c $(LIBBPF) $(SRC)/%.skel.h $(EBPF)/$(KV)/kernel.a
 	$(CC) $(CFLAGS) $(INCLUDES) \
 	-include $(SRC)/test.h \
-	$(KERNEL)5.18.8/kernel/bpf/sysfs_btf.bc \
-	$(KERNEL)5.18.8/kernel/bpf/btf.bc \
-	$(KERNEL)5.18.8/kernel/bpf/tnum.bc  \
-	$(KERNEL)5.18.8/kernel/bpf/disasm.bc \
-	$(KERNEL)5.18.8/kernel/bpf/core.bc \
-	$(KERNEL)5.18.8/kernel/bpf/helpers.bc \
-	$(KERNEL)5.18.8/kernel/bpf/verifier.bc \
-	$(KERNEL)5.18.8/kernel/bpf/syscall.bc \
-	$(KERNEL)5.18.8/kernel/ksysfs.bc \
-	$(KERNEL)5.18.8/lib/string.bc \
-	$(KERNEL)5.18.8/lib/sha1.bc \
-	$(KERNEL)5.18.8/net/core/filter.bc \
-	$(KERNEL)5.18.8/lib/sort.bc \
-	$(SRC)/test.c 5.18.8/runtime.c \
 	$(SRC)/my_syscall.c \
 	$(SRC)/$@.c \
+	$(SRC)/test.c \
+	$(KV)/runtime.c \
 	$(LIBBPF) -lelf -lz \
+	$(EBPF)/$(KV)/kernel.a \
 	-o $(BIN)/$@ \
 	-mcmodel=large
 
+# generate bpf loader executable using standard libbpf (will make actual syscalls)
 $(APPS)-reg: %-reg : $(SRC)/%.c $(REGLIBBPF) $(SRC)/%.skel.h $(BIN)/%.bpf.o
 	$(CC) $(CFLAGS) $(INCLUDES) $(SRC)/$*.c \
 	$(REGLIBBPF) -lelf -lz -o $(BIN)/$@
-
-# build harness
-harness_%: $(KERNEL)% %/clang_cmds.sh %/bitcode_files.txt
-	cd $< && \
-	clang \
-	-I $(KERNEL)$*/usr/include/ \
-	$(shell cat $*/$(BC_FILE)) \
-	-include $(SRC)/test.h \
-	$(SRC)/test.c \
-	$(EBPF)/$*/runtime.c \
-	$(SRC)/main.c \
-	-mcmodel=large \
-	-g -O0 -v \
-	-fdebug-default-version=4 \
-	-o $(EBPF)/$*/harness
-
-link_errors_%:
-	-rm $(EBPF)/link_errors/error_output_raw.txt
-	touch $(EBPF)/link_errors/error_output_raw.txt
-	-make harness_$* 2> $(EBPF)/link_errors/error_output_raw.txt
-	cd $(EBPF)/link_errors && \
-	pwd && \
-	python3 scripts/get_info.py
-	cat link_errors/func_decls.txt
-
-implicit_defs_%:
-	touch $(EBPF)/scripts/raw.txt
-	-make bitcode_$* 2> $(EBPF)/scripts/raw.txt
-	cd $(EBPF)/scripts && \
-	python3 implicit_def_scraper.py
-	rm $(EBPF)/scripts/raw.txt
-
 
 build-all:
 	for dir in $(KERNEL_VERSIONS) ; do \
@@ -111,4 +84,3 @@ clean-all:
 		cd $$dir && make clean ; \
 		cd .. ; \
 	done
-	rm $(BIN)/*
