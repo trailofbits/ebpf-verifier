@@ -1,0 +1,3 @@
+[submodule "linux/src"]
+	path = linux/src
+	url = https://github.com/torvalds/linux
