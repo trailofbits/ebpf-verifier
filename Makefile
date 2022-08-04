@@ -58,10 +58,8 @@ $(EBPF)/%/kernel.a: $(EBPF)/%/kernel.o
 # generate bpf loader executable (will call into my_syscall)
 $(APPS): % : $(SRC)/%.c $(LIBBPF) $(SRC)/%.skel.h $(EBPF)/$(KV)/kernel.a
 	$(CC) $(CFLAGS) $(INCLUDES) \
-	-include $(SRC)/test.h \
 	$(SRC)/my_syscall.c \
 	$(SRC)/$@.c \
-	$(SRC)/test.c \
 	$(KV)/runtime.c \
 	$(LIBBPF) -lelf -lz \
 	$(EBPF)/$(KV)/kernel.a \

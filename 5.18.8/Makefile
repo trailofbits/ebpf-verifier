@@ -7,7 +7,7 @@ SRC := $(EBPF)/src
 # generate clang_cmds.sh
 clang_cmds.sh:
 	cd $(EBPF) && \
-	make clang_cmds_$(KVERSION)
+	make $(CURR)/clang_cmds.sh
 
 # run clang_cmds.sh and generate kernel library
 kernel.a: clang_cmds.sh
