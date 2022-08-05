@@ -17,6 +17,11 @@ target_compile_definitions("target_placeholder" PRIVATE
   "TEST=1"
 )
 
+target_include_directories("target_placeholder" PRIVATE
+  "${src_root}/include"
+  "${src_root}/include/uapi"
+)
+
 # Submodule manager
 find_package(Git REQUIRED)
 
