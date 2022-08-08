@@ -1,8 +1,10 @@
 set(src_root "${CMAKE_CURRENT_SOURCE_DIR}/src")
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # TODO: To be filled; remove the EXCLUDE_FROM_ALL when done
 set("target_placeholder_source_list"
   ${src_root}/kernel/bpf/core.c
+
 )
 
 add_library("target_placeholder" EXCLUDE_FROM_ALL
@@ -21,6 +23,24 @@ target_include_directories("target_placeholder" PRIVATE
   "${src_root}/include"
   "${src_root}/include/uapi"
 )
+
+# build necessary source files
+set("source_list"
+  ${src_root}/kernel/bpf/sysfs_btf.o
+  ${src_root}/kernel/bpf/btf.o
+  ${src_root}/kernel/bpf/tnum.o
+  ${src_root}/kernel/bpf/disasm.o
+  ${src_root}/kernel/bpf/core.o
+  ${src_root}/kernel/bpf/helpers.o
+  ${src_root}/kernel/bpf/verifier.o
+  ${src_root}/kernel/bpf/syscall.o
+  ${src_root}/kernel/ksysfs.o
+  ${src_root}/lib/string.o
+  ${src_root}/lib/sha1.o
+  ${src_root}/net/core/filter.o
+  ${src_root}/lib/sort.o
+)
+
 
 # Submodule manager
 find_package(Git REQUIRED)
@@ -49,7 +69,7 @@ add_custom_command(
   DEPENDS "linux_submodule_initializer"
   WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src"
   VERBATIM
-  
+
 )
 
 add_custom_target("linux_submodule_updater" DEPENDS
