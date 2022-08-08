@@ -5,3 +5,4 @@ include("cmake/options.cmake")
 include("cmake/settings.cmake")
 
 add_subdirectory("linux")
+add_subdirectory("libbpf")
