@@ -1,16 +1,10 @@
-KERNEL_VERSIONS = 5.18.8 5.15.51 5.15
-
-# defaults to this kernel version, but can be specifed on cmd line
-KV ?=5.18.8
-
-
 KFILES=kernel_src_files.txt
-
-# kernel src directory
-KERNEL = $(HOME)/clang_compiled/linux-$(KV)
 
 # harness directory
 EBPF = $(HOME)/ebpf-verifier
+
+# kernel src directory (git submodule)
+KERNEL = $(EBPF)/linux/src
 
 BIN = $(EBPF)/$(KV)/bin
 SRC = $(EBPF)/src
@@ -24,14 +18,23 @@ CFLAGS := -g -O2 -fdebug-default-version=4
 
 APPS := sample
 
+kernel_object_files:
+	cd $(KERNEL) && \
+	make LLVM=1 $(shell cat $(EBPF)/kernel_src_files.txt)
+
+$(KERNEL)/compile_commands.json: kernel_object_files
+	cd $(KERNEL) && \
+	./scripts/clang-tools/gen_compile_commands.py \
+	$(shell cat $(EBPF)/kernel_src_files.txt)
+
 # generate clang_cmds.sh
-$(EBPF)/%/clang_cmds.sh: $(KERNEL) %/$(KFILES) %/included_headers.txt
-	cd $< && \
+clang_cmds.sh: $(KERNEL) $(KFILES) included_headers.txt $(KERNEL)/compile_commands.json
+	cd $(KERNEL) && \
 	python3 $(EBPF)/scripts/clang_cmds.py \
-	-K $(EBPF)/$*/kernel_src_files.txt \
-	-H $(EBPF)/$*/included_headers.txt \
-	-O $(EBPF)/$*/clang_cmds.sh
-	chmod +x $*/clang_cmds.sh
+	-K $(EBPF)/kernel_src_files.txt \
+	-H $(EBPF)/included_headers.txt \
+	-O $(EBPF)/clang_cmds.sh
+	chmod +x clang_cmds.sh
 
 #ARCH???
 # generate bpf bytecode

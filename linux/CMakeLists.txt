@@ -89,3 +89,20 @@ add_custom_command(
 add_custom_target("linux_submodule_initializer" DEPENDS
   "${linux_root_makefile}"
 )
+
+
+
+set(ebpf "${CMAKE_CURRENT_SOURCE_DIR}/../")
+
+add_custom_command(
+  OUTPUT ${ebpf}/clang_cmds.sh
+  COMMENT "bpfverifier: Generating clang_cmds"
+  COMMAND echo "${BPFVERIFIER_LINUX_VERSION}"
+  WORKING_DIRECTORY ${ebpf}
+  COMMAND make clang_cmds.sh
+  VERBATIM
+)
+
+add_custom_target("clang_cmds" DEPENDS
+  ${ebpf}/clang_cmds.sh
+)
