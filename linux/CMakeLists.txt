@@ -24,22 +24,7 @@ target_include_directories("target_placeholder" PRIVATE
   "${src_root}/include/uapi"
 )
 
-# build necessary source files
-set("source_list"
-  ${src_root}/kernel/bpf/sysfs_btf.o
-  ${src_root}/kernel/bpf/btf.o
-  ${src_root}/kernel/bpf/tnum.o
-  ${src_root}/kernel/bpf/disasm.o
-  ${src_root}/kernel/bpf/core.o
-  ${src_root}/kernel/bpf/helpers.o
-  ${src_root}/kernel/bpf/verifier.o
-  ${src_root}/kernel/bpf/syscall.o
-  ${src_root}/kernel/ksysfs.o
-  ${src_root}/lib/string.o
-  ${src_root}/lib/sha1.o
-  ${src_root}/net/core/filter.o
-  ${src_root}/lib/sort.o
-)
+
 
 
 # Submodule manager
@@ -106,3 +91,5 @@ add_custom_command(
 add_custom_target("clang_cmds" DEPENDS
   ${ebpf}/clang_cmds.sh
 )
+
+add_custom_target(")
