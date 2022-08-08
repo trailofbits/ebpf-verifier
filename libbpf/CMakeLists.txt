@@ -9,3 +9,13 @@ add_custom_target("libbpf_submodule_initializer" DEPENDS
   WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src"
   VERBATIM
 )
+
+# target to make libbpf.a with mods
+add_custom_target("libbpf.a"
+  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src/src"
+  COMMAND make -f ../../Makefile_special
+  VERBATIM
+
+)
+
+# target to make libbpf.a without mods

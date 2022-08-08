@@ -1,11 +1,3 @@
-// // this file will call a libbpf function.
-// #include <bpf/libbpf.h>
-
-// int main() {
-//   libbpf_major_version();
-//   bpf_object__close((void *)0x0);
-//   return 7;
-// }
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>

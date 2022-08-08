@@ -87,3 +87,18 @@ add_custom_command(
 add_custom_target("clang_cmds" DEPENDS
   ${linux_clang_cmds}
 )
+
+set(kernel "${CMAKE_CURRENT_SOURCE_DIR}/kernel.a")
+
+add_custom_command(
+  OUTPUT ${kernel}
+  COMMENT "bpfverifier: Generating kernel.a"
+  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+  COMMAND pwd
+  COMMAND make kernel.a
+)
+
+add_custom_target("kernel"
+DEPENDS ${linux_clang_cmds}
+DEPENDS ${kernel}
+)
