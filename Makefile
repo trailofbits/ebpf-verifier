@@ -15,7 +15,7 @@ KERNEL := $(EBPF)/linux/src
 VMLINUX := $(EBPF)/linux/src/vmlinux.h
 
 # INCLUDES := -I$(KERNEL)/tools/lib/ -I$(KERNEL)/usr/include/ -iquote$(KERNEL)
-INCLUDES := -I$(LIBBPFSRC)/root/usr/include -iquote$(KERNEL)
+INCLUDES := -I$(LIBBPFSRC)/root/usr/include -iquote$(KERNEL)..
 CC := clang
 CFLAGS := -g -O2 -fdebug-default-version=4
 
