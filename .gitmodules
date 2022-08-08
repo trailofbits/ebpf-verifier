@@ -1,3 +1,6 @@
 [submodule "linux/src"]
 	path = linux/src
 	url = https://github.com/torvalds/linux
+[submodule "libbpf/src"]
+	path = libbpf/src
+	url = https://github.com/libbpf/libbpf

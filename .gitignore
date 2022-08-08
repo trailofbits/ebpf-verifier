@@ -11,4 +11,6 @@ link_errors/func_names.txt
 **.skel.h
 linux-5.18.8
 build
-
+bin
+**.a
+linux/src
