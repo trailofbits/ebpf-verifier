@@ -36,3 +36,8 @@ kernel.o: $(KERNEL) objs_%
 
 kernel.a: kernel.o
 	llvm-ar rcs $@ $<
+
+clean:
+	rm -f kernel.a
+	rm -f kernel.o
+	rm -f clang_cmds.sh

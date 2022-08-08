@@ -12,10 +12,10 @@ KARCHIVE := $(EBPF)/linux/kernel.a
 KERNEL := $(EBPF)/linux/src
 
 # TODO: currently using my vmlinux.h generated from my /sys/kernel/btf/vmlinux
-VMLINUX := $(EBPF)/linux/src/vmlinux.h
+VMLINUX := $(EBPF)/linux/vmlinux.h
 
 # INCLUDES := -I$(KERNEL)/tools/lib/ -I$(KERNEL)/usr/include/ -iquote$(KERNEL)
-INCLUDES := -I$(LIBBPFSRC)/root/usr/include -iquote$(KERNEL)..
+INCLUDES := -I$(LIBBPFSRC)/root/usr/include -iquote$(KERNEL)/../
 CC := clang
 CFLAGS := -g -O2 -fdebug-default-version=4
 
@@ -46,3 +46,6 @@ $(APPS): % : $(SRC)/%.c $(LIBBPF) $(SRC)/%.skel.h $(KARCHIVE)
 # $(APPS)-reg: %-reg : $(SRC)/%.c $(REGLIBBPF) $(SRC)/%.skel.h $(BIN)/%.bpf.o
 # 	$(CC) $(CFLAGS) $(INCLUDES) $(SRC)/$*.c \
 # 	$(REGLIBBPF) -lelf -lz -o $(BIN)/$@
+clean:
+	rm -f bin/*
+	rm -f src/*.skel.h
