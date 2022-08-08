@@ -1,17 +1,19 @@
 KFILES=kernel_src_files.txt
+HEADER_STUBS=included_headers.txt
 
 # harness directory
 EBPF = $(HOME)/ebpf-verifier
 
 # kernel src directory (git submodule)
-KERNEL = $(EBPF)/linux/src
+CURR = $(EBPF)/linux
+KERNEL = $(CURR)/src
 
-BIN = $(EBPF)/$(KV)/bin
-SRC = $(EBPF)/src
+# BIN = $(EBPF)/$(KV)/bin
+# SRC = $(EBPF)/src
 # build libbpf hooked into harness
-LIBBPF := libbpf.a
-REGLIBBPF := reg_libbpf.a
-VMLINUX := vmlinux.h
+# LIBBPF := libbpf.a
+# REGLIBBPF := reg_libbpf.a
+# VMLINUX := vmlinux.h
 INCLUDES := -I$(KERNEL)/tools/lib/ -I$(KERNEL)/usr/include/ -iquote.
 CC := clang
 CFLAGS := -g -O2 -fdebug-default-version=4
@@ -20,20 +22,20 @@ APPS := sample
 
 kernel_object_files:
 	cd $(KERNEL) && \
-	make LLVM=1 $(shell cat $(EBPF)/kernel_src_files.txt)
+	make LLVM=1 $(shell cat $(CURR)/kernel_src_files.txt)
 
 $(KERNEL)/compile_commands.json: kernel_object_files
 	cd $(KERNEL) && \
 	./scripts/clang-tools/gen_compile_commands.py \
-	$(shell cat $(EBPF)/kernel_src_files.txt)
+	$(shell cat $(CURR)/kernel_src_files.txt)
 
 # generate clang_cmds.sh
-clang_cmds.sh: $(KERNEL) $(KFILES) included_headers.txt $(KERNEL)/compile_commands.json
+clang_cmds.sh: $(KERNEL) $(KFILES) $(HEADER_STUBS) $(KERNEL)/compile_commands.json
 	cd $(KERNEL) && \
-	python3 $(EBPF)/scripts/clang_cmds.py \
-	-K $(EBPF)/kernel_src_files.txt \
-	-H $(EBPF)/included_headers.txt \
-	-O $(EBPF)/clang_cmds.sh
+	python3 $(CURR)/scripts/clang_cmds.py \
+	-K $(CURR)/kernel_src_files.txt \
+	-H $(CURR)/included_headers.txt \
+	-O $(CURR)/clang_cmds.sh
 	chmod +x clang_cmds.sh
 
 #ARCH???

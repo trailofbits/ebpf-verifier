@@ -24,9 +24,6 @@ target_include_directories("target_placeholder" PRIVATE
   "${src_root}/include/uapi"
 )
 
-
-
-
 # Submodule manager
 find_package(Git REQUIRED)
 
@@ -76,20 +73,17 @@ add_custom_target("linux_submodule_initializer" DEPENDS
 )
 
 
-
-set(ebpf "${CMAKE_CURRENT_SOURCE_DIR}/../")
+set(linux_clang_cmds "${CMAKE_CURRENT_SOURCE_DIR}/clang_cmds.sh")
 
 add_custom_command(
-  OUTPUT ${ebpf}/clang_cmds.sh
+  OUTPUT ${linux_clang_cmds}
   COMMENT "bpfverifier: Generating clang_cmds"
-  COMMAND echo "${BPFVERIFIER_LINUX_VERSION}"
-  WORKING_DIRECTORY ${ebpf}
+  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+  COMMAND pwd
   COMMAND make clang_cmds.sh
   VERBATIM
 )
 
 add_custom_target("clang_cmds" DEPENDS
-  ${ebpf}/clang_cmds.sh
+  ${linux_clang_cmds}
 )
-
-add_custom_target(")

@@ -4,7 +4,6 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <linux/bpf.h> // TODO: make sure this is being included from correct place
-#include "test.h"
 
 
 extern int bpf_sys_bpf(int, union bpf_attr *, uint32_t);
