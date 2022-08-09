@@ -105,4 +105,5 @@ add_custom_target("kernel"
 
 add_custom_target("kernel_clean"
   COMMAND make clean
+  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
 )

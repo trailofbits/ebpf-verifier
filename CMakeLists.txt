@@ -18,14 +18,14 @@ add_custom_command(
 # TODO: add other deps
 add_custom_target("run"
   DEPENDS "kernel"
-  DEPENDS "libbpf.a"
-  DEPENDS  "${TARGET}"
+  DEPENDS "libbpf"
+  DEPENDS  src_root/bin/"${TARGET}"
 )
 
 
-# add_custom_target("my_clean"
-#   COMMAND make clean
-#   WORKING_DIRECTORY ${src_root}
-#   COMMAND "${CMAKE_COMMAND}" --build build --target kernel_clean
-#   COMMAND "${CMAKE_COMMAND}" --build build --target libbpf_clean
-# )
+add_custom_target("my_clean"
+  COMMAND make clean
+  WORKING_DIRECTORY ${src_root}
+  COMMAND "${CMAKE_COMMAND}" --build build --target kernel_clean
+  COMMAND "${CMAKE_COMMAND}" --build build --target libbpf_clean
+)
