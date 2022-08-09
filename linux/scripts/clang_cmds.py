@@ -91,6 +91,9 @@ def main():
         new_cmd += " -Dbtf_parse_vmlinux=btf_parse_vmlinux_og "
       if output_file == "kernel/bpf/verifier.o" and libbpf:
         new_cmd += " -Dbtf_parse_vmlinux=btf__load_vmlinux_btf "
+      if output_file == "kernel/bpf/core.o":
+        new_cmd += " -Dbpf_prog_select_runtime=bpf_prog_select_runtime_og "
+        new_cmd += " -Dbpf_prog_kallsyms_add=bpf_prog_kallsyms_add_og "
 
       new_cmd += new_suffix
       new_cmd += " -mcmodel=large "

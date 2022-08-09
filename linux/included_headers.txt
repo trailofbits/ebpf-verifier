@@ -1,4 +1,5 @@
 printk.h kernel/bpf/verifier.o kernel/bpf/btf.o
+vmalloc.h kernel/bpf/core.o
 uaccess.h kernel/bpf/verifier.o
 slab.h kernel/bpf/verifier.o kernel/bpf/btf.o kernel/bpf/syscall.o kernel/bpf/core.o net/core/filter.o fs/dcache.o fs/inode.o fs/file_table.o
 cred.h kernel/bpf/syscall.o

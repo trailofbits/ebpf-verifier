@@ -6,10 +6,28 @@
 #include <string.h>
 #include <time.h>
 
+int idr_alloc_cyclic(void) { return 2; }
+void idr_find(void) { abort(); }
+void idr_get_next(void) { abort(); }
+void idr_preload(void) { return; }
+void idr_remove(void) { abort(); }
+
+void _raw_spin_lock(void) { return; }
+void _raw_spin_lock_bh(void) { return; }
+void _raw_spin_lock_irqsave(void) { return; }
+void _raw_spin_unlock(void) { return; }
+void _raw_spin_unlock_bh(void) { return; }
+void _raw_spin_unlock_irqrestore(void) { return; }
+
+
+struct bpf_prog *bpf_prog_select_runtime(struct bpf_prog *fp, int *err) {return fp;}
+void bpf_prog_kallsyms_add(struct bpf_prog *fp) {}
+
 // TODO: modify this so that custom capabilities can be specified
 // and so that we can record what functions are asking about which
 // capabilities.
 bool capable(int cap) { return true; } // always true for test harness
+
 
 // originally from /include/linux/slab.h
 // stubbed out (decl as extern in "slab.h")
@@ -174,12 +192,6 @@ void __xdp_return(void) { abort(); }
 void _ctype(void) { abort(); }
 void _parse_integer(void) { abort(); }
 void _parse_integer_fixup_radix(void) { abort(); }
-void _raw_spin_lock(void) { abort(); }
-void _raw_spin_lock_bh(void) { abort(); }
-void _raw_spin_lock_irqsave(void) { abort(); }
-void _raw_spin_unlock(void) { abort(); }
-void _raw_spin_unlock_bh(void) { abort(); }
-void _raw_spin_unlock_irqrestore(void) { abort(); }
 void access_process_vm(void) { abort(); }
 void alloc_pages(void) { abort(); }
 void anon_inode_getfd(void) { abort(); }
@@ -327,11 +339,7 @@ void htab_lru_percpu_map_ops(void) { abort(); }
 void htab_map_ops(void) { abort(); }
 void htab_of_maps_map_ops(void) { abort(); }
 void htab_percpu_map_ops(void) { abort(); }
-void idr_alloc_cyclic(void) { abort(); }
-void idr_find(void) { abort(); }
-void idr_get_next(void) { abort(); }
-void idr_preload(void) { abort(); }
-void idr_remove(void) { abort(); }
+
 void inet6_lookup_listener(void) { abort(); }
 void inet_proto_csum_replace4(void) { abort(); }
 void inet_proto_csum_replace_by_diff(void) { abort(); }
