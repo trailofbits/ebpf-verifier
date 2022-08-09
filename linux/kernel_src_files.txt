@@ -1,0 +1,13 @@
+kernel/bpf/sysfs_btf.o
+kernel/bpf/btf.o
+kernel/bpf/tnum.o
+kernel/bpf/disasm.o
+kernel/bpf/core.o
+kernel/bpf/helpers.o
+kernel/bpf/verifier.o
+kernel/bpf/syscall.o
+kernel/ksysfs.o
+lib/string.o
+lib/sha1.o
+net/core/filter.o
+lib/sort.o
