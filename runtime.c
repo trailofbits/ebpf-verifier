@@ -26,6 +26,9 @@ void * kvcalloc(size_t n, size_t size) { return calloc(n, size); }
 // originally from include/linux/slab.h
 void kfree(void *ptr) { free(ptr); }
 
+void * krealloc(void *p, size_t new_size, unsigned int flags) { return realloc(p, new_size); }
+void krealloc_array(void) { abort(); }
+
 // originally from include/linux/slab.h
 void kvfree(void *ptr) { free(ptr); }
 
@@ -50,10 +53,10 @@ void vfree(void *ptr) { free(ptr); }
 bool tif_need_resched(void) {return false;}
 
 // originally function from include/linux/sched/signal.h
-int signal_pending(struct task_struct *p) { return false; }
+int signal_pending(void *p) { return false; }
 
 // include/linux/sched/user.h
-void free_uid(struct user_struct *) { return; }
+void free_uid(void * p) { return; }
 
 
 // I only see this called twice in bpf_check --> just seems to be timing the
@@ -80,7 +83,14 @@ void mutex_lock(void) { return; }
 void mutex_unlock(void) { return; }
 
 // originally decl in include/linux/security.h
-int security_bpf_prog_alloc(struct bpf_prog_aux *aux) { return 0; }
+int security_bpf_prog_alloc(void *aux) { return 0; }
+int security_bpf(int cmd, void *attr, unsigned int size) { return 0;}
+int security_bpf_map(void *map, unsigned int fmode) { return 0;}
+int security_bpf_map_alloc(void *map) { return 0;}
+void security_bpf_map_free(void *map) { return; }
+int security_bpf_prog(void *prog) { return 0; }
+void security_bpf_prog_free(void *aux) { return; }
+void security_locked_down(void) { abort(); }
 
 // include/linux/cred.h
 struct user_struct *get_current_user() { return NULL; }
@@ -342,8 +352,7 @@ void kmalloc_array(void) { abort(); }
 void kmalloc_node(void) { abort(); }
 void kmemdup(void) { abort(); }
 void kmemdup_nul(void) { abort(); }
-void krealloc(void) { abort(); }
-void krealloc_array(void) { abort(); }
+
 void ksize(void) { abort(); }
 void ktime_get_boot_fast_ns(void) { abort(); }
 void ktime_get_coarse_ts64(void) { abort(); }
@@ -402,13 +411,6 @@ void reuseport_attach_prog(void) { abort(); }
 void ringbuf_map_ops(void) { abort(); }
 void sched_clock(void) { abort(); }
 void search_extable(void) { abort(); }
-void security_bpf(void) { abort(); }
-void security_bpf_map(void) { abort(); }
-void security_bpf_map_alloc(void) { abort(); }
-void security_bpf_map_free(void) { abort(); }
-void security_bpf_prog(void) { abort(); }
-void security_bpf_prog_free(void) { abort(); }
-void security_locked_down(void) { abort(); }
 void seq_printf(void) { abort(); }
 void seq_vprintf(void) { abort(); }
 void set_memory_ro(void) { abort(); }
