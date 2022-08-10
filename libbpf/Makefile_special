@@ -9,6 +9,6 @@ special:
 	-Dbpf_core_types_are_compat=libbpf__bpf_core_types_are_compat -Dbpf_prog_load=libbpf__bpf_prog_load \
 	-Dbpf_map_update_elem=libbpf__bpf_map_update_elem -Dbpf_core_calc_relo_insn=libbpf__bpf_core_calc_relo_insn \
 	-Dbpf_core_patch_insn=libbpf__bpf_core_patch_insn -Dbpf_map_delete_elem=libbpf__bpf_map_delete_elem \
-	-Dbpf_map_lookup_elem=libbpf__bpf_map_lookup_elem -fvisibility=hidden \
+	-Dbpf_map_lookup_elem=libbpf__bpf_map_lookup_elem -Dbpf_btf_load=libbpf__bpf_btf_load -fvisibility=hidden \
 	-Dsyscall=my_syscall -c -o build/staticobjs/bpf.o bpf.c -fdebug-default-version=4
 	BUILD_STATIC_ONLY=y OBJDIR=build DESTDIR=root make install

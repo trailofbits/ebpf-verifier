@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <assert.h>
 
 int idr_alloc_cyclic(void) { return 2; }
 void idr_find(void) { abort(); }
@@ -18,6 +19,21 @@ void _raw_spin_lock_irqsave(void) { return; }
 void _raw_spin_unlock(void) { return; }
 void _raw_spin_unlock_bh(void) { return; }
 void _raw_spin_unlock_irqrestore(void) { return; }
+
+void perf_event_array_map_ops(void) { abort(); }
+void perf_event_bpf_event(void) { }
+void perf_event_free_bpf_prog(void) { abort(); }
+void perf_event_get(void) { abort(); }
+void perf_event_set_bpf_prog(void) { abort(); }
+void perf_get_event(void) { abort(); }
+
+void audit_enabled(void) { abort(); }
+void audit_log_end(void) { abort(); }
+void audit_log_format(void) { abort(); }
+void audit_log_start(void) { return; }
+
+int anon_inode_getfd(void) { return 10; }
+void anon_inode_getfile(void) { abort(); }
 
 
 struct bpf_prog *bpf_prog_select_runtime(struct bpf_prog *fp, int *err) {return fp;}
@@ -40,6 +56,7 @@ void * kzalloc(size_t size) {
 }
 // originally from include/linux/slab.h
 void * kvcalloc(size_t n, size_t size) { return calloc(n, size); }
+void * kvmalloc(size_t n, unsigned int flags) { return malloc(n); }
 
 // originally from include/linux/slab.h
 void kfree(void *ptr) { free(ptr); }
@@ -114,7 +131,14 @@ void security_locked_down(void) { abort(); }
 struct user_struct *get_current_user() { return NULL; }
 
 // orig. in lib/vsprintf.c
-int vscnprintf(char *buf, size_t size, const char *fmt, va_list args) { return snprintf(buf, size, fmt, args); }
+int vscnprintf(char *buf, size_t size, const char *fmt, va_list args) {
+	int i;
+	if (!size)
+		return 0;
+	i = snprintf(buf, size, fmt, args);
+	assert(i < size);
+	return i;
+}
 
 void _printk(void) { abort(); }
 
@@ -194,16 +218,12 @@ void _parse_integer(void) { abort(); }
 void _parse_integer_fixup_radix(void) { abort(); }
 void access_process_vm(void) { abort(); }
 void alloc_pages(void) { abort(); }
-void anon_inode_getfd(void) { abort(); }
-void anon_inode_getfile(void) { abort(); }
+
 void arm64_use_ng_mappings(void) { abort(); }
 void arp_tbl(void) { abort(); }
 void array_map_ops(void) { abort(); }
 void array_of_maps_map_ops(void) { abort(); }
-void audit_enabled(void) { abort(); }
-void audit_log_end(void) { abort(); }
-void audit_log_format(void) { abort(); }
-void audit_log_start(void) { abort(); }
+
 void bin2hex(void) { abort(); }
 void bitmap_find_next_zero_area_off(void) { abort(); }
 void bloom_filter_map_ops(void) { abort(); }
@@ -366,7 +386,7 @@ void ktime_get_boot_fast_ns(void) { abort(); }
 void ktime_get_coarse_ts64(void) { abort(); }
 void ktime_get_mono_fast_ns(void) { abort(); }
 void kvfree_call_rcu(void) { abort(); }
-void kvmalloc(void) { abort(); }
+
 void lock_sock_nested(void) { abort(); }
 void make_kuid(void) { abort(); }
 void metadata_dst_alloc_percpu(void) { abort(); }
@@ -393,12 +413,7 @@ void ns_match(void) { abort(); }
 void numa_node(void) { abort(); }
 void overflowuid(void) { abort(); }
 void percpu_array_map_ops(void) { abort(); }
-void perf_event_array_map_ops(void) { abort(); }
-void perf_event_bpf_event(void) { abort(); }
-void perf_event_free_bpf_prog(void) { abort(); }
-void perf_event_get(void) { abort(); }
-void perf_event_set_bpf_prog(void) { abort(); }
-void perf_get_event(void) { abort(); }
+
 void prandom_seed_full_state(void) { abort(); }
 void prandom_u32_state(void) { abort(); }
 void preempt_schedule(void) { abort(); }

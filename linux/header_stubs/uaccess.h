@@ -18,14 +18,25 @@ extern int pagefault_disable(void);
 extern int pagefault_enable(void);
 
 
-inline static unsigned long copy_from_user(void * to, const void * from, unsigned long n) {
+inline unsigned long copy_from_user(void * to, const void * from, unsigned long n) {
   __builtin_memcpy(to, from, n);
   return n;
 }
 
-inline static unsigned long copy_to_user(void * to, const void * from, unsigned long n) {
-  __builtin_memcpy(to, from, n);
-  return n;
+inline unsigned long copy_to_user(void * to, const void * from, unsigned long n) {
+  if (to && from) {
+    __builtin_memcpy(to, from, n);
+    return 0;
+  } else {
+    return n;
+  }
 }
 
 
+// copy_from_kernel_nofault
+// strncpy_from_user_nofault
+// check_zeroed_user
+// __uaccess_enable_tco_async
+// __uaccess_disable_tco_async
+// __uaccess_enable_tco_async
+// get_kernel_nofault
