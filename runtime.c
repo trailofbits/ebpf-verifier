@@ -7,6 +7,8 @@
 #include <time.h>
 #include <assert.h>
 
+unsigned long __fdget(unsigned int fd) { return 0;  }// garbage
+
 int idr_alloc_cyclic(void) { return 2; }
 void idr_find(void) { abort(); }
 void idr_get_next(void) { abort(); }
@@ -20,7 +22,7 @@ void _raw_spin_unlock(void) { return; }
 void _raw_spin_unlock_bh(void) { return; }
 void _raw_spin_unlock_irqrestore(void) { return; }
 
-void perf_event_array_map_ops(void) { abort(); }
+// void perf_event_array_map_ops(void) { abort(); }
 void perf_event_bpf_event(void) { }
 void perf_event_free_bpf_prog(void) { abort(); }
 void perf_event_get(void) { abort(); }
@@ -34,6 +36,8 @@ void audit_log_start(void) { return; }
 
 int anon_inode_getfd(void) { return 10; }
 void anon_inode_getfile(void) { abort(); }
+
+void *get_mem_cgroup_from_mm(void * p) { return NULL; }
 
 
 struct bpf_prog *bpf_prog_select_runtime(struct bpf_prog *fp, int *err) {return fp;}
@@ -58,6 +62,10 @@ void * kzalloc(size_t size) {
 void * kvcalloc(size_t n, size_t size) { return calloc(n, size); }
 void * kvmalloc(size_t n, unsigned int flags) { return malloc(n); }
 
+void kmalloc(void) { abort(); }
+void kmalloc_array(void) { abort(); }
+void * kmalloc_node(size_t size, unsigned int flags, int node) { return malloc(size); }
+
 // originally from include/linux/slab.h
 void kfree(void *ptr) { free(ptr); }
 
@@ -69,7 +77,10 @@ void kvfree(void *ptr) { free(ptr); }
 
 // extern decl in  include/linux/vmalloc.h
 void * __vmalloc(unsigned long size) { return malloc(size); }
-
+void * __vmalloc_node_range(unsigned long size, unsigned long align,
+			unsigned long start, unsigned long end, unsigned int gfp_mask,
+			unsigned int prot, unsigned long vm_flags, int node,
+			const void *caller) { return malloc(size); }
 // extern decl from include/linux/vmalloc.h
 void * vzalloc(size_t size) {
 	void * res = malloc(size);
@@ -132,12 +143,13 @@ struct user_struct *get_current_user() { return NULL; }
 
 // orig. in lib/vsprintf.c
 int vscnprintf(char *buf, size_t size, const char *fmt, va_list args) {
-	int i;
-	if (!size)
-		return 0;
-	i = snprintf(buf, size, fmt, args);
-	assert(i < size);
-	return i;
+	// int i;
+	// if (!size)
+	// 	return 0;
+	// i = snprintf(buf, size, fmt, args);
+	// assert(i < size);
+	// return i;
+	return 0;
 }
 
 void _printk(void) { abort(); }
@@ -146,6 +158,9 @@ void kmem_cache_alloc_lru(void) { abort(); } // TODO --> autogened
 void* kmem_cache_create_usercopy(void) { return NULL; } // TODO --> autogened
 void kmem_cache_free(void) { abort(); } // TODO --> autogened
 void* kmem_cache_create(void) {return NULL; }
+
+void queue_map_ops(void) { abort(); }
+void queue_work_on(void) { return; }
 
 
 // TODO: deal with this appropriately. Caused by includeing kernel/ksysfs.bc
@@ -187,7 +202,7 @@ void __cpu_possible_mask(void) { abort(); }
 void __dev_flush(void) { abort(); }
 void __do_once_done(void) { abort(); }
 void __do_once_start(void) { abort(); }
-void __fdget(void) { abort(); }
+
 void __inet6_lookup_established(void) { abort(); }
 void __inet_bind(void) { abort(); }
 void __inet_lookup_established(void) { abort(); }
@@ -210,7 +225,7 @@ void __sw_hweight64(void) { abort(); }
 void __task_pid_nr_ns(void) { abort(); }
 void __udp4_lib_lookup(void) { abort(); }
 void __usecs_to_jiffies(void) { abort(); }
-void __vmalloc_node_range(void) { abort(); }
+
 void __warn_printk(void) { abort(); }
 void __xdp_return(void) { abort(); }
 void _ctype(void) { abort(); }
@@ -221,8 +236,8 @@ void alloc_pages(void) { abort(); }
 
 void arm64_use_ng_mappings(void) { abort(); }
 void arp_tbl(void) { abort(); }
-void array_map_ops(void) { abort(); }
-void array_of_maps_map_ops(void) { abort(); }
+// void array_map_ops(void) { abort(); }
+// void array_of_maps_map_ops(void) { abort(); }
 
 void bin2hex(void) { abort(); }
 void bitmap_find_next_zero_area_off(void) { abort(); }
@@ -233,8 +248,8 @@ void bpf_core_patch_insn(void) { abort(); }
 void bpf_dispatcher_change_prog(void) { abort(); }
 void bpf_extension_prog_ops(void) { abort(); }
 void bpf_extension_verifier_ops(void) { abort(); }
-void bpf_fd_array_map_lookup_elem(void) { abort(); }
-void bpf_fd_array_map_update_elem(void) { abort(); }
+// void bpf_fd_array_map_lookup_elem(void) { abort(); }
+// void bpf_fd_array_map_update_elem(void) { abort(); }
 void bpf_fd_htab_map_lookup_elem(void) { abort(); }
 void bpf_fd_htab_map_update_elem(void) { abort(); }
 void bpf_fd_reuseport_array_lookup_elem(void) { abort(); }
@@ -256,8 +271,8 @@ void bpf_obj_get_user(void) { abort(); }
 void bpf_obj_pin_user(void) { abort(); }
 void bpf_offload_prog_map_match(void) { abort(); }
 void bpf_offload_prog_ops(void) { abort(); }
-void bpf_percpu_array_copy(void) { abort(); }
-void bpf_percpu_array_update(void) { abort(); }
+// void bpf_percpu_array_copy(void) { abort(); }
+// void bpf_percpu_array_update(void) { abort(); }
 void bpf_percpu_cgroup_storage_copy(void) { abort(); }
 void bpf_percpu_cgroup_storage_update(void) { abort(); }
 void bpf_percpu_hash_copy(void) { abort(); }
@@ -303,7 +318,7 @@ void cg_sockopt_prog_ops(void) { abort(); }
 void cg_sockopt_verifier_ops(void) { abort(); }
 void cg_sysctl_prog_ops(void) { abort(); }
 void cg_sysctl_verifier_ops(void) { abort(); }
-void cgroup_array_map_ops(void) { abort(); }
+// void cgroup_array_map_ops(void) { abort(); }
 void cgroup_bpf_enabled_key(void) { abort(); }
 void cgroup_bpf_link_attach(void) { abort(); }
 void cgroup_bpf_prog_attach(void) { abort(); }
@@ -345,7 +360,7 @@ void from_kuid(void) { abort(); }
 void from_kuid_munged(void) { abort(); }
 void generic_xdp_tx(void) { abort(); }
 void get_callchain_buffers(void) { abort(); }
-void get_mem_cgroup_from_mm(void) { abort(); }
+
 void get_net_ns_by_id(void) { abort(); }
 void get_pid_task(void) { abort(); }
 void get_random_u32(void) { abort(); }
@@ -375,9 +390,7 @@ void kallsyms_lookup_name(void) { abort(); }
 void kallsyms_show_value(void) { abort(); }
 void kcalloc(void) { abort(); }
 void kfree_skb_reason(void) { abort(); }
-void kmalloc(void) { abort(); }
-void kmalloc_array(void) { abort(); }
-void kmalloc_node(void) { abort(); }
+
 void kmemdup(void) { abort(); }
 void kmemdup_nul(void) { abort(); }
 
@@ -412,18 +425,17 @@ void nr_node_ids(void) { abort(); }
 void ns_match(void) { abort(); }
 void numa_node(void) { abort(); }
 void overflowuid(void) { abort(); }
-void percpu_array_map_ops(void) { abort(); }
+// void percpu_array_map_ops(void) { abort(); }
 
 void prandom_seed_full_state(void) { abort(); }
 void prandom_u32_state(void) { abort(); }
 void preempt_schedule(void) { abort(); }
 void preempt_schedule_notrace(void) { abort(); }
-void prog_array_map_ops(void) { abort(); }
+// void prog_array_map_ops(void) { abort(); }
 void pskb_expand_head(void) { abort(); }
 void put_callchain_buffers(void) { abort(); }
 void put_unused_fd(void) { abort(); }
-void queue_map_ops(void) { abort(); }
-void queue_work_on(void) { abort(); }
+
 void queued_spin_lock_slowpath(void) { abort(); }
 void rb_erase(void) { abort(); }
 void rb_insert_color(void) { abort(); }
@@ -620,3 +632,16 @@ void sysctl_nr_open_max(void) { abort(); } // TODO --> autogened
 void sysctl_nr_open_min(void) { abort(); } // TODO --> autogened
 void task_work_add(void) { abort(); } // TODO --> autogened
 void vm_zone_stat(void) { abort(); } // TODO --> autogened
+
+void bpf_iter_get_info(void) { abort(); } // TODO --> autogened
+void bpf_iter_run_prog(void) { abort(); } // TODO --> autogened
+void bpf_map_fd_get_ptr(void) { abort(); } // TODO --> autogened
+void bpf_map_fd_put_ptr(void) { abort(); } // TODO --> autogened
+void bpf_map_fd_sys_lookup_elem(void) { abort(); } // TODO --> autogened
+void bpf_map_meta_alloc(void) { abort(); } // TODO --> autogened
+void bpf_map_meta_free(void) { abort(); } // TODO --> autogened
+void cgroup_get_from_fd(void) { abort(); } // TODO --> autogened
+void mutex_is_locked(void) { abort(); } // TODO --> autogened
+void perf_event_read_local(void) { abort(); } // TODO --> autogened
+void remap_vmalloc_range(void) { abort(); } // TODO --> autogened
+void seq_puts(void) { abort(); } // TODO --> autogened

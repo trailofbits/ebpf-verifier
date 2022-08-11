@@ -6,6 +6,8 @@ kernel/bpf/core.o
 kernel/bpf/helpers.o
 kernel/bpf/verifier.o
 kernel/bpf/syscall.o
+kernel/bpf/arraymap.o
+kernel/trace/bpf_trace.o
 kernel/ksysfs.o
 lib/string.o
 lib/sha1.o
@@ -14,3 +16,4 @@ lib/sort.o
 fs/dcache.o
 fs/inode.o
 fs/file_table.o
+kernel/printk/printk.o

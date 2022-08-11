@@ -181,6 +181,27 @@ extern void kfree_sensitive(const void *objp);
 			offsetof(struct __struct, __field),		\
 			sizeof_field(struct __struct, __field), NULL)
 
+enum kmalloc_cache_type {
+	KMALLOC_NORMAL = 0,
+#ifndef CONFIG_ZONE_DMA
+	KMALLOC_DMA = KMALLOC_NORMAL,
+#endif
+#ifndef CONFIG_MEMCG_KMEM
+	KMALLOC_CGROUP = KMALLOC_NORMAL,
+#else
+	KMALLOC_CGROUP,
+#endif
+	KMALLOC_RECLAIM,
+#ifdef CONFIG_ZONE_DMA
+	KMALLOC_DMA,
+#endif
+	NR_KMALLOC_TYPES
+};
+
+// #ifndef PAGE_SHIFT
+// #define PAGE_SHIFT 0
+// #endif
+
 struct kmem_cache {};
 struct list_lru;
 
@@ -214,3 +235,6 @@ extern struct kmem_cache *kmem_cache_create_usercopy(const char *name,
 			slab_flags_t flags,
 			unsigned int useroffset, unsigned int usersize,
 			void (*ctor)(void *));
+
+extern struct kmem_cache *
+kmalloc_caches[NR_KMALLOC_TYPES][1];
