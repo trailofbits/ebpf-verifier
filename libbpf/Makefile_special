@@ -1,6 +1,6 @@
 special:
 	make clean
-	rm -rf build roor
+	rm -rf build root
 	BUILD_STATIC_ONLY=y OBJDIR=build DESTDIR=root make install
 	rm build/libbpf.a build/staticobjs/bpf.o
 	clang -I. -I../include -I../include/uapi -g -O2 -Werror -Wall -std=gnu89 \

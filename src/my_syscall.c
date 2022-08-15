@@ -24,5 +24,5 @@ long int my_syscall(long int __sysno, ...) {
 
   printf("my_syscall triggered with sysno: %ld and cmd: %ld\n", __sysno, arg0);
 
-  return bpf_sys_bpf(arg0, (union bpf_attr *)arg1, arg2);
+  return bpf_sys_bpf((int) arg0, (union bpf_attr *)arg1, (uint32_t) arg2);
 }

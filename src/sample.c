@@ -3,6 +3,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/resource.h>
+#include <stdbool.h>
 
 #include <bpf/libbpf.h>
 #include <bpf/bpf.h>
@@ -28,6 +29,11 @@ void read_trace_pipe(void)
 	}
 }
 
+static int libbpf_print_fn(enum libbpf_print_level level, const char *format, va_list args) {
+	return vfprintf(stderr, format, args);
+}
+
+
 int main(void)
 {
 	struct sample_bpf *obj;
@@ -37,6 +43,7 @@ int main(void)
 		.rlim_cur = 512UL << 20,
 		.rlim_max = 512UL << 20,
 	};
+	libbpf_set_print(libbpf_print_fn);
 
 	err = setrlimit(RLIMIT_MEMLOCK, &rlim);
 	if (err) {
@@ -44,12 +51,22 @@ int main(void)
 		return 1;
 	}
 
+	char *path = "/home/parallels/ebpf-verifier/linux/vmlinux.h";
 
-	obj = sample_bpf__open();
+	struct bpf_object_open_opts opts = {
+		.sz = 0,
+		.btf_custom_path = path,
+	};
+
+	opts.sz = sizeof(opts);
+
+	obj = sample_bpf__open_opts(&opts);
 	if (!obj) {
 		fprintf(stderr, "failed to open and/or load BPF object\n");
 		return 1;
 	}
+
+	//bpf_map__set_autocreate(obj->maps.rodata, false);
 
 	err = sample_bpf__load(obj);
 	if (err) {

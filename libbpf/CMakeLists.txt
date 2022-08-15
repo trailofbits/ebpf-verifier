@@ -17,9 +17,21 @@ add_custom_command(
   VERBATIM
 )
 
+add_custom_command(
+  OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/src/src/build_reg/libbpf.a"
+  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src/src"
+  COMMAND make clean
+  COMMAND BUILD_STATIC_ONLY=y OBJDIR=build_reg DESTDIR=root_reg make install
+  VERBATIM
+)
+
 # target to make libbpf.a with mods
 add_custom_target("libbpf" DEPENDS
   "${CMAKE_CURRENT_SOURCE_DIR}/src/src/build/libbpf.a"
+)
+
+add_custom_target("reglibbpf" DEPENDS
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/src/build_reg/libbpf.a"
 )
 
 # target to make libbpf.a without mods
@@ -28,4 +40,6 @@ add_custom_target("libbpf_clean"
   WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src/src"
   COMMAND rm -rf build
   COMMAND rm -rf root
+  COMMAND rm -rf build_reg
+  COMMAND rm -rf root_reg
 )
