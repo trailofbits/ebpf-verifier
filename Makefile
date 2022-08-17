@@ -37,11 +37,13 @@ $(SRC)/%.o:
 	$(CC) $(CFLAGS) $(INCLUDES) \
 	-Dmain=real_main -c $(SRC)/$*.c -o $@
 
+
 # generate bpf loader executable (will call into my_syscall)
 $(APPS): % : $(SRC)/%.c $(LIBBPF) $(SRC)/%.skel.h $(KARCHIVE) $(SRC)/%.o
 	$(CC) $(CFLAGS) $(INCLUDES) \
 	$(SRC)/my_syscall.c \
 	$(SRC)/$@.o \
+	fd.c
 	runtime.c \
 	init.c \
 	$(LIBBPF) -lelf -lz \

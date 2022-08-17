@@ -13,7 +13,4 @@ lib/string.o
 lib/sha1.o
 net/core/filter.o
 lib/sort.o
-fs/dcache.o
-fs/inode.o
-fs/file_table.o
 kernel/printk/printk.o

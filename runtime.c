@@ -7,13 +7,90 @@
 #include <time.h>
 #include <assert.h>
 
-unsigned long __fdget(unsigned int fd) { return 0;  }// garbage
 
-int idr_alloc_cyclic(void) { return 2; }
-void idr_find(void) { abort(); }
+// TODO: improve idr replacement and move to its own file. (really fragile and bad right now)
+// Really basic replacement for idr.
+#define IDS_SIZE 100
+#define BASE_ID 3
+static int next_id = BASE_ID;
+static void * ids[IDS_SIZE];
+
+int idr_alloc_cyclic(void *idr, void *ptr, int start, int end, unsigned int flags) {
+	ids[next_id - BASE_ID] = ptr;
+	return next_id++;
+}
+
+void *idr_find(void *idr, unsigned long id) { return ids[id - BASE_ID]; }
 void idr_get_next(void) { abort(); }
 void idr_preload(void) { return; }
-void idr_remove(void) { abort(); }
+void *idr_remove(void *idr, unsigned long id) { return ids[id - BASE_ID]; } // doesn't actually remove at the moment
+
+// Really basic replacement for fd allocation
+// struct anon_fd_info {
+// 	const char * name;
+// 	const void *fops;
+// 	void *private_data;
+// 	int flags;
+// };
+
+// struct fd_info {
+// 	struct file* file;
+// 	unsigned int flags;
+// };
+// struct my_file;
+
+// struct file {
+// 	const struct file_operations *f_op;
+// 	void * private_data;
+// };
+// struct file;
+
+// struct fd {
+// 	struct file *file;
+// 	unsigned int flags;
+// };
+
+// #define FDS_SIZE 100
+// #define BASE_FD 3
+// int next_fd = BASE_FD;
+// struct fd_info * fds[FDS_SIZE];
+
+int anon_inode_getfd(const char *name, const void *fops) {
+	abort();
+}
+
+// int my_getfd(const char *name, const struct file_operations *fops,
+// 		     void *priv, int flags) {
+// 					int i = next_fd - BASE_FD;
+// 					fds[i] = (struct fd_info *)malloc(sizeof(struct anon_fd_info));
+// 					fds[i]->file = malloc(sizeof(struct file));
+// 					fds[i]->file->private_data = priv;
+// 					fds[i]->file->f_op = fops;
+// 					fds[i]->flags = flags;
+// 					return next_fd++;
+//  }
+
+// unsigned long __fdget(unsigned int fd) {
+
+// 	return (unsigned long)fds[fd - BASE_FD]->file;
+
+// }// garbage
+
+// struct fd my_fdget(unsigned int fd) {
+// 	return (struct fd){fds[fd - BASE_FD]->file, fds[fd - BASE_FD]->flags};
+// }
+
+// void my_fdput(struct fd fd) {
+// 	return;
+// }
+
+void fdput(struct fd fd) { abort(); }
+void fput(void) { abort(); }
+
+void anon_inode_getfile(void) { abort(); }
+
+
+
 
 void _raw_spin_lock(void) { return; }
 void _raw_spin_lock_bh(void) { return; }
@@ -34,8 +111,7 @@ void audit_log_end(void) { return; }
 void audit_log_format(void) { return; }
 void audit_log_start(void) { return; }
 
-int anon_inode_getfd(void) { return 10; }
-void anon_inode_getfile(void) { abort(); }
+
 
 void *get_mem_cgroup_from_mm(void * p) { return NULL; }
 
