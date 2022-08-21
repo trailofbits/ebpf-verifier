@@ -89,14 +89,16 @@ def main():
       if output_file == "kernel/bpf/btf.o" and libbpf:
         print("modifing btf.o for libbpf. change script if running old harness.")
         new_cmd += " -Dbtf_parse_vmlinux=btf_parse_vmlinux_og "
-        new_cmd += " -Danon_inode_getfd=my_getfd "
+        # new_cmd += " -Danon_inode_getfd=my_getfd "
       if output_file == "kernel/bpf/verifier.o" and libbpf:
         new_cmd += " -Dbtf_parse_vmlinux=btf__load_vmlinux_btf "
-        new_cmd += " -Danon_inode_getfd=my_getfd "
-        new_cmd += " -Dfdget=my_fdget "
-        new_cmd += " -Dfdput=my_fdput "
-      if output_file == "kernel/bpf/syscall.o":
-        new_cmd += " -Danon_inode_getfd=my_getfd "
+        # new_cmd += " -Danon_inode_getfd=my_getfd "
+        # new_cmd += " -Dfdget=my_fdget "
+      #   # new_cmd += " -Dfdput=my_fdput "
+      # if output_file == "kernel/bpf/syscall.o":
+      #   new_cmd += " -Dthis_cpu_inc=my_this_cpu_inc "
+      #   new_cmd += " -Dthis_cpu_dec=my_this_cpu_dec "
+        # new_cmd += " -Danon_inode_getfd=my_getfd "
       if output_file == "kernel/bpf/core.o":
         new_cmd += " -Dbpf_prog_select_runtime=bpf_prog_select_runtime_og "
         new_cmd += " -Dbpf_prog_kallsyms_add=bpf_prog_kallsyms_add_og "

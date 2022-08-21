@@ -20,7 +20,7 @@ INCLUDES := -I$(LIBBPFSRC)/root/usr/include -I$(LIBBPFSRC)/root_reg/usr/include 
 CC := clang
 CFLAGS := -g -O2 -fdebug-default-version=4
 
-APPS := sample
+APPS := s
 
 #ARCH???
 # generate bpf bytecode
@@ -43,9 +43,9 @@ $(APPS): % : $(SRC)/%.c $(LIBBPF) $(SRC)/%.skel.h $(KARCHIVE) $(SRC)/%.o
 	$(CC) $(CFLAGS) $(INCLUDES) \
 	$(SRC)/my_syscall.c \
 	$(SRC)/$@.o \
-	fd.c
 	runtime.c \
 	init.c \
+	fd.c \
 	$(LIBBPF) -lelf -lz \
 	$(KARCHIVE) \
 	-o $(BIN)/$@ \

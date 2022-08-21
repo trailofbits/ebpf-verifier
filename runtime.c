@@ -1,8 +1,9 @@
 #include <limits.h>
+#include <stddef.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdarg.h>
-#include <stdio.h>
+// #include <stdio.h>
 #include <string.h>
 #include <time.h>
 #include <assert.h>
@@ -25,70 +26,14 @@ void idr_get_next(void) { abort(); }
 void idr_preload(void) { return; }
 void *idr_remove(void *idr, unsigned long id) { return ids[id - BASE_ID]; } // doesn't actually remove at the moment
 
-// Really basic replacement for fd allocation
-// struct anon_fd_info {
-// 	const char * name;
-// 	const void *fops;
-// 	void *private_data;
-// 	int flags;
-// };
+void migrate_disable(void) { return; }
+void migrate_enable(void) { return; }
 
-// struct fd_info {
-// 	struct file* file;
-// 	unsigned int flags;
-// };
-// struct my_file;
+void __fdget(void) {abort();}
 
-// struct file {
-// 	const struct file_operations *f_op;
-// 	void * private_data;
-// };
-// struct file;
 
-// struct fd {
-// 	struct file *file;
-// 	unsigned int flags;
-// };
-
-// #define FDS_SIZE 100
-// #define BASE_FD 3
-// int next_fd = BASE_FD;
-// struct fd_info * fds[FDS_SIZE];
-
-int anon_inode_getfd(const char *name, const void *fops) {
-	abort();
-}
-
-// int my_getfd(const char *name, const struct file_operations *fops,
-// 		     void *priv, int flags) {
-// 					int i = next_fd - BASE_FD;
-// 					fds[i] = (struct fd_info *)malloc(sizeof(struct anon_fd_info));
-// 					fds[i]->file = malloc(sizeof(struct file));
-// 					fds[i]->file->private_data = priv;
-// 					fds[i]->file->f_op = fops;
-// 					fds[i]->flags = flags;
-// 					return next_fd++;
-//  }
-
-// unsigned long __fdget(unsigned int fd) {
-
-// 	return (unsigned long)fds[fd - BASE_FD]->file;
-
-// }// garbage
-
-// struct fd my_fdget(unsigned int fd) {
-// 	return (struct fd){fds[fd - BASE_FD]->file, fds[fd - BASE_FD]->flags};
-// }
-
-// void my_fdput(struct fd fd) {
-// 	return;
-// }
-
-void fdput(struct fd fd) { abort(); }
-void fput(void) { abort(); }
-
-void anon_inode_getfile(void) { abort(); }
-
+// defined in kernel/trace/trace_events.c --> enables trace events (set to always success)
+int trace_set_clr_event(const char *system, const char *event, int set) { return 0; }
 
 
 
@@ -138,8 +83,10 @@ void * kzalloc(size_t size) {
 void * kvcalloc(size_t n, size_t size) { return calloc(n, size); }
 void * kvmalloc(size_t n, unsigned int flags) { return malloc(n); }
 
+void * kcalloc(size_t n, size_t size) { return calloc(n, size); }
+
 void kmalloc(void) { abort(); }
-void kmalloc_array(void) { abort(); }
+void *kmalloc_array(size_t n, size_t size, unsigned int flags) { return malloc(n *size); }
 void * kmalloc_node(size_t size, unsigned int flags, int node) { return malloc(size); }
 
 // originally from include/linux/slab.h
@@ -235,6 +182,9 @@ void* kmem_cache_create(void) {return NULL; }
 void queue_map_ops(void) { abort(); }
 void queue_work_on(void) { return; }
 
+void __rcu_read_lock(void) { return; }
+void __rcu_read_unlock(void) { return; }
+
 
 // TODO: deal with this appropriately. Caused by includeing kernel/ksysfs.bc
 void crash_get_memory_size(void) { abort(); } // TODO --> autogened
@@ -289,8 +239,7 @@ void __pskb_pull_tail(void) { abort(); }
 void __put_net(void) { abort(); }
 void __put_page(void) { abort(); }
 void __put_task_struct(void) { abort(); }
-void __rcu_read_lock(void) { abort(); }
-void __rcu_read_unlock(void) { abort(); }
+
 void __sk_mem_reclaim(void) { abort(); }
 void __skb_get_hash(void) { abort(); }
 void __sock_gen_cookie(void) { abort(); }
@@ -301,7 +250,7 @@ void __usecs_to_jiffies(void) { abort(); }
 
 void __warn_printk(void) { abort(); }
 void __xdp_return(void) { abort(); }
-void _ctype(void) { abort(); }
+// void _ctype(void) { abort(); }
 void _parse_integer(void) { abort(); }
 void _parse_integer_fixup_radix(void) { abort(); }
 void access_process_vm(void) { abort(); }
@@ -461,7 +410,7 @@ void is_skb_forwardable(void) { abort(); }
 void jiffies(void) { abort(); }
 void kallsyms_lookup_name(void) { abort(); }
 void kallsyms_show_value(void) { abort(); }
-void kcalloc(void) { abort(); }
+
 void kfree_skb_reason(void) { abort(); }
 
 void kmemdup(void) { abort(); }
@@ -477,8 +426,7 @@ void lock_sock_nested(void) { abort(); }
 void make_kuid(void) { abort(); }
 void metadata_dst_alloc_percpu(void) { abort(); }
 void metadata_dst_free_percpu(void) { abort(); }
-void migrate_disable(void) { abort(); }
-void migrate_enable(void) { abort(); }
+
 void module_alloc(void) { abort(); }
 void module_memfree(void) { abort(); }
 void module_put(void) { abort(); }
@@ -817,7 +765,7 @@ void trace_kprobe_error_injectable(void) { abort(); } // TODO --> autogened
 void trace_kprobe_on_func_entry(void) { abort(); } // TODO --> autogened
 void trace_print_symbols_seq(void) { abort(); } // TODO --> autogened
 void trace_raw_output_prep(void) { abort(); } // TODO --> autogened
-void trace_set_clr_event(void) { abort(); } // TODO --> autogened
+
 void tracepoint_probe_register_prio_may_exist(void) { abort(); } // TODO --> autogened
 void tracepoint_probe_unregister(void) { abort(); } // TODO --> autogened
 void tracepoint_srcu(void) { abort(); } // TODO --> autogened
@@ -831,3 +779,19 @@ void enter_syscall_print_funcs(void) { abort(); } // TODO --> autogened
 void event_class_syscall_enter(void) { abort(); } // TODO --> autogened
 void event_class_syscall_exit(void) { abort(); } // TODO --> autogened
 void exit_syscall_print_funcs(void) { abort(); } // TODO --> autogened
+
+
+// from stubbing out atomic-instrumented.h
+void atomic64_add(void) { return; } // TODO --> autogened
+void atomic64_dec(void) { return; } // TODO --> autogened
+void atomic64_dec_and_test(void) { abort(); } // TODO --> autogened
+void atomic64_fetch_add_unless(void) { abort(); } // TODO --> autogened
+void atomic64_inc(void) { return; } // TODO --> autogened
+long atomic64_read(const long *ptr) { return *ptr; } // TODO --> autogened
+void atomic64_set(void) { return; } // TODO --> autogened
+void atomic64_sub_return(void) { abort(); } // TODO --> autogened
+void atomic_fetch_sub_release(void) { abort(); } // TODO --> autogened
+void atomic_long_add(void) { abort(); } // TODO --> autogened
+void atomic_long_inc(void) { abort(); } // TODO --> autogened
+void atomic_long_read(void) { abort(); } // TODO --> autogened
+void atomic_long_sub_and_test(void) { abort(); } // TODO --> autogened

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 #include <stdarg.h>
-#include <stdio.h>
+// #include <stdio.h>
 #include <linux/bpf.h> // TODO: make sure this is being included from correct place
 
 
@@ -22,7 +22,7 @@ long int my_syscall(long int __sysno, ...) {
   arg5 = va_arg (args, long int);
   va_end (args);
 
-  printf("my_syscall triggered with sysno: %ld and cmd: %ld\n", __sysno, arg0);
+  // printf("my_syscall triggered with sysno: %ld and cmd: %ld\n", __sysno, arg0);
 
   return bpf_sys_bpf((int) arg0, (union bpf_attr *)arg1, (uint32_t) arg2);
 }

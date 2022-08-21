@@ -10,6 +10,7 @@ kernel/bpf/arraymap.o
 kernel/trace/bpf_trace.o
 kernel/ksysfs.o
 lib/string.o
+lib/ctype.o
 lib/sha1.o
 net/core/filter.o
 lib/sort.o
