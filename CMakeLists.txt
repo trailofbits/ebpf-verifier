@@ -15,11 +15,22 @@ add_custom_command(
   WORKING_DIRECTORY ${src_root}
 )
 
+add_custom_command(
+  OUTPUT "${src_root}/bin/local-${TARGET}"
+  COMMAND make "local-${TARGET}"
+  WORKING_DIRECTORY ${src_root}
+)
+
 # TODO: add other deps
 add_custom_target("run"
   DEPENDS "kernel"
   DEPENDS "libbpf"
   DEPENDS  src_root/bin/"${TARGET}"
+)
+
+add_custom_target("local"
+  DEPENDS "reglibbpf"
+  DEPENDS  "${src_root}/bin/local-${TARGET}"
 )
 
 
@@ -28,4 +39,9 @@ add_custom_target("my_clean"
   WORKING_DIRECTORY ${src_root}
   COMMAND "${CMAKE_COMMAND}" --build build --target kernel_clean
   COMMAND "${CMAKE_COMMAND}" --build build --target libbpf_clean
+)
+
+add_custom_target("clean_apps"
+  COMMAND make clean
+  WORKING_DIRECTORY ${src_root}
 )

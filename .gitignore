@@ -15,3 +15,5 @@ bin
 **.a
 linux/src
 */vmlinux.h
+*/**vmlinux.h
+good_config

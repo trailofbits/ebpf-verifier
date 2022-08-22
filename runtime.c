@@ -1,62 +1,146 @@
 #include <limits.h>
+#include <stddef.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdarg.h>
-#include <stdio.h>
+// #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <assert.h>
+
+#define ZERO_SIZE_PTR ((void *)16)
+
+// TODO: improve idr replacement and move to its own file. (really fragile and bad right now)
+// Really basic replacement for idr.
+#define IDS_SIZE 100
+#define BASE_ID 3
+static int next_id = BASE_ID;
+static void * ids[IDS_SIZE];
+
+int idr_alloc_cyclic(void *idr, void *ptr, int start, int end, unsigned int flags) {
+	ids[next_id - BASE_ID] = ptr;
+	return next_id++;
+}
+
+void *idr_find(void *idr, unsigned long id) { return ids[id - BASE_ID]; }
+void idr_get_next(void) { abort(); }
+void idr_preload(void) { return; }
+void *idr_remove(void *idr, unsigned long id) { return ids[id - BASE_ID]; } // doesn't actually remove at the moment
+
+void migrate_disable(void) { return; }
+void migrate_enable(void) { return; }
+
+void __fdget(void) {abort();}
+
+
+// defined in kernel/trace/trace_events.c --> enables trace events (set to always success)
+int trace_set_clr_event(const char *system, const char *event, int set) { return 0; }
+
+
+
+void _raw_spin_lock(void) { return; }
+void _raw_spin_lock_bh(void) { return; }
+void _raw_spin_lock_irqsave(void) { return; }
+void _raw_spin_unlock(void) { return; }
+void _raw_spin_unlock_bh(void) { return; }
+void _raw_spin_unlock_irqrestore(void) { return; }
+
+// void perf_event_array_map_ops(void) { abort(); }
+void perf_event_bpf_event(void) { }
+void perf_event_free_bpf_prog(void) { abort(); }
+void perf_event_get(void) { abort(); }
+void perf_event_set_bpf_prog(void) { abort(); }
+void perf_get_event(void) { abort(); }
+
+void audit_enabled(void) { return; }
+void audit_log_end(void) { return; }
+void audit_log_format(void) { return; }
+void audit_log_start(void) { return; }
+
+
+
+void *get_mem_cgroup_from_mm(void * p) { return NULL; }
+
+
+struct bpf_prog *bpf_prog_select_runtime(struct bpf_prog *fp, int *err) {return fp;}
+void bpf_prog_kallsyms_add(struct bpf_prog *fp) {}
 
 // TODO: modify this so that custom capabilities can be specified
 // and so that we can record what functions are asking about which
 // capabilities.
 bool capable(int cap) { return true; } // always true for test harness
 
+
 // originally from /include/linux/slab.h
 // stubbed out (decl as extern in "slab.h")
 // TODO: some implemented may never be used
 // some unimplemented may sometimes be used
 void * kzalloc(size_t size) {
-	void * res = malloc(size);
-	memset(res, 0, size);
-	return res;
+	// void * res = malloc(size);
+	// memset(res, 0, size);
+	// return res;
+	return calloc(1, size);
 }
 // originally from include/linux/slab.h
 void * kvcalloc(size_t n, size_t size) { return calloc(n, size); }
+void * kvmalloc(size_t n, unsigned int flags) { return calloc(1, n); }
+
+void * kcalloc(size_t n, size_t size) { return calloc(n, size); }
+
+void kmalloc(void) { abort(); }
+void *kmalloc_array(size_t n, size_t size, unsigned int flags) { return calloc(1, n *size); }
+void * kmalloc_node(size_t size, unsigned int flags, int node) { return calloc(1, size); }
+void * __kmalloc_track_caller(size_t size, unsigned int flags, unsigned long caller) { return calloc(1, size); }
 
 // originally from include/linux/slab.h
-void kfree(void *ptr) { free(ptr); }
+void kfree(void *ptr) {
+	if (ptr && ptr != ZERO_SIZE_PTR) {
+		free(ptr);
+	}
+}
+
+void * krealloc(void *p, size_t new_size, unsigned int flags) { return realloc(p, new_size); }
+void krealloc_array(void) { abort(); }
 
 // originally from include/linux/slab.h
-void kvfree(void *ptr) { free(ptr); }
+void kvfree(void *ptr) {
+	if (ptr)
+		free(ptr);
+}
 
 // extern decl in  include/linux/vmalloc.h
-void * __vmalloc(unsigned long size) { return malloc(size); }
-
+void * __vmalloc(unsigned long size) { return calloc(1, size); }
+void * __vmalloc_node_range(unsigned long size, unsigned long align,
+			unsigned long start, unsigned long end, unsigned int gfp_mask,
+			unsigned int prot, unsigned long vm_flags, int node,
+			const void *caller) { return calloc(1, size); }
 // extern decl from include/linux/vmalloc.h
 void * vzalloc(size_t size) {
-	void * res = malloc(size);
-	memset(res, 0, size);
-	return res;
+	// void * res = malloc(size);
+	// memset(res, 0, size);
+	// return res;
+	return calloc(1, size);
 }
 
 // extern decl from include/linux/vmalloc.h
-void * vmalloc(unsigned long size) { return malloc(size); }
+void * vmalloc(unsigned long size) { return calloc(1, size); }
 
 
 // extern decl from /include/linux/vmalloc.h
-void vfree(void *ptr) { free(ptr); }
+void vfree(void *ptr) {
+	if (ptr) {
+		free(ptr);
+	}
+}
 
 // originally a macro in include/linux/thread_info.h
 bool tif_need_resched(void) {return false;}
 
 // originally function from include/linux/sched/signal.h
-int signal_pending(struct task_struct *p) { return false; }
+int signal_pending(void *p) { return false; }
 
 // include/linux/sched/user.h
-void free_uid(struct user_struct *) { return; }
-
-//  originally a macro from inlude/asm-generic/current.h
-struct task_struct *get_current(void) { return NULL; }
+void free_uid(void * p) { return; }
 
 
 // I only see this called twice in bpf_check --> just seems to be timing the
@@ -71,7 +155,7 @@ unsigned long ktime_get(void) {
 int ktime_get_with_offset(void) { return 0; } // don't think time is actually relevant
 
 // originally decl in include/linux/percpu.h
-void * __alloc_percpu_gfp(size_t size, size_t align) { return malloc(size); }
+void * __alloc_percpu_gfp(size_t size, size_t align) { return calloc(1, size); }
 // originally decl in include/linux/percpu.h
 void free_percpu(void * ptr) { free(ptr); }
 
@@ -83,17 +167,38 @@ void mutex_lock(void) { return; }
 void mutex_unlock(void) { return; }
 
 // originally decl in include/linux/security.h
-int security_bpf_prog_alloc(struct bpf_prog_aux *aux) { return 0; }
+int security_bpf_prog_alloc(void *aux) { return 0; }
+int security_bpf(int cmd, void *attr, unsigned int size) { return 0;}
+int security_bpf_map(void *map, unsigned int fmode) { return 0;}
+int security_bpf_map_alloc(void *map) { return 0;}
+void security_bpf_map_free(void *map) { return; }
+int security_bpf_prog(void *prog) { return 0; }
+void security_bpf_prog_free(void *aux) { return; }
+void security_locked_down(void) { abort(); }
 
 // include/linux/cred.h
 struct user_struct *get_current_user() { return NULL; }
 
 // orig. in lib/vsprintf.c
-int vscnprintf(char *buf, size_t size, const char *fmt, va_list args) { return snprintf(buf, size, fmt, args); }
+int vscnprintf(char *buf, size_t size, const char *fmt, va_list args) {
+	// int i;
+	// i = scnprintf(buf, size, fmt, args);
+	// return i;
+	return 0;
+}
 
-void _printk(void) { abort(); }
+// void _printk(void) { abort(); }
 
+void kmem_cache_alloc_lru(void) { abort(); } // TODO --> autogened
+void* kmem_cache_create_usercopy(void) { return NULL; } // TODO --> autogened
+void kmem_cache_free(void) { abort(); } // TODO --> autogened
+void* kmem_cache_create(void) {return NULL; }
 
+void queue_map_ops(void) { abort(); }
+void queue_work_on(void) { return; }
+
+void __rcu_read_lock(void) { return; }
+void __rcu_read_unlock(void) { return; }
 
 
 // TODO: deal with this appropriately. Caused by includeing kernel/ksysfs.bc
@@ -135,13 +240,13 @@ void __cpu_possible_mask(void) { abort(); }
 void __dev_flush(void) { abort(); }
 void __do_once_done(void) { abort(); }
 void __do_once_start(void) { abort(); }
-void __fdget(void) { abort(); }
+
 void __inet6_lookup_established(void) { abort(); }
 void __inet_bind(void) { abort(); }
 void __inet_lookup_established(void) { abort(); }
 void __inet_lookup_listener(void) { abort(); }
 void __ipv6_addr_type(void) { abort(); }
-void __kmalloc_track_caller(void) { abort(); }
+
 void __local_bh_enable_ip(void) { abort(); }
 void __neigh_create(void) { abort(); }
 void __per_cpu_offset(void) { abort(); }
@@ -149,8 +254,7 @@ void __pskb_pull_tail(void) { abort(); }
 void __put_net(void) { abort(); }
 void __put_page(void) { abort(); }
 void __put_task_struct(void) { abort(); }
-void __rcu_read_lock(void) { abort(); }
-void __rcu_read_unlock(void) { abort(); }
+
 void __sk_mem_reclaim(void) { abort(); }
 void __skb_get_hash(void) { abort(); }
 void __sock_gen_cookie(void) { abort(); }
@@ -158,30 +262,20 @@ void __sw_hweight64(void) { abort(); }
 void __task_pid_nr_ns(void) { abort(); }
 void __udp4_lib_lookup(void) { abort(); }
 void __usecs_to_jiffies(void) { abort(); }
-void __vmalloc_node_range(void) { abort(); }
+
 void __warn_printk(void) { abort(); }
 void __xdp_return(void) { abort(); }
-void _ctype(void) { abort(); }
+// void _ctype(void) { abort(); }
 void _parse_integer(void) { abort(); }
 void _parse_integer_fixup_radix(void) { abort(); }
-void _raw_spin_lock(void) { abort(); }
-void _raw_spin_lock_bh(void) { abort(); }
-void _raw_spin_lock_irqsave(void) { abort(); }
-void _raw_spin_unlock(void) { abort(); }
-void _raw_spin_unlock_bh(void) { abort(); }
-void _raw_spin_unlock_irqrestore(void) { abort(); }
 void access_process_vm(void) { abort(); }
 void alloc_pages(void) { abort(); }
-void anon_inode_getfd(void) { abort(); }
-void anon_inode_getfile(void) { abort(); }
+
 void arm64_use_ng_mappings(void) { abort(); }
 void arp_tbl(void) { abort(); }
-void array_map_ops(void) { abort(); }
-void array_of_maps_map_ops(void) { abort(); }
-void audit_enabled(void) { abort(); }
-void audit_log_end(void) { abort(); }
-void audit_log_format(void) { abort(); }
-void audit_log_start(void) { abort(); }
+// void array_map_ops(void) { abort(); }
+// void array_of_maps_map_ops(void) { abort(); }
+
 void bin2hex(void) { abort(); }
 void bitmap_find_next_zero_area_off(void) { abort(); }
 void bloom_filter_map_ops(void) { abort(); }
@@ -191,8 +285,8 @@ void bpf_core_patch_insn(void) { abort(); }
 void bpf_dispatcher_change_prog(void) { abort(); }
 void bpf_extension_prog_ops(void) { abort(); }
 void bpf_extension_verifier_ops(void) { abort(); }
-void bpf_fd_array_map_lookup_elem(void) { abort(); }
-void bpf_fd_array_map_update_elem(void) { abort(); }
+// void bpf_fd_array_map_lookup_elem(void) { abort(); }
+// void bpf_fd_array_map_update_elem(void) { abort(); }
 void bpf_fd_htab_map_lookup_elem(void) { abort(); }
 void bpf_fd_htab_map_update_elem(void) { abort(); }
 void bpf_fd_reuseport_array_lookup_elem(void) { abort(); }
@@ -214,8 +308,8 @@ void bpf_obj_get_user(void) { abort(); }
 void bpf_obj_pin_user(void) { abort(); }
 void bpf_offload_prog_map_match(void) { abort(); }
 void bpf_offload_prog_ops(void) { abort(); }
-void bpf_percpu_array_copy(void) { abort(); }
-void bpf_percpu_array_update(void) { abort(); }
+// void bpf_percpu_array_copy(void) { abort(); }
+// void bpf_percpu_array_update(void) { abort(); }
 void bpf_percpu_cgroup_storage_copy(void) { abort(); }
 void bpf_percpu_cgroup_storage_update(void) { abort(); }
 void bpf_percpu_hash_copy(void) { abort(); }
@@ -261,7 +355,7 @@ void cg_sockopt_prog_ops(void) { abort(); }
 void cg_sockopt_verifier_ops(void) { abort(); }
 void cg_sysctl_prog_ops(void) { abort(); }
 void cg_sysctl_verifier_ops(void) { abort(); }
-void cgroup_array_map_ops(void) { abort(); }
+// void cgroup_array_map_ops(void) { abort(); }
 void cgroup_bpf_enabled_key(void) { abort(); }
 void cgroup_bpf_link_attach(void) { abort(); }
 void cgroup_bpf_prog_attach(void) { abort(); }
@@ -298,13 +392,12 @@ void fib_select_path(void) { abort(); }
 void fib_table_lookup(void) { abort(); }
 void find_vm_area(void) { abort(); }
 void find_vpid(void) { abort(); }
-void fput(void) { abort(); }
 void from_kgid(void) { abort(); }
 void from_kuid(void) { abort(); }
 void from_kuid_munged(void) { abort(); }
 void generic_xdp_tx(void) { abort(); }
 void get_callchain_buffers(void) { abort(); }
-void get_mem_cgroup_from_mm(void) { abort(); }
+
 void get_net_ns_by_id(void) { abort(); }
 void get_pid_task(void) { abort(); }
 void get_random_u32(void) { abort(); }
@@ -318,11 +411,7 @@ void htab_lru_percpu_map_ops(void) { abort(); }
 void htab_map_ops(void) { abort(); }
 void htab_of_maps_map_ops(void) { abort(); }
 void htab_percpu_map_ops(void) { abort(); }
-void idr_alloc_cyclic(void) { abort(); }
-void idr_find(void) { abort(); }
-void idr_get_next(void) { abort(); }
-void idr_preload(void) { abort(); }
-void idr_remove(void) { abort(); }
+
 void inet6_lookup_listener(void) { abort(); }
 void inet_proto_csum_replace4(void) { abort(); }
 void inet_proto_csum_replace_by_diff(void) { abort(); }
@@ -336,27 +425,23 @@ void is_skb_forwardable(void) { abort(); }
 void jiffies(void) { abort(); }
 void kallsyms_lookup_name(void) { abort(); }
 void kallsyms_show_value(void) { abort(); }
-void kcalloc(void) { abort(); }
+
 void kfree_skb_reason(void) { abort(); }
-void kmalloc(void) { abort(); }
-void kmalloc_array(void) { abort(); }
-void kmalloc_node(void) { abort(); }
+
 void kmemdup(void) { abort(); }
 void kmemdup_nul(void) { abort(); }
-void krealloc(void) { abort(); }
-void krealloc_array(void) { abort(); }
-void ksize(void) { abort(); }
+
+size_t ksize(const void *p) { return 0; }
 void ktime_get_boot_fast_ns(void) { abort(); }
 void ktime_get_coarse_ts64(void) { abort(); }
 void ktime_get_mono_fast_ns(void) { abort(); }
 void kvfree_call_rcu(void) { abort(); }
-void kvmalloc(void) { abort(); }
+
 void lock_sock_nested(void) { abort(); }
 void make_kuid(void) { abort(); }
 void metadata_dst_alloc_percpu(void) { abort(); }
 void metadata_dst_free_percpu(void) { abort(); }
-void migrate_disable(void) { abort(); }
-void migrate_enable(void) { abort(); }
+
 void module_alloc(void) { abort(); }
 void module_memfree(void) { abort(); }
 void module_put(void) { abort(); }
@@ -376,23 +461,17 @@ void nr_node_ids(void) { abort(); }
 void ns_match(void) { abort(); }
 void numa_node(void) { abort(); }
 void overflowuid(void) { abort(); }
-void percpu_array_map_ops(void) { abort(); }
-void perf_event_array_map_ops(void) { abort(); }
-void perf_event_bpf_event(void) { abort(); }
-void perf_event_free_bpf_prog(void) { abort(); }
-void perf_event_get(void) { abort(); }
-void perf_event_set_bpf_prog(void) { abort(); }
-void perf_get_event(void) { abort(); }
+// void percpu_array_map_ops(void) { abort(); }
+
 void prandom_seed_full_state(void) { abort(); }
 void prandom_u32_state(void) { abort(); }
 void preempt_schedule(void) { abort(); }
 void preempt_schedule_notrace(void) { abort(); }
-void prog_array_map_ops(void) { abort(); }
+// void prog_array_map_ops(void) { abort(); }
 void pskb_expand_head(void) { abort(); }
 void put_callchain_buffers(void) { abort(); }
 void put_unused_fd(void) { abort(); }
-void queue_map_ops(void) { abort(); }
-void queue_work_on(void) { abort(); }
+
 void queued_spin_lock_slowpath(void) { abort(); }
 void rb_erase(void) { abort(); }
 void rb_insert_color(void) { abort(); }
@@ -403,13 +482,6 @@ void reuseport_attach_prog(void) { abort(); }
 void ringbuf_map_ops(void) { abort(); }
 void sched_clock(void) { abort(); }
 void search_extable(void) { abort(); }
-void security_bpf(void) { abort(); }
-void security_bpf_map(void) { abort(); }
-void security_bpf_map_alloc(void) { abort(); }
-void security_bpf_map_free(void) { abort(); }
-void security_bpf_prog(void) { abort(); }
-void security_bpf_prog_free(void) { abort(); }
-void security_locked_down(void) { abort(); }
 void seq_printf(void) { abort(); }
 void seq_vprintf(void) { abort(); }
 void set_memory_ro(void) { abort(); }
@@ -468,3 +540,273 @@ void vabits_actual(void) { abort(); }
 void vmemdup_user(void) { abort(); }
 void xdp_convert_zc_to_xdp_frame(void) { abort(); }
 void xdp_warn(void) { abort(); }
+
+
+// caused by fs/dcache.o
+void ___ratelimit(void) { abort(); } // TODO --> autogened
+void __detach_mounts(void) { abort(); } // TODO --> autogened
+void __fsnotify_inode_delete(void) { abort(); } // TODO --> autogened
+void __kmalloc(void) { abort(); } // TODO --> autogened
+void __lookup_mnt(void) { abort(); } // TODO --> autogened
+void __mark_inode_dirty(void) { abort(); } // TODO --> autogened
+void __register_sysctl_init(void) { abort(); } // TODO --> autogened
+void __wake_up(void) { abort(); } // TODO --> autogened
+void _raw_spin_trylock(void) { abort(); } // TODO --> autogened
+void add_wait_queue(void) { abort(); } // TODO --> autogened
+void * alloc_large_system_hash(const char *tablename,
+				     unsigned long bucketsize,
+				     unsigned long numentries,
+				     int scale,
+				     int flags,
+				     unsigned int *_hash_shift,
+				     unsigned int *_hash_mask,
+				     unsigned long low_limit,
+				     unsigned long high_limit) { return malloc(10*bucketsize); } // TODO --> autogened
+void bdev_cache_init(void) { return; } // TODO --> autogened
+void chrdev_init(void) { return; } // TODO --> autogened
+void default_wake_function(void) { abort(); } // TODO --> autogened
+void down_read_trylock(void) { abort(); } // TODO --> autogened
+void fsnotify(void) { abort(); } // TODO --> autogened
+void full_name_hash(void) { abort(); } // TODO --> autogened
+void hashdist(void) { abort(); } // TODO --> autogened
+void hashlen_string(void) { abort(); } // TODO --> autogened
+void list_lru_add(void) { abort(); } // TODO --> autogened
+void list_lru_count_node(void) { abort(); } // TODO --> autogened
+void list_lru_del(void) { abort(); } // TODO --> autogened
+void list_lru_isolate(void) { abort(); } // TODO --> autogened
+void list_lru_isolate_move(void) { abort(); } // TODO --> autogened
+void list_lru_walk_node(void) { abort(); } // TODO --> autogened
+void list_lru_walk_one(void) { abort(); } // TODO --> autogened
+void lockref_get(void) { abort(); } // TODO --> autogened
+void lockref_get_not_dead(void) { abort(); } // TODO --> autogened
+void lockref_get_not_zero(void) { abort(); } // TODO --> autogened
+void lockref_mark_dead(void) { abort(); } // TODO --> autogened
+void lockref_put_or_lock(void) { abort(); } // TODO --> autogened
+void lockref_put_return(void) { abort(); } // TODO --> autogened
+void mnt_init(void) { return; } // TODO --> autogened
+void mount_lock(void) { abort(); } // TODO --> autogened
+void mutex_trylock(void) { abort(); } // TODO --> autogened
+void proc_doulongvec_minmax(void) { abort(); } // TODO --> autogened
+void schedule(void) { abort(); } // TODO --> autogened
+void security_d_instantiate(void) { abort(); } // TODO --> autogened
+void simple_strtoul(void) { abort(); } // TODO --> autogened
+void up_read(void) { abort(); } // TODO --> autogened
+void wake_up_bit(void) { abort(); } // TODO --> autogened
+
+
+// from fs/inode.o
+void __init_rwsem(void) { abort(); } // TODO --> autogened
+void __mnt_drop_write(void) { abort(); } // TODO --> autogened
+void __mnt_drop_write_file(void) { abort(); } // TODO --> autogened
+void __mnt_want_write(void) { abort(); } // TODO --> autogened
+void __mnt_want_write_file(void) { abort(); } // TODO --> autogened
+void __percpu_down_read(void) { abort(); } // TODO --> autogened
+void _atomic_dec_and_lock(void) { abort(); } // TODO --> autogened
+void _raw_spin_lock_irq(void) { abort(); } // TODO --> autogened
+void _raw_spin_unlock_irq(void) { abort(); } // TODO --> autogened
+void bit_wait(void) { abort(); } // TODO --> autogened
+void bit_waitqueue(void) { abort(); } // TODO --> autogened
+void capable_wrt_inode_uidgid(void) { abort(); } // TODO --> autogened
+void cd_forget(void) { abort(); } // TODO --> autogened
+void def_blk_fops(void) { abort(); } // TODO --> autogened
+void def_chr_fops(void) { abort(); } // TODO --> autogened
+void down_write(void) { abort(); } // TODO --> autogened
+void finish_wait(void) { abort(); } // TODO --> autogened
+void in_group_p(void) { abort(); } // TODO --> autogened
+void inode_has_buffers(void) { abort(); } // TODO --> autogened
+void inode_io_list_del(void) { abort(); } // TODO --> autogened
+void inode_wait_for_writeback(void) { abort(); } // TODO --> autogened
+void invalidate_mapping_pages(void) { abort(); } // TODO --> autogened
+void ktime_get_coarse_real_ts64(void) { abort(); } // TODO --> autogened
+void locks_free_lock_context(void) { abort(); } // TODO --> autogened
+void make_kgid(void) { abort(); } // TODO --> autogened
+void notify_change(void) { abort(); } // TODO --> autogened
+void ns_capable(void) { abort(); } // TODO --> autogened
+void out_of_line_wait_on_bit(void) { abort(); } // TODO --> autogened
+void pipefifo_fops(void) { abort(); } // TODO --> autogened
+void prepare_to_wait(void) { abort(); } // TODO --> autogened
+void rcuwait_wake_up(void) { abort(); } // TODO --> autogened
+void remove_inode_buffers(void) { abort(); } // TODO --> autogened
+void security_inode_alloc(void) { abort(); } // TODO --> autogened
+void security_inode_free(void) { abort(); } // TODO --> autogened
+void security_inode_need_killpriv(void) { abort(); } // TODO --> autogened
+void truncate_inode_pages_final(void) { abort(); } // TODO --> autogened
+void up_write(void) { abort(); } // TODO --> autogened
+void vm_event_states(void) { abort(); } // TODO --> autogened
+void wake_bit_function(void) { abort(); } // TODO --> autogened
+void write_inode_now(void) { abort(); } // TODO --> autogened
+
+// from file_table.o
+void __fsnotify_parent(void) { abort(); } // TODO --> autogened
+void __percpu_counter_init(void)  { return; } // TODO --> autogened
+void __percpu_counter_sum(void) { abort(); } // TODO --> autogened
+void __put_cred(void) { abort(); } // TODO --> autogened
+void _totalram_pages(void) { abort(); } // TODO --> autogened
+void cdev_put(void) { abort(); } // TODO --> autogened
+void delayed_work_timer_fn(void) { abort(); } // TODO --> autogened
+void dissolve_on_fput(void) { abort(); } // TODO --> autogened
+void errseq_sample(void) { abort(); } // TODO --> autogened
+void eventpoll_release_file(void) { abort(); } // TODO --> autogened
+void kmem_cache_zalloc(void) { abort(); } // TODO --> autogened
+void llist_add_batch(void) { abort(); } // TODO --> autogened
+void locks_remove_file(void) { abort(); } // TODO --> autogened
+void mntget(void) { abort(); } // TODO --> autogened
+void mntput(void) { abort(); } // TODO --> autogened
+void path_get(void) { abort(); } // TODO --> autogened
+void path_put(void) { abort(); } // TODO --> autogened
+void percpu_counter_add_batch(void) { abort(); } // TODO --> autogened
+void percpu_counter_batch(void) { abort(); } // TODO --> autogened
+void proc_dointvec_minmax(void) { abort(); } // TODO --> autogened
+void put_pid(void) { abort(); } // TODO --> autogened
+void queue_delayed_work_on(void) { abort(); } // TODO --> autogened
+void security_file_alloc(void) { abort(); } // TODO --> autogened
+void security_file_free(void) { abort(); } // TODO --> autogened
+void simple_dname(void) { abort(); } // TODO --> autogened
+void sysctl_long_vals(void) { abort(); } // TODO --> autogened
+void sysctl_nr_open(void) { abort(); } // TODO --> autogened
+void sysctl_nr_open_max(void) { abort(); } // TODO --> autogened
+void sysctl_nr_open_min(void) { abort(); } // TODO --> autogened
+void task_work_add(void) { abort(); } // TODO --> autogened
+void vm_zone_stat(void) { abort(); } // TODO --> autogened
+
+void bpf_iter_get_info(void) { abort(); } // TODO --> autogened
+void bpf_iter_run_prog(void) { abort(); } // TODO --> autogened
+void bpf_map_fd_get_ptr(void) { abort(); } // TODO --> autogened
+void bpf_map_fd_put_ptr(void) { abort(); } // TODO --> autogened
+void bpf_map_fd_sys_lookup_elem(void) { abort(); } // TODO --> autogened
+void bpf_map_meta_alloc(void) { abort(); } // TODO --> autogened
+void bpf_map_meta_free(void) { abort(); } // TODO --> autogened
+void cgroup_get_from_fd(void) { abort(); } // TODO --> autogened
+void mutex_is_locked(void) { abort(); } // TODO --> autogened
+void perf_event_read_local(void) { abort(); } // TODO --> autogened
+void remap_vmalloc_range(void) { abort(); } // TODO --> autogened
+void seq_puts(void) { abort(); } // TODO --> autogened
+
+
+// from trying to introduce tracing :(
+void __con_initcall_end(void) { abort(); } // TODO --> autogened
+void __con_initcall_start(void) { abort(); } // TODO --> autogened
+void __const_udelay(void) { abort(); } // TODO --> autogened
+void __copy_overflow(void) { abort(); } // TODO --> autogened
+void __cpu_online_mask(void) { abort(); } // TODO --> autogened
+void __cpuhp_setup_state(void) { abort(); } // TODO --> autogened
+void __init_begin(void) { abort(); } // TODO --> autogened
+void __init_end(void) { abort(); } // TODO --> autogened
+void __module_address(void) { abort(); } // TODO --> autogened
+void __msecs_to_jiffies(void) { abort(); } // TODO --> autogened
+void __printk_safe_enter(void) { abort(); } // TODO --> autogened
+void __printk_safe_exit(void) { abort(); } // TODO --> autogened
+void __srcu_read_lock(void) { abort(); } // TODO --> autogened
+void __srcu_read_unlock(void) { abort(); } // TODO --> autogened
+void __start__bpf_raw_tp(void) { abort(); } // TODO --> autogened
+void __stop__bpf_raw_tp(void) { abort(); } // TODO --> autogened
+void __trace_trigger_soft_disabled(void) { abort(); } // TODO --> autogened
+void __traceiter_initcall_finish(void) { abort(); } // TODO --> autogened
+void __traceiter_initcall_level(void) { abort(); } // TODO --> autogened
+void __traceiter_initcall_start(void) { abort(); } // TODO --> autogened
+void __traceiter_writeback_lazytime_iput(void) { abort(); } // TODO --> autogened
+void __tracepoint_initcall_finish(void) { abort(); } // TODO --> autogened
+void __tracepoint_initcall_level(void) { abort(); } // TODO --> autogened
+void __tracepoint_initcall_start(void) { abort(); } // TODO --> autogened
+void __tracepoint_writeback_lazytime_iput(void) { abort(); } // TODO --> autogened
+void _copy_from_iter(void) { abort(); } // TODO --> autogened
+void bpf_find_vma_proto(void) { abort(); } // TODO --> autogened
+void bpf_get_kprobe_info(void) { abort(); } // TODO --> autogened
+void bpf_get_stack(void) { abort(); } // TODO --> autogened
+void bpf_get_stack_proto(void) { abort(); } // TODO --> autogened
+void bpf_get_stack_proto_pe(void) { abort(); } // TODO --> autogened
+void bpf_get_stackid(void) { abort(); } // TODO --> autogened
+void bpf_get_stackid_proto(void) { abort(); } // TODO --> autogened
+void bpf_get_stackid_proto_pe(void) { abort(); } // TODO --> autogened
+void bpf_get_task_stack_proto(void) { abort(); } // TODO --> autogened
+void bpf_get_uprobe_info(void) { abort(); } // TODO --> autogened
+void bpf_iter_get_func_proto(void) { abort(); } // TODO --> autogened
+void bpf_prog_test_run_raw_tp(void) { abort(); } // TODO --> autogened
+void bpf_sk_storage_delete_tracing_proto(void) { abort(); } // TODO --> autogened
+void bpf_sk_storage_get_tracing_proto(void) { abort(); } // TODO --> autogened
+void bpf_task_storage_delete_proto(void) { abort(); } // TODO --> autogened
+void bpf_task_storage_get_proto(void) { abort(); } // TODO --> autogened
+void console_sysfs_notify(void) { abort(); } // TODO --> autogened
+void copy_from_user_nofault(void) { abort(); } // TODO --> autogened
+void copy_to_user_nofault(void) { abort(); } // TODO --> autogened
+void cpuhp_tasks_frozen(void) { abort(); } // TODO --> autogened
+void current_kprobe(void) { abort(); } // TODO --> autogened
+void d_path(void) { abort(); } // TODO --> autogened
+void down(void) { abort(); } // TODO --> autogened
+void down_trylock(void) { abort(); } // TODO --> autogened
+void group_send_sig_info(void) { abort(); } // TODO --> autogened
+void init_wait_entry(void) { abort(); } // TODO --> autogened
+void iov_iter_revert(void) { abort(); } // TODO --> autogened
+void irq_work_queue(void) { abort(); } // TODO --> autogened
+void kmalloc_caches(void) { abort(); } // TODO --> autogened
+void kmem_cache_alloc_trace(void) { abort(); } // TODO --> autogened
+void kvmalloc_node(void) { abort(); } // TODO --> autogened
+void memblock_alloc_try_nid(void) { abort(); } // TODO --> autogened
+void memblock_free(void) { abort(); } // TODO --> autogened
+void memparse(void) { abort(); } // TODO --> autogened
+void mutex_lock_interruptible(void) { abort(); } // TODO --> autogened
+void n_tty_init(void) { abort(); } // TODO --> autogened
+void panic_cpu(void) { abort(); } // TODO --> autogened
+void param_ops_bool(void) { abort(); } // TODO --> autogened
+void perf_event_output(void) { abort(); } // TODO --> autogened
+void perf_trace_buf_alloc(void) { abort(); } // TODO --> autogened
+void perf_trace_run_bpf_submit(void) { abort(); } // TODO --> autogened
+void prb_commit(void) { abort(); } // TODO --> autogened
+void prb_final_commit(void) { abort(); } // TODO --> autogened
+void prb_first_valid_seq(void) { abort(); } // TODO --> autogened
+void prb_init(void) { abort(); } // TODO --> autogened
+void prb_next_seq(void) { abort(); } // TODO --> autogened
+void prb_read_valid(void) { abort(); } // TODO --> autogened
+void prb_read_valid_info(void) { abort(); } // TODO --> autogened
+void prb_record_text_space(void) { abort(); } // TODO --> autogened
+void prb_reserve(void) { abort(); } // TODO --> autogened
+void prb_reserve_in_last(void) { abort(); } // TODO --> autogened
+void prepare_to_wait_event(void) { abort(); } // TODO --> autogened
+void printk_sysctl_init(void) { abort(); } // TODO --> autogened
+void proc_dostring(void) { abort(); } // TODO --> autogened
+void rcu_irq_enter_irqson(void) { abort(); } // TODO --> autogened
+void rcu_irq_exit_irqson(void) { abort(); } // TODO --> autogened
+void scnprintf(void) { abort(); } // TODO --> autogened
+void security_syslog(void) { abort(); } // TODO --> autogened
+void seq_bprintf(void) { abort(); } // TODO --> autogened
+void seq_write(void) { abort(); } // TODO --> autogened
+void trace_event_buffer_commit(void) { abort(); } // TODO --> autogened
+void trace_event_buffer_reserve(void) { abort(); } // TODO --> autogened
+void trace_event_printf(void) { abort(); } // TODO --> autogened
+void trace_event_raw_init(void) { abort(); } // TODO --> autogened
+void trace_event_reg(void) { abort(); } // TODO --> autogened
+void trace_handle_return(void) { abort(); } // TODO --> autogened
+void trace_kprobe_error_injectable(void) { abort(); } // TODO --> autogened
+void trace_kprobe_on_func_entry(void) { abort(); } // TODO --> autogened
+void trace_print_symbols_seq(void) { abort(); } // TODO --> autogened
+void trace_raw_output_prep(void) { abort(); } // TODO --> autogened
+
+void tracepoint_probe_register_prio_may_exist(void) { abort(); } // TODO --> autogened
+void tracepoint_probe_unregister(void) { abort(); } // TODO --> autogened
+void tracepoint_srcu(void) { abort(); } // TODO --> autogened
+void up(void) { abort(); } // TODO --> autogened
+void vmcoreinfo_append_str(void) { abort(); } // TODO --> autogened
+void vprintk(void) { abort(); } // TODO --> autogened
+void within_error_injection_list(void) { abort(); } // TODO --> autogened
+
+
+void enter_syscall_print_funcs(void) { abort(); } // TODO --> autogened
+void event_class_syscall_enter(void) { abort(); } // TODO --> autogened
+void event_class_syscall_exit(void) { abort(); } // TODO --> autogened
+void exit_syscall_print_funcs(void) { abort(); } // TODO --> autogened
+
+
+// from stubbing out atomic-instrumented.h
+void atomic64_add(void) { return; } // TODO --> autogened
+void atomic64_dec(void) { return; } // TODO --> autogened
+void atomic64_dec_and_test(void) { abort(); } // TODO --> autogened
+void atomic64_fetch_add_unless(void) { abort(); } // TODO --> autogened
+void atomic64_inc(void) { return; } // TODO --> autogened
+long atomic64_read(const long *ptr) { return *ptr; } // TODO --> autogened
+void atomic64_set(void) { return; } // TODO --> autogened
+void atomic64_sub_return(void) { abort(); } // TODO --> autogened
+void atomic_fetch_sub_release(void) { abort(); } // TODO --> autogened
+void atomic_long_add(void) { abort(); } // TODO --> autogened
+void atomic_long_inc(void) { abort(); } // TODO --> autogened
+void atomic_long_read(void) { abort(); } // TODO --> autogened
+void atomic_long_sub_and_test(void) { abort(); } // TODO --> autogened

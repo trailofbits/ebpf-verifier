@@ -1,4 +1,5 @@
 #define _LINUX_SCHED_SIGNAL_H
+#include <linux/filter.h>
 extern int fatal_signal_pending(struct task_struct *p); // TODO --> fix params + return (actually in linux/sched/signal.h)
 extern int same_thread_group(struct task_struct *p1, struct task_struct *p2); // TODO --> fix params + return (in sched/signal.h)
 extern int send_sig(int, struct task_struct *, int);// TODO --> fix params + return (in sched/signal.h)

@@ -3,10 +3,11 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/resource.h>
+#include <stdbool.h>
 
 #include <bpf/libbpf.h>
 #include <bpf/bpf.h>
-#include "sample.skel.h"
+#include "s.skel.h"
 
 void read_trace_pipe(void)
 {
@@ -28,15 +29,21 @@ void read_trace_pipe(void)
 	}
 }
 
+static int libbpf_print_fn(enum libbpf_print_level level, const char *format, va_list args) {
+	return vfprintf(stderr, format, args);
+}
+
+
 int main(void)
 {
-	struct sample_bpf *obj;
+	struct s_bpf *obj;
 	int err = 0;
 
 	struct rlimit rlim = {
 		.rlim_cur = 512UL << 20,
 		.rlim_max = 512UL << 20,
 	};
+	libbpf_set_print(libbpf_print_fn);
 
 	err = setrlimit(RLIMIT_MEMLOCK, &rlim);
 	if (err) {
@@ -44,20 +51,30 @@ int main(void)
 		return 1;
 	}
 
+	char *path = "/home/parallels/ebpf-verifier/linux/vmlinux.h";
 
-	obj = sample_bpf__open();
+	struct bpf_object_open_opts opts = {
+		.sz = 0,
+		.btf_custom_path = path,
+	};
+
+	opts.sz = sizeof(opts);
+
+	obj = s_bpf__open_opts(&opts);
 	if (!obj) {
 		fprintf(stderr, "failed to open and/or load BPF object\n");
 		return 1;
 	}
 
-	err = sample_bpf__load(obj);
+	//bpf_map__set_autocreate(obj->maps.rodata, false);
+
+	err = s_bpf__load(obj);
 	if (err) {
 		fprintf(stderr, "failed to load BPF object %d\n", err);
 		goto cleanup;
 	}
 
-	err = sample_bpf__attach(obj);
+	err = s_bpf__attach(obj);
 	if (err) {
 		fprintf(stderr, "failed to attach BPF programs\n");
 		goto cleanup;
@@ -66,6 +83,6 @@ int main(void)
 	read_trace_pipe();
 
 cleanup:
-	sample_bpf__destroy(obj);
+	s_bpf__destroy(obj);
 	return err != 0;
 }

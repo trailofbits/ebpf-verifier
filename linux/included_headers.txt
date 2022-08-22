@@ -1,6 +1,10 @@
-printk.h kernel/bpf/verifier.o kernel/bpf/btf.o
+percpu-defs.h kernel/bpf/syscall.o
+atomic-instrumented.h kernel/bpf/syscall.o
 uaccess.h kernel/bpf/verifier.o
-slab.h kernel/bpf/verifier.o kernel/bpf/btf.o kernel/bpf/syscall.o kernel/bpf/core.o net/core/filter.o
+printk.h kernel/bpf/verifier.o kernel/bpf/btf.o
+lock.h kernel/bpf/syscall.o kernel/bpf/btf.o kernel/bpf/verifier.o
+slab.h kernel/bpf/verifier.o kernel/bpf/btf.o kernel/bpf/syscall.o kernel/bpf/core.o net/core/filter.o fs/dcache.o fs/inode.o fs/file_table.o kernel/bpf/arraymap.o
 cred.h kernel/bpf/syscall.o
-current.h kernel/bpf/verifier.o
-sig.h kernel/bpf/verifier.o
+current.h kernel/bpf/verifier.o kernel/bpf/syscall.o
+fs.h kernel/bpf/verifier.o
+file.h kernel/bpf/verifier.o kernel/bpf/syscall.o kernel/bpf/btf.o

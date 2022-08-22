@@ -99,7 +99,6 @@ add_custom_command(
 )
 
 add_custom_target("kernel"
-  DEPENDS ${linux_clang_cmds}
   DEPENDS ${kernel}
 )
 
