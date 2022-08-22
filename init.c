@@ -27,8 +27,10 @@ struct task_struct *get_current(void) { return current; }
 
 // set up the simulated vfs and current task struct
 void init(void) {
+#ifdef HARNESS
   init_pseudo_filesys();
   current = malloc(sizeof(struct my_task_struct));
+#endif
 }
 
 static int libbpf_print_fn(enum libbpf_print_level level, const char *format, va_list args) {

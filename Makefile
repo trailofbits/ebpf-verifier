@@ -4,9 +4,9 @@ BIN = $(EBPF)/bin
 SRC = $(EBPF)/src
 
 # build libbpf hooked into harness
-REGLIBBPF := $(EBPF)/libbpf/src/src/build_reg/libbpf.a
-LIBBPF := $(EBPF)/libbpf/src/src/build/libbpf.a
-LIBBPFSRC := $(EBPF)/libbpf/src/src
+REGLIBBPF := $(EBPF)/libbpf/build_reg/libbpf.a
+LIBBPF := $(EBPF)/libbpf/build/libbpf.a
+LIBBPFSRC := $(EBPF)/libbpf/
 # REGLIBBPF := reg_libbpf.a
 KARCHIVE := $(EBPF)/linux/kernel.a
 
@@ -32,7 +32,6 @@ $(BIN)/%.bpf.o: $(SRC)/%.bpf.c $(VMLINUX)
 $(SRC)/%.skel.h: $(BIN)/%.bpf.o
 	bpftool gen skeleton $< > $@
 
-
 $(SRC)/%.o:
 	$(CC) $(CFLAGS) $(INCLUDES) \
 	-Dmain=real_main -c $(SRC)/$*.c -o $@
@@ -40,6 +39,7 @@ $(SRC)/%.o:
 # generate bpf loader executable (will call into my_syscall)
 $(APPS): % : $(LIBBPF) $(SRC)/%.skel.h $(KARCHIVE)
 	$(CC) $(CFLAGS) $(INCLUDES) \
+	-DHARNESS \
 	-iquote./src \
 	$(SRC)/my_syscall.c \
 	runtime.c \
@@ -50,21 +50,11 @@ $(APPS): % : $(LIBBPF) $(SRC)/%.skel.h $(KARCHIVE)
 	-o $(BIN)/$@ \
 	-mcmodel=large
 
-# $(APPS): % : $(SRC)/%.c $(LIBBPF) $(SRC)/%.skel.h $(KARCHIVE) $(SRC)/%.o
-# 	$(CC) $(CFLAGS) $(INCLUDES) \
-# 	$(SRC)/my_syscall.c \
-# 	$(SRC)/$@.o \
-# 	runtime.c \
-# 	init.c \
-# 	fd.c \
-# 	$(LIBBPF) -lelf -lz \
-# 	$(KARCHIVE) \
-# 	-o $(BIN)/$@ \
-# 	-mcmodel=large
-
 # generate bpf loader executable using standard libbpf (will make actual syscalls)
-local-$(APPS): local-% : $(SRC)/%.c $(REGLIBBPF) $(SRC)/%.skel.h $(SRC)/%.o
-	$(CC) $(CLAGS) $(INCLUDES) $(SRC)/$*.o \
+local-$(APPS): local-% : $(REGLIBBPF) $(SRC)/%.skel.h
+	$(CC) $(CLAGS) $(INCLUDES) \
+	-UHARNESS \
+	-iquote./src \
 	init.c \
 	$(REGLIBBPF) -lelf -lz -o $(BIN)/$@
 

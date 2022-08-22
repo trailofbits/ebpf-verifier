@@ -1,16 +1,26 @@
-special:
-	make clean
-	rm -rf build root
-	BUILD_STATIC_ONLY=y OBJDIR=build DESTDIR=root make install
-	rm build/staticobjs/bpf.o
-	clang -I. -I../include -I../include/uapi -g -O2 -Werror -Wall -std=gnu89 \
-	-D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 \
-	-Dbtf_type_by_id=libbpf__btf_type_by_id -Dbpf_core_essential_name_len=libbpf__bpf_core_essential_name_len \
+# replace libbpf functions that conflict with internel kernel functions with prefixed
+# alternatives
+PREFIXED_MACROS := -Dbtf_type_by_id=libbpf__btf_type_by_id -Dbpf_core_essential_name_len=libbpf__bpf_core_essential_name_len \
 	-Dbpf_core_types_are_compat=libbpf__bpf_core_types_are_compat -Dbpf_prog_load=libbpf__bpf_prog_load \
 	-Dbpf_map_update_elem=libbpf__bpf_map_update_elem -Dbpf_core_calc_relo_insn=libbpf__bpf_core_calc_relo_insn \
 	-Dbpf_core_patch_insn=libbpf__bpf_core_patch_insn -Dbpf_map_delete_elem=libbpf__bpf_map_delete_elem \
-	-Dbpf_map_lookup_elem=libbpf__bpf_map_lookup_elem -Dbpf_btf_load=libbpf__bpf_btf_load -fvisibility=hidden \
+	-Dbpf_map_lookup_elem=libbpf__bpf_map_lookup_elem -Dbpf_btf_load=libbpf__bpf_btf_load
+
+BUILD := ../../build
+ROOT := ../../root
+
+
+# clean libbpf. build all static object files using prefixed macros.
+# remove bpf.o and libbpf.a
+# remake bpf.o with syscall replaced by my_syscall
+# remake libbpf.a
+special:
+	make clean && rm -rf $(BUILD) $(ROOT)
+	BUILD_STATIC_ONLY=y OBJDIR=$(BUILD) DESTDIR=$(ROOT) make EXTRA_CFLAGS='$(PREFIXED_MACROS)' install
+	rm $(BUILD)/staticobjs/bpf.o $(BUILD)/libbpf.a
+	clang -I. -I../include -I../include/uapi -g -O2 -Werror -Wall -std=gnu89 \
+	-D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 $(PREFIXED_MACROS) \
+	-fvisibility=hidden \
 	 -Dsyscall=my_syscall \
-	-c -o build/staticobjs/bpf.o bpf.c -fdebug-default-version=4
-	rm build/libbpf.a
-	BUILD_STATIC_ONLY=y OBJDIR=build DESTDIR=root make install
+	-c -o $(BUILD)/staticobjs/bpf.o bpf.c -fdebug-default-version=4
+	BUILD_STATIC_ONLY=y OBJDIR=$(BUILD) DESTDIR=$(ROOT) make install
