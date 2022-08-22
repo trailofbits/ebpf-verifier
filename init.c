@@ -58,9 +58,6 @@ int main() {
     return 1;
   }
 
-  //bpf_map__set_autocreate(obj->maps.rodata, false);
-
-  // err = s_bpf__load(obj);
   err = bpf_object__load(*obj->skeleton->obj);
   if (err) {
     fprintf(stderr, "failed to load BPF object %d\n", err);
