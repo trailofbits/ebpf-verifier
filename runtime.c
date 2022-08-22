@@ -8,6 +8,7 @@
 #include <time.h>
 #include <assert.h>
 
+#define ZERO_SIZE_PTR ((void *)16)
 
 // TODO: improve idr replacement and move to its own file. (really fragile and bad right now)
 // Really basic replacement for idr.
@@ -75,48 +76,62 @@ bool capable(int cap) { return true; } // always true for test harness
 // TODO: some implemented may never be used
 // some unimplemented may sometimes be used
 void * kzalloc(size_t size) {
-	void * res = malloc(size);
-	memset(res, 0, size);
-	return res;
+	// void * res = malloc(size);
+	// memset(res, 0, size);
+	// return res;
+	return calloc(1, size);
 }
 // originally from include/linux/slab.h
 void * kvcalloc(size_t n, size_t size) { return calloc(n, size); }
-void * kvmalloc(size_t n, unsigned int flags) { return malloc(n); }
+void * kvmalloc(size_t n, unsigned int flags) { return calloc(1, n); }
 
 void * kcalloc(size_t n, size_t size) { return calloc(n, size); }
 
 void kmalloc(void) { abort(); }
-void *kmalloc_array(size_t n, size_t size, unsigned int flags) { return malloc(n *size); }
-void * kmalloc_node(size_t size, unsigned int flags, int node) { return malloc(size); }
+void *kmalloc_array(size_t n, size_t size, unsigned int flags) { return calloc(1, n *size); }
+void * kmalloc_node(size_t size, unsigned int flags, int node) { return calloc(1, size); }
+void * __kmalloc_track_caller(size_t size, unsigned int flags, unsigned long caller) { return calloc(1, size); }
 
 // originally from include/linux/slab.h
-void kfree(void *ptr) { free(ptr); }
+void kfree(void *ptr) {
+	if (ptr && ptr != ZERO_SIZE_PTR) {
+		free(ptr);
+	}
+}
 
 void * krealloc(void *p, size_t new_size, unsigned int flags) { return realloc(p, new_size); }
 void krealloc_array(void) { abort(); }
 
 // originally from include/linux/slab.h
-void kvfree(void *ptr) { free(ptr); }
+void kvfree(void *ptr) {
+	if (ptr)
+		free(ptr);
+}
 
 // extern decl in  include/linux/vmalloc.h
-void * __vmalloc(unsigned long size) { return malloc(size); }
+void * __vmalloc(unsigned long size) { return calloc(1, size); }
 void * __vmalloc_node_range(unsigned long size, unsigned long align,
 			unsigned long start, unsigned long end, unsigned int gfp_mask,
 			unsigned int prot, unsigned long vm_flags, int node,
-			const void *caller) { return malloc(size); }
+			const void *caller) { return calloc(1, size); }
 // extern decl from include/linux/vmalloc.h
 void * vzalloc(size_t size) {
-	void * res = malloc(size);
-	memset(res, 0, size);
-	return res;
+	// void * res = malloc(size);
+	// memset(res, 0, size);
+	// return res;
+	return calloc(1, size);
 }
 
 // extern decl from include/linux/vmalloc.h
-void * vmalloc(unsigned long size) { return malloc(size); }
+void * vmalloc(unsigned long size) { return calloc(1, size); }
 
 
 // extern decl from /include/linux/vmalloc.h
-void vfree(void *ptr) { free(ptr); }
+void vfree(void *ptr) {
+	if (ptr) {
+		free(ptr);
+	}
+}
 
 // originally a macro in include/linux/thread_info.h
 bool tif_need_resched(void) {return false;}
@@ -140,7 +155,7 @@ unsigned long ktime_get(void) {
 int ktime_get_with_offset(void) { return 0; } // don't think time is actually relevant
 
 // originally decl in include/linux/percpu.h
-void * __alloc_percpu_gfp(size_t size, size_t align) { return malloc(size); }
+void * __alloc_percpu_gfp(size_t size, size_t align) { return calloc(1, size); }
 // originally decl in include/linux/percpu.h
 void free_percpu(void * ptr) { free(ptr); }
 
@@ -231,7 +246,7 @@ void __inet_bind(void) { abort(); }
 void __inet_lookup_established(void) { abort(); }
 void __inet_lookup_listener(void) { abort(); }
 void __ipv6_addr_type(void) { abort(); }
-void __kmalloc_track_caller(void) { abort(); }
+
 void __local_bh_enable_ip(void) { abort(); }
 void __neigh_create(void) { abort(); }
 void __per_cpu_offset(void) { abort(); }
@@ -416,7 +431,7 @@ void kfree_skb_reason(void) { abort(); }
 void kmemdup(void) { abort(); }
 void kmemdup_nul(void) { abort(); }
 
-void ksize(void) { abort(); }
+size_t ksize(const void *p) { return 0; }
 void ktime_get_boot_fast_ns(void) { abort(); }
 void ktime_get_coarse_ts64(void) { abort(); }
 void ktime_get_mono_fast_ns(void) { abort(); }

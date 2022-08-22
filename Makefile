@@ -37,12 +37,11 @@ $(SRC)/%.o:
 	$(CC) $(CFLAGS) $(INCLUDES) \
 	-Dmain=real_main -c $(SRC)/$*.c -o $@
 
-
 # generate bpf loader executable (will call into my_syscall)
-$(APPS): % : $(SRC)/%.c $(LIBBPF) $(SRC)/%.skel.h $(KARCHIVE) $(SRC)/%.o
+$(APPS): % : $(LIBBPF) $(SRC)/%.skel.h $(KARCHIVE)
 	$(CC) $(CFLAGS) $(INCLUDES) \
+	-iquote./src \
 	$(SRC)/my_syscall.c \
-	$(SRC)/$@.o \
 	runtime.c \
 	init.c \
 	fd.c \
@@ -50,6 +49,18 @@ $(APPS): % : $(SRC)/%.c $(LIBBPF) $(SRC)/%.skel.h $(KARCHIVE) $(SRC)/%.o
 	$(KARCHIVE) \
 	-o $(BIN)/$@ \
 	-mcmodel=large
+
+# $(APPS): % : $(SRC)/%.c $(LIBBPF) $(SRC)/%.skel.h $(KARCHIVE) $(SRC)/%.o
+# 	$(CC) $(CFLAGS) $(INCLUDES) \
+# 	$(SRC)/my_syscall.c \
+# 	$(SRC)/$@.o \
+# 	runtime.c \
+# 	init.c \
+# 	fd.c \
+# 	$(LIBBPF) -lelf -lz \
+# 	$(KARCHIVE) \
+# 	-o $(BIN)/$@ \
+# 	-mcmodel=large
 
 # generate bpf loader executable using standard libbpf (will make actual syscalls)
 local-$(APPS): local-% : $(SRC)/%.c $(REGLIBBPF) $(SRC)/%.skel.h $(SRC)/%.o
