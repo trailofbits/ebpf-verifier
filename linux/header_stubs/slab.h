@@ -198,9 +198,6 @@ enum kmalloc_cache_type {
 	NR_KMALLOC_TYPES
 };
 
-// #ifndef PAGE_SHIFT
-// #define PAGE_SHIFT 0
-// #endif
 
 struct kmem_cache {};
 struct list_lru;
@@ -236,5 +233,6 @@ extern struct kmem_cache *kmem_cache_create_usercopy(const char *name,
 			unsigned int useroffset, unsigned int usersize,
 			void (*ctor)(void *));
 
-extern struct kmem_cache *
-kmalloc_caches[NR_KMALLOC_TYPES][1];
+extern int kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size, void **p);
+
+extern struct kmem_cache *kmalloc_caches[NR_KMALLOC_TYPES][1];
