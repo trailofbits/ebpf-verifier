@@ -1,5 +1,5 @@
 #include <bpf/libbpf.h>
-#include "src/s.skel.h"
+#include "samples/s.skel.h"
 
 extern void init_pseudo_task_struct(void);
 extern void init_ptr_store(void);
