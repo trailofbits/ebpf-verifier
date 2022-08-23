@@ -45,6 +45,9 @@ $(APPS): % : $(LIBBPF) $(SRC)/%.skel.h $(KARCHIVE)
 	runtime.c \
 	init.c \
 	fd.c \
+	current.c \
+	ptr_store.c \
+	memory.c \
 	$(LIBBPF) -lelf -lz \
 	$(KARCHIVE) \
 	-o $(BIN)/$@ \

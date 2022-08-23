@@ -1,35 +1,18 @@
-#include <stdlib.h>
-#include <linux/filter.h>
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <sys/resource.h>
-#include <stdbool.h>
-
 #include <bpf/libbpf.h>
-#include <bpf/bpf.h>
-#include "s.skel.h"
+#include "src/s.skel.h"
 
-extern int init_pseudo_filesys(void);
-// extern int real_main(void); // main in the actual bpf loader program
+extern void init_pseudo_task_struct(void);
+extern void init_ptr_store(void);
+extern void destroy_ptr_store(void);
 
-struct my_task_struct {
-  int test;
-  void * audit_context;
-};
-
-struct task_struct *current;
-
-//  originally a macro from inlude/asm-generic/current.h
-struct task_struct *get_current(void) { return current; }
+extern struct btf *btf_vmlinux; // this is declared in verifier.c
+extern void btf__free(struct btf *btf); // in libbpf btf.c
 
 // set up the simulated vfs and current task struct
 void init(void) {
 #ifdef HARNESS
-  init_pseudo_filesys();
-  current = malloc(sizeof(struct my_task_struct));
+  init_ptr_store();
+  init_pseudo_task_struct();
 #endif
 }
 
@@ -67,5 +50,12 @@ int main() {
     fprintf(stdout, "loaded successfully!\n");
   }
 
+#ifdef HARNESS
+  destroy_ptr_store();
+  if (btf_vmlinux) {
+    btf__free(btf_vmlinux);
+  }
+#endif
+  s_bpf__destroy(obj);
   return err;
 }
