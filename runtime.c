@@ -7,6 +7,7 @@
 #include <string.h>
 #include <time.h>
 #include <assert.h>
+#include "memory.h"
 
 #define ZERO_SIZE_PTR ((void *)16)
 
@@ -84,69 +85,6 @@ void bpf_prog_kallsyms_add(struct bpf_prog *fp) {}
 // capabilities.
 bool capable(int cap) { return true; } // always true for test harness
 
-
-// originally from /include/linux/slab.h
-// stubbed out (decl as extern in "slab.h")
-// TODO: some implemented may never be used
-// some unimplemented may sometimes be used
-void * kzalloc(size_t size) {
-	// void * res = malloc(size);
-	// memset(res, 0, size);
-	// return res;
-	return calloc(1, size);
-}
-// originally from include/linux/slab.h
-void * kvcalloc(size_t n, size_t size) { return calloc(n, size); }
-void * kvmalloc(size_t n, unsigned int flags) { return calloc(1, n); }
-
-void * kcalloc(size_t n, size_t size) { return calloc(n, size); }
-
-void kmalloc(void) { abort(); }
-void *kmalloc_array(size_t n, size_t size, unsigned int flags) { return calloc(1, n *size); }
-void * kmalloc_node(size_t size, unsigned int flags, int node) { return calloc(1, size); }
-void * __kmalloc_track_caller(size_t size, unsigned int flags, unsigned long caller) { return calloc(1, size); }
-
-// originally from include/linux/slab.h
-void kfree(void *ptr) {
-	if (ptr && ptr != ZERO_SIZE_PTR) {
-		free(ptr);
-	}
-}
-
-void * krealloc(void *p, size_t new_size, unsigned int flags) { return realloc(p, new_size); }
-void krealloc_array(void) { abort(); }
-
-// originally from include/linux/slab.h
-void kvfree(void *ptr) {
-	if (ptr)
-		free(ptr);
-}
-
-// extern decl in  include/linux/vmalloc.h
-void * __vmalloc(unsigned long size) { return calloc(1, size); }
-void * __vmalloc_node_range(unsigned long size, unsigned long align,
-			unsigned long start, unsigned long end, unsigned int gfp_mask,
-			unsigned int prot, unsigned long vm_flags, int node,
-			const void *caller) { return calloc(1, size); }
-// extern decl from include/linux/vmalloc.h
-void * vzalloc(size_t size) {
-	// void * res = malloc(size);
-	// memset(res, 0, size);
-	// return res;
-	return calloc(1, size);
-}
-
-// extern decl from include/linux/vmalloc.h
-void * vmalloc(unsigned long size) { return calloc(1, size); }
-
-
-// extern decl from /include/linux/vmalloc.h
-void vfree(void *ptr) {
-	if (ptr) {
-		free(ptr);
-	}
-}
-
 // originally a macro in include/linux/thread_info.h
 bool tif_need_resched(void) {return false;}
 
@@ -168,10 +106,7 @@ unsigned long ktime_get(void) {
 // include/linux/timekeeping.h
 int ktime_get_with_offset(void) { return 0; } // don't think time is actually relevant
 
-// originally decl in include/linux/percpu.h
-void * __alloc_percpu_gfp(size_t size, size_t align) { return calloc(1, size); }
-// originally decl in include/linux/percpu.h
-void free_percpu(void * ptr) { free(ptr); }
+
 
 // originally a macro in include/linux/mutex.h
 void __mutex_init(void) { return; }
@@ -202,25 +137,14 @@ int vscnprintf(char *buf, size_t size, const char *fmt, va_list args) {
 }
 size_t ksize(const void *p) { return 0; }
 
-void kmem_cache_alloc_lru(void) { abort(); } // TODO --> autogened
-void* kmem_cache_create_usercopy(void) { return NULL; } // TODO --> autogened
-void kmem_cache_free(void) { abort(); } // TODO --> autogened
-void* kmem_cache_create(void) {return NULL; }
+
 
 void queue_work_on(void) { return; }
 
 void __rcu_read_lock(void) { return; }
 void __rcu_read_unlock(void) { return; }
 
-void * alloc_large_system_hash(const char *tablename,
-				     unsigned long bucketsize,
-				     unsigned long numentries,
-				     int scale,
-				     int flags,
-				     unsigned int *_hash_shift,
-				     unsigned int *_hash_mask,
-				     unsigned long low_limit,
-				     unsigned long high_limit) { return malloc(10*bucketsize); } // TODO --> autogened
+
 
 
 // TODO: look at below functions and determine how to stub out or include
@@ -232,8 +156,6 @@ void * alloc_large_system_hash(const char *tablename,
 // annoying bugs.
 void ___pskb_trim(void) { abort(); } // TODO --> autogened
 void ___ratelimit(void) { abort(); } // TODO --> autogened
-void __alloc_pages(void) { abort(); } // TODO --> autogened
-void __alloc_percpu(void) { abort(); } // TODO --> autogened
 void __arch_copy_from_user(void) { abort(); } // TODO --> autogened
 void __arch_copy_to_user(void) { abort(); } // TODO --> autogened
 void __bitmap_clear(void) { abort(); } // TODO --> autogened
@@ -293,7 +215,6 @@ void _raw_spin_trylock(void) { abort(); } // TODO --> autogened
 void _raw_write_lock_bh(void) { abort(); } // TODO --> autogened
 void _raw_write_unlock_bh(void) { abort(); } // TODO --> autogened
 void access_process_vm(void) { abort(); } // TODO --> autogened
-void alloc_pages(void) { abort(); } // TODO --> autogened
 void arm64_use_ng_mappings(void) { abort(); } // TODO --> autogened
 void arp_tbl(void) { abort(); } // TODO --> autogened
 void bin2hex(void) { abort(); } // TODO --> autogened
@@ -406,9 +327,6 @@ void kexec_crash_loaded(void) { abort(); } // TODO --> autogened
 void kexec_image(void) { abort(); } // TODO --> autogened
 void kfree_skb_reason(void) { abort(); } // TODO --> autogened
 void kill_litter_super(void) { abort(); } // TODO --> autogened
-void kmem_cache_alloc_bulk(void) { abort(); } // TODO --> autogened
-void kmemdup(void) { abort(); } // TODO --> autogened
-void kmemdup_nul(void) { abort(); } // TODO --> autogened
 void kobject_create_and_add(void) { abort(); } // TODO --> autogened
 void kobject_put(void) { abort(); } // TODO --> autogened
 void kstrdup(void) { abort(); } // TODO --> autogened
@@ -421,8 +339,6 @@ void kthread_stop(void) { abort(); } // TODO --> autogened
 void ktime_get_boot_fast_ns(void) { abort(); } // TODO --> autogened
 void ktime_get_coarse_ts64(void) { abort(); } // TODO --> autogened
 void ktime_get_mono_fast_ns(void) { abort(); } // TODO --> autogened
-void kvfree_call_rcu(void) { abort(); } // TODO --> autogened
-void kvmalloc_array(void) { abort(); } // TODO --> autogened
 void lock_sock_nested(void) { abort(); } // TODO --> autogened
 void lockref_get(void) { abort(); } // TODO --> autogened
 void lookup_one_len(void) { abort(); } // TODO --> autogened
