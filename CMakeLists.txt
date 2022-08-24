@@ -10,7 +10,7 @@ add_subdirectory("libbpf")
 set(src_root "${CMAKE_CURRENT_SOURCE_DIR}")
 
 add_custom_command(
-  OUTPUT src_root/bin/"${TARGET}"
+  OUTPUT src_root/bin/${TARGET}
   COMMAND make "${TARGET}"
   WORKING_DIRECTORY ${src_root}
 )
@@ -25,14 +25,13 @@ add_custom_command(
 add_custom_target("run"
   DEPENDS "kernel"
   DEPENDS "libbpf"
-  DEPENDS  src_root/bin/"${TARGET}"
+  DEPENDS  src_root/bin/${TARGET}
 )
 
 add_custom_target("local"
   DEPENDS "reglibbpf"
   DEPENDS  "${src_root}/bin/local-${TARGET}"
 )
-
 
 add_custom_target("my_clean"
   COMMAND make clean

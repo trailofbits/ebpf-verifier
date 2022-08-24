@@ -19,17 +19,8 @@ INCLUDES := -I$(LIBBPFSRC)/root/usr/include -I$(LIBBPFSRC)/root_reg/usr/include 
 CC := clang
 CFLAGS := -g -O2 -fdebug-default-version=4
 
-APPS := s
-
-#ARCH???
-# generate bpf bytecode
-$(BIN)/%.bpf.o: $(SAMPLES)/%.bpf.c $(VMLINUX)
-	$(CC) $(CFLAGS) -target bpf -D__TARGET_ARCH_$(ARCH) $(INCLUDES) \
-	-c $< -o $@
-
-# generate libbpf skel.h TODO: change bpftool to kernel spec. one
-$(SAMPLES)/%.skel.h: $(BIN)/%.bpf.o
-	bpftool gen skeleton $< > $@
+APPS := s hello
+LOCALAPPS := local-s local-hello
 
 HARNESS_SRC_FILES := 	$(SRC)/my_syscall.c \
 											$(SRC)/runtime.c \
@@ -38,27 +29,42 @@ HARNESS_SRC_FILES := 	$(SRC)/my_syscall.c \
 											$(SRC)/current.c \
 											$(SRC)/ptr_store.c \
 											$(SRC)/memory.c
+#ARCH???
+# generate bpf bytecode
+$(SAMPLES)/%.bpf.o: $(SAMPLES)/%.bpf.c $(VMLINUX)
+	$(CC) $(CFLAGS) -target bpf -D__TARGET_ARCH_$(ARCH) $(INCLUDES) \
+	-c $< -o $@
+
+# generate libbpf skel.h TODO: change bpftool to kernel spec. one
+$(SAMPLES)/%.skel.h: $(SAMPLES)/%.bpf.o
+	echo $@
+	bpftool gen skeleton $< > $@
+
+$(SAMPLES)/%_loader.o: $(SAMPLES)/%.skel.h
+	echo $<
+	$(CC) $(CFLAGS) $(INCLUDES) \
+	-c -o $@ $(SAMPLES)/$*_loader.c
 
 # generate bpf loader executable (will call into my_syscall)
-$(APPS): % : $(LIBBPF) $(SAMPLES)/%.skel.h $(BIN)/%.bpf.o $(KARCHIVE)
-	$(CC) $(CFLAGS) $(INCLUDES) \
+$(APPS): % : $(SAMPLES)/%_loader.o $(SAMPLES)/%.skel.h  $(SAMPLES)/%.bpf.o $(LIBBPF) $(KARCHIVE)
+	$(CC) $(CFLAGS) \
 	-DHARNESS \
-	-iquote. \
+	$<  \
 	$(HARNESS_SRC_FILES) \
 	$(LIBBPF) -lelf -lz \
 	$(KARCHIVE) \
 	-o $(BIN)/$@ \
 	-mcmodel=large
 
-# generate bpf loader executable using standard libbpf (will make actual syscalls)
-local-$(APPS): local-% : $(REGLIBBPF) $(SRC)/%.skel.h
-	$(CC) $(CLAGS) $(INCLUDES) \
+# # generate bpf loader executable using standard libbpf (will make actual syscalls)
+$(LOCALAPPS) : local-% : $(SAMPLES)/%_loader.o $(SAMPLES)/%.bpf.o $(REGLIBBPF)
+	$(CC) $(CLAGS) \
 	-UHARNESS \
-	-iquote./src \
-	init.c \
+	$< \
+	$(SRC)/init.c \
 	$(REGLIBBPF) -lelf -lz -o $(BIN)/$@
 
 clean:
 	rm -f bin/*
-	rm -f src/*.skel.h
-	rm -f src/*.o
+	rm -f samples/*.skel.h
+	rm -f samples/*.o
