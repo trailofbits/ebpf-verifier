@@ -52,12 +52,6 @@ HARNESS_SRC_FILES := 	$(SRC)/my_syscall.c \
 
 ARCH := arm64
 
-# -I $(KERNEL)/include/uapi \
-# -I $(KERNEL)/include \
-# -I $(KERNEL)/arch/$(ARCH)/include \
-# -I $(KERNEL)/arch/$(ARCH)/include/uapi \
-# -I $(KERNEL)/arch/$(ARCH)/include/generated/uapi \
-
 # generate bpf bytecode
 $(SAMPLES)/%.bpf.o: $(SAMPLES)/%.bpf.c $(VMLINUX)
 	$(CC) $(CFLAGS) -target bpf -D__TARGET_ARCH_$(ARCH) $(INCLUDES) \
