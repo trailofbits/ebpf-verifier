@@ -46,3 +46,6 @@ lib/ctype.o
 lib/sha1.o
 lib/find_bit.o
 lib/sort.o
+lib/bitmap.o
+lib/hweight.o
+lib/cpumask.o

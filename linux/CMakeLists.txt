@@ -1,28 +1,28 @@
 set(src_root "${CMAKE_CURRENT_SOURCE_DIR}/src")
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
-# TODO: To be filled; remove the EXCLUDE_FROM_ALL when done
-set("target_placeholder_source_list"
-  ${src_root}/kernel/bpf/core.c
+# # TODO: To be filled; remove the EXCLUDE_FROM_ALL when done
+# set("target_placeholder_source_list"
+#   ${src_root}/kernel/bpf/core.c
 
-)
+# )
 
-add_library("target_placeholder" EXCLUDE_FROM_ALL
-  ${target_placeholder_source_list}
-)
+# add_library("target_placeholder" EXCLUDE_FROM_ALL
+#   ${target_placeholder_source_list}
+# )
 
-target_link_libraries("target_placeholder" PRIVATE
-  "bpfverifier_common_settings"
-)
+# target_link_libraries("target_placeholder" PRIVATE
+#   "bpfverifier_common_settings"
+# )
 
-target_compile_definitions("target_placeholder" PRIVATE
-  "TEST=1"
-)
+# target_compile_definitions("target_placeholder" PRIVATE
+#   "TEST=1"
+# )
 
-target_include_directories("target_placeholder" PRIVATE
-  "${src_root}/include"
-  "${src_root}/include/uapi"
-)
+# target_include_directories("target_placeholder" PRIVATE
+#   "${src_root}/include"
+#   "${src_root}/include/uapi"
+# )
 
 # Submodule manager
 find_package(Git REQUIRED)
