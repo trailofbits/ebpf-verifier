@@ -1,6 +1,6 @@
 #define _LINUX_ATOMIC_INSTRUMENTED_H
 #include <linux/types.h>
-
+#ifdef  __v5_18__
 extern void abort(void);
 
 typedef atomic64_t atomic_long_t;
@@ -66,3 +66,4 @@ extern void atomic64_set(atomic64_t *v, s64 i);
 
 #define try_cmpxchg_acquire(ptr, ...) true // TODO --> actually replicate functionality?
 #define try_cmpxchg_release(ptr, ...) true // TODO --> actually replicate functionality?
+#endif /* __v5_18__ */

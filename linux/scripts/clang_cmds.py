@@ -16,11 +16,14 @@ def main():
   parser.add_argument("-K","--kernel_files", help="file with list of kernel src files needed", action="store", dest="kernel_src_files")
   parser.add_argument("-H","--included_headers", help="file with list of headers needed when making bitcode files", action="store", dest="included_headers")
   parser.add_argument("-O","--output_file", help="where to write compile commands", action="store", dest="output_file")
+  parser.add_argument("-F", "--found_src_files", help="write the kernel files commands found for", action="store", dest="found_src_file")
 
   args = parser.parse_args()
 
   print(args.output_file)
   output_filef = open(args.output_file, 'w+')
+
+  found_files = open(args.found_src_file, 'w')
 
   path_to_compile_commands = "compile_commands.json"
   print("Using: ", path_to_compile_commands)
@@ -57,6 +60,7 @@ def main():
 
     first_I = prefix.find("-I")
     new_cmd = prefix[0:first_I]
+    # new_cmd = new_cmd.replace("gcc", "clang")
 
     if output_file + "\n" in kfs:
       new_cmd += prefix[first_I:]
@@ -84,7 +88,8 @@ def main():
 
       new_cmd += " -g "
       #new_cmd += " -v "
-      new_cmd += " -fdebug-default-version=4 " # otherwise valgrind doesn't understand
+      #TODO: compiler diff : gcc-5 doesn't recognize fdebug-default-version
+      # new_cmd += " -fdebug-default-version=4 " # otherwise valgrind doesn't understand
       libbpf = True
       if output_file == "kernel/bpf/btf.o" and libbpf:
         print("modifing btf.o for libbpf. change script if running old harness.")
@@ -109,8 +114,12 @@ def main():
       final_commands.append(new_cmd)
       output_filef.write(new_cmd)
       output_filef.write("\n")
+      found_files.write(output_file)
+      found_files.write("\n")
+      print("wrote to found file")
 
   output_filef.close()
+  found_files.close()
 
   print("Sucessfully found", len(final_commands), " commands out of ", len(kfs))
 

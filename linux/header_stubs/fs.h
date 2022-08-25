@@ -1,5 +1,5 @@
 #include <linux/fs.h>
-
+#ifdef __v5_18__
 inline int size_of_file(void) { return sizeof(struct file); }
 
 inline void set_private_data(void *priv, struct file *file) { file->private_data = priv; }
@@ -19,3 +19,4 @@ inline void init_file(struct file *file, int flags, const struct file_operations
 	file->f_mode |= FMODE_OPENED;
   file->f_op = fop;
 }
+#endif /* __v5_18__ */

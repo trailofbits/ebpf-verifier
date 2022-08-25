@@ -1,3 +1,4 @@
+#ifdef __v5_18__
 #define __LINUX_UACCESS_H__
 
 extern unsigned long strlen(const char *str);
@@ -31,7 +32,7 @@ inline unsigned long copy_to_user(void * to, const void * from, unsigned long n)
     return n;
   }
 }
-
+#endif /* __v5_18__ */
 
 // copy_from_kernel_nofault
 // strncpy_from_user_nofault

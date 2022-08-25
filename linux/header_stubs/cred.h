@@ -1,7 +1,8 @@
+
 #define _LINUX_CRED_H
 
 #include <linux/uidgid.h>
-
+#ifdef __v5_18__
 struct user_struct {
   kuid_t uid;
 };
@@ -41,3 +42,4 @@ extern struct user_struct *get_current_user(void);
 #define current_user()		(current_cred_xxx(user))
 #define current_ucounts()	(current_cred_xxx(ucounts))
 #define current_user_ns() (current_cred_xxx(user_ns))
+#endif /* __v5_18__ */

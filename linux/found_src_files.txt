@@ -1,0 +1,15 @@
+kernel/ksysfs.o
+kernel/bpf/syscall.o
+kernel/bpf/core.o
+kernel/bpf/verifier.o
+kernel/bpf/helpers.o
+kernel/bpf/arraymap.o
+kernel/bpf/hashtab.o
+lib/hweight.o
+lib/string.o
+lib/bitmap.o
+lib/ctype.o
+lib/cpumask.o
+lib/sha1.o
+lib/sort.o
+net/core/filter.o

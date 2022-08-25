@@ -34,9 +34,11 @@ int main() {
 
 #ifdef HARNESS
   destroy_ptr_store();
+  #ifdef __v5_18__
   if (btf_vmlinux) {
     btf__free(btf_vmlinux);
   }
+  #endif /* __v5_18__ */
 #endif
 
   return err;

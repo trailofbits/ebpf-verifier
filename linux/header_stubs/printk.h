@@ -1,3 +1,4 @@
+#ifdef __v5_18__
 #define __KERNEL_PRINTK__
 
 #define pr_emerg(fmt, ...)
@@ -13,3 +14,4 @@
 #define print_hex_dump(fmt, ...)
 #define printk(fmt, ...)
 // read_sysreg
+#endif /* __v5_18__ */
