@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include <stdlib.h>
 #include "ptr_store.h"
 
@@ -21,6 +22,7 @@ void * kcalloc(size_t n, size_t size) { return add_ptr(store, calloc(n, size)); 
 void *kmalloc_array(size_t n, size_t size, unsigned int flags) { return add_ptr(store, calloc(1, n *size)); }
 void * kmalloc_node(size_t size, unsigned int flags, int node) { return add_ptr(store, calloc(1, size)); }
 void * __kmalloc_track_caller(size_t size, unsigned int flags, unsigned long caller) { return add_ptr(store, calloc(1, size)); }
+void kmalloc_array_node(void) { abort(); } // TODO --> autogened
 
 // originally from include/linux/slab.h
 void kfree(void *ptr) {}
@@ -32,7 +34,7 @@ void free_percpu(void * ptr) {}
 
 // TODO: deal with realloc?
 void * krealloc(void *p, size_t new_size, unsigned int flags) { return add_ptr(store, malloc(new_size)); }
-void krealloc_array(void) { abort(); }
+void * krealloc_array(void *p, size_t new_n, size_t new_size, unsigned int flags) { return add_ptr(store, calloc(new_n, new_size)); }
 void kmalloc(void) { abort(); }
 
 // extern decl in  include/linux/vmalloc.h
@@ -49,7 +51,7 @@ void * vmalloc(unsigned long size) { return add_ptr(store, calloc(1, size)); }
 
 // originally decl in include/linux/percpu.h
 void * __alloc_percpu_gfp(size_t size, size_t align) { return add_ptr(store, calloc(1, size)); }
-
+void * __alloc_percpu(size_t size, size_t align) { return add_ptr(store, calloc(1, size)); } // TODO --> autogened
 
 void kmem_cache_alloc_lru(void) { abort(); } // TODO --> autogened
 void* kmem_cache_create_usercopy(void) { return NULL; } // TODO --> autogened
@@ -66,9 +68,16 @@ void * alloc_large_system_hash(const char *tablename,
 				     unsigned long low_limit,
 				     unsigned long high_limit) { return add_ptr(store, malloc(10*bucketsize)); } // TODO --> autogened
 
+struct page;
+extern size_t sizeof_page_struct();
+struct page *__alloc_pages(unsigned int gfp, unsigned int order, int preferred_nid,
+							void *nodemask) { return (struct page *)add_ptr(store, calloc(1, sizeof_page_struct())); }
+void *vmap(struct page **pages, unsigned int count,  unsigned long flags, unsigned long prot) {
+	// this isn't actually mapping anything
+	return add_ptr(store, calloc(count, sizeof_page_struct()));
+}
 
-void __alloc_pages(void) { abort(); } // TODO --> autogened
-void __alloc_percpu(void) { abort(); } // TODO --> autogened
+
 void alloc_pages(void) { abort(); } // TODO --> autogened
 void kmem_cache_alloc_bulk(void) { abort(); } // TODO --> autogened
 void kmemdup(void) { abort(); } // TODO --> autogened

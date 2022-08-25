@@ -19,8 +19,28 @@ INCLUDES := -I$(LIBBPFSRC)/root/usr/include -I$(LIBBPFSRC)/root_reg/usr/include 
 CC := clang
 CFLAGS := -g -O2 -fdebug-default-version=4
 
-APPS := s hello
-LOCALAPPS := local-s local-hello
+APPS := s \
+				hello \
+				bootstrap \
+				stack_read \
+				usdt \
+				uprobe \
+				sockfilter \
+				profile \
+				minimal_legacy \
+				kprobe fentry
+
+LOCALAPPS := 	local-s \
+							local-hello \
+							local-bootstrap \
+							local-stack_read \
+							local-usdt \
+							local-uprobe \
+							local-sockfilter \
+							local-profile \
+							local-minimal_legacy \
+							local-kprobe \
+							local-fentry
 
 HARNESS_SRC_FILES := 	$(SRC)/my_syscall.c \
 											$(SRC)/runtime.c \
@@ -29,10 +49,19 @@ HARNESS_SRC_FILES := 	$(SRC)/my_syscall.c \
 											$(SRC)/current.c \
 											$(SRC)/ptr_store.c \
 											$(SRC)/memory.c
-#ARCH???
+
+ARCH := arm64
+
+# -I $(KERNEL)/include/uapi \
+# -I $(KERNEL)/include \
+# -I $(KERNEL)/arch/$(ARCH)/include \
+# -I $(KERNEL)/arch/$(ARCH)/include/uapi \
+# -I $(KERNEL)/arch/$(ARCH)/include/generated/uapi \
+
 # generate bpf bytecode
 $(SAMPLES)/%.bpf.o: $(SAMPLES)/%.bpf.c $(VMLINUX)
 	$(CC) $(CFLAGS) -target bpf -D__TARGET_ARCH_$(ARCH) $(INCLUDES) \
+	-I $(KERNEL)/usr/include \
 	-c $< -o $@
 
 # generate libbpf skel.h TODO: change bpftool to kernel spec. one
