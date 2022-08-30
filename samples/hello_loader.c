@@ -10,7 +10,7 @@ static int libbpf_print_fn(enum libbpf_print_level level, const char *format, va
 
 int load() {
   struct hello_bpf *obj;
-  const struct bpf_program *p;
+  struct bpf_program *p;
   const struct bpf_insn *insns;
   int err = 0;
 
@@ -36,7 +36,7 @@ int load() {
 
   insns = bpf_program__insns(p);
 
-  bpf_map__set_autocreate(obj->maps.rodata, false);
+  // bpf_map__set_autocreate(obj->maps.rodata, false);
   bpf_program__set_log_level(p, 1);
 
   // call bpf_object__load directly because 's_bpf__load`

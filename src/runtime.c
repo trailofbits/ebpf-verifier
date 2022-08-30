@@ -575,7 +575,6 @@ void uevent_helper(void) { abort(); } // TODO --> autogened
 void warn_slowpath_fmt(void) { abort(); } // TODO --> autogened
 void warn_slowpath_null(void) { abort(); } // TODO --> autogened
 
-#ifndef __v5_18__ // temp
 unsigned long copy_to_user(void * to, const void * from, unsigned long n) {
   if (to && from) {
     __builtin_memcpy(to, from, n);
@@ -584,14 +583,12 @@ unsigned long copy_to_user(void * to, const void * from, unsigned long n) {
     return n;
   }
 }
-void kmemdup(void) { abort(); } // TODO --> autogened
 
 unsigned long copy_from_user(void * to, const void * from, unsigned long n) {
   __builtin_memcpy(to, from, n);
   return 0; // expects to return number of bytes NOT copied
 	// TODO: fix this
 }
-#endif
 
 long strncpy_from_user(char *dest, const char *src, long count) {
   __builtin_strncpy(dest, src, count);

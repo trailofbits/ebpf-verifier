@@ -69,12 +69,16 @@ $(SAMPLES)/%_loader.o: $(SAMPLES)/%.skel.h
 	$(CC) $(CFLAGS) $(INCLUDES) \
 	-c -o $@ $(SAMPLES)/$*_loader.c
 
+# TODO: automated way to add kernel version macro. Right now manually modify
+# the below variable
+KVERSION := -D__v5_18__
+
 # generate bpf loader executable (will call into my_syscall)
 $(APPS): % : $(SAMPLES)/%_loader.o $(SAMPLES)/%.skel.h  $(SAMPLES)/%.bpf.o $(LIBBPF) $(KARCHIVE)
 	$(CC) $(CFLAGS) \
 	-DHARNESS \
 	$<  \
-	-D__v4_0__ \
+	$(KVERSION) \
 	$(HARNESS_SRC_FILES) \
 	$(LIBBPF) -lelf -lz \
 	$(KARCHIVE) \

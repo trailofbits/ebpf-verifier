@@ -7,26 +7,27 @@ kernel versions are handled using ifdefs.
 */
 
 /* Should be included for all kernel/bpf/...o files */
+#include "slab.h"
 
 /* Most directly relevant files to verifier */
 #ifdef KERNEL_BPF_SYSCALL
+#include "atomic-instrumented.h"
+#include "lock.h"
 #include "uaccess.h"
 #include "current.h"
 #include "percpu-defs.h"
-#include "atomic-instrumented.h"
-#include "lock.h"
 #include "cred.h"
 #include "current.h"
 #include "file.h"
 #endif /* kernel/bpf/syscall */
 
 #ifdef KERNEL_BPF_VERIFIER
+#include "printk.h"
+#include "lock.h"
 #include "uaccess.h"
 #include "current.h"
 #include "fs.h"
 #include "sched_signal.h"
-#include "printk.h"
-#include "lock.h"
 #include "sched.h"
 #include "file.h"
 #endif /* kernel/bpf/verifier */
@@ -195,4 +196,4 @@ kernel versions are handled using ifdefs.
 #ifdef LIB_CPUMASK
 #endif /* lib/cpumask */
 
-#include "slab.h"
+

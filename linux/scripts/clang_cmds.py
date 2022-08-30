@@ -69,12 +69,13 @@ def main():
 
     if output_file + "\n" in kfs:
       new_cmd += prefix[first_I:]
-
+      kernel_macro = " -D__v5_18__ "
       file_macro = get_file_macro(output_file)
       print(file_macro)
       new_cmd += " -D" + file_macro
       new_cmd += " -iquote /home/parallels/ebpf-verifier/linux/header_stubs "
       new_cmd +=  " -include /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h "
+      new_cmd += kernel_macro
 
       # change O2 to O0
       new_cmd = new_cmd.replace("O2", "Og")
@@ -87,7 +88,7 @@ def main():
 
       new_cmd += " -g "
       #TODO: compiler diff : gcc-5 doesn't recognize fdebug-default-version
-      # new_cmd += " -fdebug-default-version=4 " # otherwise valgrind doesn't understand
+      new_cmd += " -fdebug-default-version=4 " # otherwise valgrind doesn't understand
       libbpf = True
       if output_file == "kernel/bpf/btf.o" and libbpf:
         print("modifing btf.o for libbpf. change script if running old harness.")

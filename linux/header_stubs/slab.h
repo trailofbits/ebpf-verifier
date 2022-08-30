@@ -237,6 +237,9 @@ extern struct kmem_cache *kmem_cache_create_usercopy(const char *name,
 extern int kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size, void **p);
 extern void * kmalloc_array_node(size_t n, size_t size, gfp_t flags, int node);
 extern struct kmem_cache *kmalloc_caches[NR_KMALLOC_TYPES][1];
+
+
+
 #else
 #include <linux/gfp.h>
 struct kmem_cache;
