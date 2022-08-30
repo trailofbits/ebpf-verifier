@@ -9,6 +9,7 @@ REGLIBBPF := $(EBPF)/libbpf/build_reg/libbpf.a
 LIBBPF := $(EBPF)/libbpf/build/libbpf.a
 LIBBPFSRC := $(EBPF)/libbpf/
 KARCHIVE := $(EBPF)/linux/kernel.a
+KARCHIVE18 := $(EBPF)/linux/kernel_18.a
 KERNEL := $(EBPF)/linux/src
 
 # TODO: currently using my vmlinux.h generated from my /sys/kernel/btf/vmlinux
@@ -61,7 +62,7 @@ $(SAMPLES)/%.bpf.o: $(SAMPLES)/%.bpf.c $(VMLINUX)
 # generate libbpf skel.h TODO: change bpftool to kernel spec. one
 $(SAMPLES)/%.skel.h: $(SAMPLES)/%.bpf.o
 	echo $@
-	bpftool gen skeleton $< > $@
+	bpftool gen skeleton $< > $@ --debug
 
 $(SAMPLES)/%_loader.o: $(SAMPLES)/%.skel.h
 	echo $<
@@ -73,9 +74,21 @@ $(APPS): % : $(SAMPLES)/%_loader.o $(SAMPLES)/%.skel.h  $(SAMPLES)/%.bpf.o $(LIB
 	$(CC) $(CFLAGS) \
 	-DHARNESS \
 	$<  \
+	-D__v4_0__ \
 	$(HARNESS_SRC_FILES) \
 	$(LIBBPF) -lelf -lz \
 	$(KARCHIVE) \
+	-o $(BIN)/$@ \
+	-mcmodel=large
+
+hello_18: %_18 : $(SAMPLES)/%_loader.o $(SAMPLES)/%.skel.h  $(SAMPLES)/%.bpf.o $(LIBBPF) $(KARCHIVE18)
+		$(CC) $(CFLAGS) \
+	-DHARNESS \
+	$<  \
+	-D__v5_18__ \
+	$(HARNESS_SRC_FILES) \
+	$(LIBBPF) -lelf -lz \
+	$(KARCHIVE18) \
 	-o $(BIN)/$@ \
 	-mcmodel=large
 

@@ -2,11 +2,13 @@
 #include <stdlib.h>
 
 #include <stdarg.h>
-// #include <stdio.h>
 #include <linux/bpf.h> // TODO: make sure this is being included from correct place
 
-
+#ifdef __v5_18__
 extern int bpf_sys_bpf(int, union bpf_attr *, uint32_t);
+#else
+extern int sys_bpf(int, union bpf_attr *, uint32_t);
+#endif
 
 long int my_syscall(long int __sysno, ...) {
   va_list args;
@@ -23,6 +25,9 @@ long int my_syscall(long int __sysno, ...) {
   va_end (args);
 
   // printf("my_syscall triggered with sysno: %ld and cmd: %ld\n", __sysno, arg0);
-
+#ifdef __v5_18__
   return bpf_sys_bpf((int) arg0, (union bpf_attr *)arg1, (uint32_t) arg2);
+#else
+  return sys_bpf((int) arg0, (union bpf_attr *)arg1, (uint32_t) arg2);
+#endif
 }

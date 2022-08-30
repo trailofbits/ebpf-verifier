@@ -3,11 +3,13 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdarg.h>
-// #include <stdio.h>
+#include <stdio.h>
 #include <string.h>
 #include <time.h>
 #include <assert.h>
 #include "memory.h"
+
+
 
 #define ZERO_SIZE_PTR ((void *)16)
 
@@ -133,7 +135,11 @@ int vscnprintf(char *buf, size_t size, const char *fmt, va_list args) {
 	// int i;
 	// i = scnprintf(buf, size, fmt, args);
 	// return i;
-	return 0;
+	// return 0;
+  fprintf(stderr, "%s", fmt); //format specifiers are different between stdio.h and kernel....
+  return 0;
+  // if (!buf || !fmt) return size;
+  // return snprintf(buf,size, fmt, args);
 }
 size_t ksize(const void *p) { return 0; }
 
@@ -479,7 +485,7 @@ void static_key_count(void) { abort(); } // TODO --> autogened
 void static_key_slow_dec(void) { abort(); } // TODO --> autogened
 void static_key_slow_inc(void) { abort(); } // TODO --> autogened
 void strncpy_from_kernel_nofault(void) { abort(); } // TODO --> autogened
-void strncpy_from_user(void) { abort(); } // TODO --> autogened
+// void strncpy_from_user(void) { abort(); } // TODO --> autogened
 void strncpy_from_user_nofault(void) { abort(); } // TODO --> autogened
 void synchronize_rcu(void) { abort(); } // TODO --> autogened
 void sysctl_optmem_max(void) { abort(); } // TODO --> autogened
@@ -550,3 +556,112 @@ void memory_read_from_buffer(void) { abort(); } // TODO --> autogened
 void scnprintf(void) { abort(); } // TODO --> autogened
 void __num_online_cpus(void) { abort(); } // TODO --> autogened
 void node_to_cpumask_map(void) { abort(); } // TODO --> autogened
+
+// #else // v4.0
+
+void __copy_from_user(void) { abort(); } // TODO --> autogened
+void __copy_to_user(void) { abort(); } // TODO --> autogened
+void bpf_jit_compile(void) { abort(); } // TODO --> autogened
+void bpf_jit_free(void) { abort(); } // TODO --> autogened
+void cpu_online_mask(void) { abort(); } // TODO --> autogened
+void find_next_bit(void) { abort(); } // TODO --> autogened
+void find_next_zero_bit(void) { abort(); } // TODO --> autogened
+
+void panic(void) { abort(); } // TODO --> autogened
+void prandom_u32(void) { abort(); } // TODO --> autogened
+void printk(void) { abort(); } // TODO --> autogened
+void set_bit(void) { abort(); } // TODO --> autogened
+void uevent_helper(void) { abort(); } // TODO --> autogened
+void warn_slowpath_fmt(void) { abort(); } // TODO --> autogened
+void warn_slowpath_null(void) { abort(); } // TODO --> autogened
+
+#ifndef __v5_18__ // temp
+unsigned long copy_to_user(void * to, const void * from, unsigned long n) {
+  if (to && from) {
+    __builtin_memcpy(to, from, n);
+    return 0;
+  } else {
+    return n;
+  }
+}
+void kmemdup(void) { abort(); } // TODO --> autogened
+
+unsigned long copy_from_user(void * to, const void * from, unsigned long n) {
+  __builtin_memcpy(to, from, n);
+  return 0; // expects to return number of bytes NOT copied
+	// TODO: fix this
+}
+#endif
+
+long strncpy_from_user(char *dest, const char *src, long count) {
+  __builtin_strncpy(dest, src, count);
+  // return min of strlen(src) and count
+  if (strlen(src) < count) {
+    return strlen(src);
+  }
+  return count;
+}
+
+// void ___pskb_trim(void) { abort(); } // TODO --> autogened
+// void ___ratelimit(void) { abort(); } // TODO --> autogened
+// void __copy_from_user(void) { abort(); } // TODO --> autogened
+// void __copy_to_user(void) { abort(); } // TODO --> autogened
+// void __rcu_read_lock(void) { abort(); } // TODO --> autogened
+// void __rcu_read_unlock(void) { abort(); } // TODO --> autogened
+// void _raw_spin_lock_irqsave(void) { abort(); } // TODO --> autogened
+// void _raw_spin_unlock_irqrestore(void) { abort(); } // TODO --> autogened
+// void bpf_jit_compile(void) { abort(); } // TODO --> autogened
+// void bpf_jit_free(void) { abort(); } // TODO --> autogened
+// void bpf_prog_select_runtime(void) { abort(); } // TODO --> autogened
+// void call_rcu(void) { abort(); } // TODO --> autogened
+// void capable(void) { abort(); } // TODO --> autogened
+// void cpu_online_mask(void) { abort(); } // TODO --> autogened
+// void create_proc_profile(void) { abort(); } // TODO --> autogened
+// void enter_syscall_print_funcs(void) { abort(); } // TODO --> autogened
+// void event_class_syscall_enter(void) { abort(); } // TODO --> autogened
+// void event_class_syscall_exit(void) { abort(); } // TODO --> autogened
+// void exit_syscall_print_funcs(void) { abort(); } // TODO --> autogened
+// void file_caps_enabled(void) { abort(); } // TODO --> autogened
+// void find_next_bit(void) { abort(); } // TODO --> autogened
+// void find_next_zero_bit(void) { abort(); } // TODO --> autogened
+// void hex_to_bin(void) { abort(); } // TODO --> autogened
+// void kmemdup(void) { abort(); } // TODO --> autogened
+// void kobject_create_and_add(void) { abort(); } // TODO --> autogened
+// void kobject_put(void) { abort(); } // TODO --> autogened
+// void kstrtoint(void) { abort(); } // TODO --> autogened
+// void lock_sock_nested(void) { abort(); } // TODO --> autogened
+// void module_alloc(void) { abort(); } // TODO --> autogened
+// void module_memfree(void) { abort(); } // TODO --> autogened
+// void mutex_lock(void) { abort(); } // TODO --> autogened
+// void mutex_unlock(void) { abort(); } // TODO --> autogened
+// void nla_find(void) { abort(); } // TODO --> autogened
+// void nr_cpu_ids(void) { abort(); } // TODO --> autogened
+// void panic(void) { abort(); } // TODO --> autogened
+// void prandom_u32(void) { abort(); } // TODO --> autogened
+// void printk(void) { abort(); } // TODO --> autogened
+// void prof_on(void) { abort(); } // TODO --> autogened
+// void profile_init(void) { abort(); } // TODO --> autogened
+// void profile_setup(void) { abort(); } // TODO --> autogened
+// void queue_work_on(void) { abort(); } // TODO --> autogened
+// void release_sock(void) { abort(); } // TODO --> autogened
+// void scnprintf(void) { abort(); } // TODO --> autogened
+// void set_bit(void) { abort(); } // TODO --> autogened
+// void skb_get_poff(void) { abort(); } // TODO --> autogened
+// void strncpy_from_user(void) { abort(); } // TODO --> autogened
+// void synchronize_rcu(void) { abort(); } // TODO --> autogened
+// void sysctl_optmem_max(void) { abort(); } // TODO --> autogened
+// void sysfs_create_bin_file(void) { abort(); } // TODO --> autogened
+// void sysfs_create_group(void) { abort(); } // TODO --> autogened
+// void sysfs_remove_group(void) { abort(); } // TODO --> autogened
+// void system_wq(void) { abort(); } // TODO --> autogened
+// void uevent_helper(void) { abort(); } // TODO --> autogened
+// void uevent_seqnum(void) { abort(); } // TODO --> autogened
+// void vscnprintf(void) { abort(); } // TODO --> autogened
+// void warn_slowpath_fmt(void) { abort(); } // TODO --> autogened
+// void warn_slowpath_null(void) { abort(); } // TODO --> autogened
+
+
+
+// #endif /* __v5_18__ */
+
+
