@@ -1,6 +1,11 @@
 KFILES=kernel_src_files.txt
 FFILES=found_src_files.txt
 
+# TODO: automate switching between these:
+# for v5.2: 	./scripts/gen_compile_commands.py
+# for v5.18: 	./scripts/clang-tools/gen_compile_commands.py
+GEN_COMPILE_COMMANDS := 	./scripts/clang-tools/gen_compile_commands.py
+
 # harness directory
 EBPF = $(HOME)/ebpf-verifier
 # kernel src directory (git submodule)
@@ -13,7 +18,8 @@ kernel_object_files:
 
 $(KERNEL)/compile_commands.json: kernel_object_files
 	cd $(KERNEL) && \
-	./scripts/gen_compile_commands.py
+	$(GEN_COMPILE_COMMANDS)
+
 
 
 # generate clang_cmds.sh

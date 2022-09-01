@@ -1,5 +1,2 @@
-void atomic_add_return(void) { abort(); } // TODO --> autogened
-void atomic_dec_and_test(void) { abort(); } // TODO --> autogened
-void atomic_fetch_add_unless(void) { abort(); } // TODO --> autogened
-void atomic_inc_return(void) { abort(); } // TODO --> autogened
-void atomic_sub_return(void) { abort(); } // TODO --> autogened
+void atomic_fetch_add_relaxed(void) { abort(); } // TODO --> autogened
+void atomic_try_cmpxchg_relaxed(void) { abort(); } // TODO --> autogened

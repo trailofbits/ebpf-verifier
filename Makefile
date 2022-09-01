@@ -75,7 +75,7 @@ $(SAMPLES)/%_loader.o: $(SAMPLES)/%.skel.h
 
 # TODO: automated way to add kernel version macro. Right now manually modify
 # the below variable
-KVERSION := -D__v5_2__
+KVERSION := -D__v5_18__
 
 #generate bpf loader executable (will call into my_syscall)
 $(APPS): % : $(SAMPLES)/%_loader.o $(SAMPLES)/%.skel.h  $(SAMPLES)/%.bpf.o $(LIBBPF) $(KARCHIVE)

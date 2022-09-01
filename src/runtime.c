@@ -69,7 +69,6 @@ void atomic64_inc(void) { return; } // TODO --> autogened
 long atomic64_read(const long *ptr) { return *ptr; } // TODO --> autogened
 void atomic64_set(void) { return; } // TODO --> autogened
 void atomic64_sub_return(void) { abort(); } // TODO --> autogened
-void atomic_fetch_sub_release(void) { abort(); } // TODO --> autogened
 void atomic_long_read(void) { abort(); } // TODO --> autogened
 void atomic_long_sub_and_test(void) { abort(); } // TODO --> autogened
 
@@ -602,6 +601,7 @@ long strncpy_from_user(char *dest, const char *src, long count) {
   return count;
 }
 
+
 void __kmalloc(void) { abort(); } // TODO --> autogened
 void __ll_sc___cmpxchg_case_acq_32(void) { abort(); } // TODO --> autogened
 void __ll_sc___cmpxchg_case_mb_32(void) { abort(); } // TODO --> autogened
@@ -620,8 +620,6 @@ void __ll_sc_arch_atomic_sub_return(void) { abort(); } // TODO --> autogened
 void __trace_printk(void) { abort(); } // TODO --> autogened
 void __vmalloc_node_flags_caller(void) { abort(); } // TODO --> autogened
 void alloc_pages_current(void) { abort(); } // TODO --> autogened
-// void bpf_sys_bpf(void) { abort(); } // TODO --> autogened
-void btf_vmlinux(void) { abort(); } // TODO --> autogened
 void build_skb_around(void) { abort(); } // TODO --> autogened
 void dev_forward_skb(void) { abort(); } // TODO --> autogened
 void event_triggers_call(void) { abort(); } // TODO --> autogened
@@ -647,7 +645,7 @@ void refcount_dec_and_test_checked(void) { abort(); } // TODO --> autogened
 
 void reuseport_get_id(void) { abort(); } // TODO --> autogened
 
-void sizeof_page_struct(void) { abort(); } // TODO --> autogened
+// void sizeof_page_struct(void) { abort(); } // TODO --> autogened
 void skb_flow_dissector_bpf_prog_attach(void) { abort(); } // TODO --> autogened
 void skb_flow_dissector_bpf_prog_detach(void) { abort(); } // TODO --> autogened
 void skb_flow_dissector_prog_query(void) { abort(); } // TODO --> autogened
@@ -661,7 +659,10 @@ void trace_printk_init_buffers(void) { abort(); } // TODO --> autogened
 void trace_seq_printf(void) { abort(); } // TODO --> autogened
 void tracepoint_probe_register(void) { abort(); } // TODO --> autogened
 
+void atomic_fetch_add_relaxed(void) { abort(); } // TODO --> autogened
+void atomic_try_cmpxchg_relaxed(void) { abort(); } // TODO --> autogened
 
+#ifdef __v5_2__
 // temp
 void __cpu_map_flush(void) { abort(); } // TODO --> autogened
 void __cpu_map_insert_ctx(void) { abort(); } // TODO --> autogened
@@ -722,3 +723,4 @@ void atomic_add_return(void) { abort(); } // TODO --> autogened
 void atomic_dec_and_test(void) { abort(); } // TODO --> autogened
 void atomic_fetch_add_unless(void) { abort(); } // TODO --> autogened
 void atomic_sub_return(void) { abort(); } // TODO --> autogened
+#endif

@@ -25,6 +25,8 @@ Use the following cmake command to change the linux source version:
 ```cmake -S . -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBPFVERIFIER_LINUX_VERSION="v5.2" ```
 ```cmake --build build --target linux_submodule_updater```
 
+After updating kernel source version make
+
 To build kernel object:
 ```cmake --build build --target kernel```
 

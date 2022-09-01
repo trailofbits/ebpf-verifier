@@ -4,7 +4,7 @@ lines = raw.readlines()
 print(len(lines))
 
 funcs = []
-key = "implicit declaration of function ‘"
+key = "implicit declaration of function '"
 
 for line in lines:
   if key not in line:
@@ -12,7 +12,7 @@ for line in lines:
     continue
   print("found")
   start = line.find(key) + len(key)
-  end = line.find("’", start)
+  end = line.find("'", start)
   func = line[start:end]
   funcs.append(func)
 

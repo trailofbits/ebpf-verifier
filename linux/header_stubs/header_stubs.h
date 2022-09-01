@@ -15,11 +15,13 @@ kernel versions are handled using ifdefs.
 /* Most directly relevant files to verifier */
 #ifdef KERNEL_BPF_SYSCALL
 #include "atomics.h"
+#include "current.h"
+#include "sched.h"
 #include "workqueue.h"
 #include "sched_signal.h"
 #include "lock.h"
 #include "uaccess.h"
-#include "current.h"
+
 #include "preempt.h"
 #include "percpu-defs.h"
 #include "cred.h"
@@ -38,7 +40,6 @@ kernel versions are handled using ifdefs.
 #include "current.h"
 #include "fs.h"
 #include "sched_signal.h"
-#include "sched.h"
 #include "file.h"
 #endif /* kernel/bpf/verifier */
 

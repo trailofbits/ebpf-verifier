@@ -7,7 +7,7 @@ extern int check_zeroed_user(const void  *from, unsigned int size);
 #define __LINUX_UACCESS_H__
 
 extern unsigned long strlen(const char *str);
-
+extern long copy_from_kernel_nofault(void *dst, const void *src, size_t size);
 // TODO: don't really get this one
 inline static long put_user(unsigned long x, void *ptr) {return 0;}
 

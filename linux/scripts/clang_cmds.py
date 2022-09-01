@@ -69,7 +69,7 @@ def main():
 
     if output_file + "\n" in kfs:
       new_cmd += prefix[first_I:]
-      kernel_macro = " -D__v5_2__ "
+      kernel_macro = " -D__v5_18__ "
       file_macro = get_file_macro(output_file)
       print(file_macro)
       new_cmd += " -D" + file_macro
@@ -88,6 +88,7 @@ def main():
 
       # from the v5.2 commands (could be diff in other kernel versions)
       new_cmd = new_cmd.replace("-mstack-protector-guard=sysreg -mstack-protector-guard-reg=sp_el0 -mstack-protector-guard-offset=1128 ", "")
+      new_cmd = new_cmd.replace("-mstack-protector-guard=sysreg -mstack-protector-guard-reg=sp_el0 -mstack-protector-guard-offset=1184", "")
 
       if new_cmd.find("stack-protector") != -1:
         print("CHECK THAT STACK PROTECTOR IS NOT ENABLED!!!!!")
