@@ -1,3 +1,8 @@
+# the purpose of this makefile is to tweak some things about the default libbpf
+# build system so that there are no function name conflicts and stuff gets built
+# in the desired locations.
+
+
 # replace libbpf functions that conflict with internel kernel functions with prefixed
 # alternatives
 PREFIXED_MACROS := -Dbtf_type_by_id=libbpf__btf_type_by_id -Dbpf_core_essential_name_len=libbpf__bpf_core_essential_name_len \

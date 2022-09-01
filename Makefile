@@ -1,5 +1,4 @@
 EBPF = $(HOME)/ebpf-verifier
-
 BIN = $(EBPF)/bin
 SRC = $(EBPF)/src
 SAMPLES = $(EBPF)/samples
@@ -12,10 +11,12 @@ KARCHIVE := $(EBPF)/linux/kernel.a
 KERNEL := $(EBPF)/linux/src
 
 # TODO: currently using my vmlinux.h generated from my /sys/kernel/btf/vmlinux
+# is this okay? Should there be other options.
 VMLINUX := $(EBPF)/linux/vmlinux.h
 
 INCLUDES := -I$(LIBBPFSRC)/root/usr/include -I$(LIBBPFSRC)/root_reg/usr/include -iquote$(KERNEL)/../
 
+# TODO: add support for gcc
 CC := clang
 CFLAGS := -g -O2 -fdebug-default-version=4
 
@@ -33,7 +34,7 @@ APPS := s \
 				bounded_loop \
 				infinite_loop
 
-
+# TODO: figure out a better way to do this.
 LOCALAPPS := 	local-s \
 							local-hello \
 							local-bootstrap \
@@ -56,6 +57,8 @@ HARNESS_SRC_FILES := 	$(SRC)/my_syscall.c \
 											$(SRC)/ptr_store.c \
 											$(SRC)/memory.c
 
+# TODO: look into generalizing architecture/cross compiling or otherwise dealing
+# with architecture specific stuff
 ARCH := arm64
 
 # generate bpf bytecode
