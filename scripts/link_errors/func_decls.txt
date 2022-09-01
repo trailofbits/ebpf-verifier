@@ -1,0 +1,2 @@
+void atomic_fetch_add_relaxed(void) { abort(); } // TODO --> autogened
+void atomic_try_cmpxchg_relaxed(void) { abort(); } // TODO --> autogened

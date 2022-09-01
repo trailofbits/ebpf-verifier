@@ -12,44 +12,40 @@ void destroy_ptr_store() {
 	free_store(store);
 }
 
-// originally from /include/linux/slab.h
+void * kcalloc(size_t n, size_t size) { return add_ptr(store, calloc(n, size)); }
+void kfree(void *ptr) {}
+void *kmalloc(size) { return add_ptr(store, calloc(1, size)); }
+// extern decl from include/linux/vmalloc.h
+void * vmalloc(unsigned long size) { return add_ptr(store, calloc(1, size)); }
+void * vzalloc(size_t size) {	return add_ptr(store, calloc(1, size)); }
+void kvfree(void *ptr) {}
+void vfree(void *ptr) {}
+void *kmalloc_array(size_t n, size_t size, unsigned int flags) { return add_ptr(store, calloc(1, n *size)); }
+
+struct callback_head;
+void kfree_call_rcu(struct callback_head *head, void (*func)(struct callback_head *)) {}
+
 void * kzalloc(size_t size) { return add_ptr(store, calloc(1, size)); }
+void * __vmalloc(unsigned long size) { return add_ptr(store, calloc(1, size)); }
+
+#if defined __v5_18__ || __v5_2__
 void * kvcalloc(size_t n, size_t size) { return add_ptr(store, calloc(n, size)); }
 void * kvmalloc(size_t n, unsigned int flags) { return add_ptr(store, calloc(1, n)); }
 
-void * kcalloc(size_t n, size_t size) { return add_ptr(store, calloc(n, size)); }
-
-void *kmalloc_array(size_t n, size_t size, unsigned int flags) { return add_ptr(store, calloc(1, n *size)); }
 void * kmalloc_node(size_t size, unsigned int flags, int node) { return add_ptr(store, calloc(1, size)); }
 void * __kmalloc_track_caller(size_t size, unsigned int flags, unsigned long caller) { return add_ptr(store, calloc(1, size)); }
 void kmalloc_array_node(void) { abort(); } // TODO --> autogened
 
-// originally from include/linux/slab.h
-void kfree(void *ptr) {}
-void kvfree(void *ptr) {}
-// extern decl from /include/linux/vmalloc.h
-void vfree(void *ptr) {}
-// originally decl in include/linux/percpu.h
 void free_percpu(void * ptr) {}
 
-// TODO: deal with realloc?
 void * krealloc(void *p, size_t new_size, unsigned int flags) { return add_ptr(store, malloc(new_size)); }
 void * krealloc_array(void *p, size_t new_n, size_t new_size, unsigned int flags) { return add_ptr(store, calloc(new_n, new_size)); }
-void kmalloc(void) { abort(); }
 
-// extern decl in  include/linux/vmalloc.h
-void * __vmalloc(unsigned long size) { return add_ptr(store, calloc(1, size)); }
 void * __vmalloc_node_range(unsigned long size, unsigned long align,
 			unsigned long start, unsigned long end, unsigned int gfp_mask,
 			unsigned int prot, unsigned long vm_flags, int node,
 			const void *caller) { return add_ptr(store, calloc(1, size)); }
-// extern decl from include/linux/vmalloc.h
-void * vzalloc(size_t size) {	return add_ptr(store, calloc(1, size)); }
 
-// extern decl from include/linux/vmalloc.h
-void * vmalloc(unsigned long size) { return add_ptr(store, calloc(1, size)); }
-
-// originally decl in include/linux/percpu.h
 void * __alloc_percpu_gfp(size_t size, size_t align) { return add_ptr(store, calloc(1, size)); }
 void * __alloc_percpu(size_t size, size_t align) { return add_ptr(store, calloc(1, size)); } // TODO --> autogened
 
@@ -84,3 +80,5 @@ void kmemdup(void) { abort(); } // TODO --> autogened
 void kmemdup_nul(void) { abort(); } // TODO --> autogened
 void kvfree_call_rcu(void) { abort(); } // TODO --> autogened
 void kvmalloc_array(void) { abort(); } // TODO --> autogened
+
+#endif

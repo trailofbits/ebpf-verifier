@@ -1,0 +1,2 @@
+atomic_fetch_add_relaxed
+atomic_try_cmpxchg_relaxed

@@ -1,14 +1,15 @@
+
 #define _LINUX_CRED_H
-
 #include <linux/uidgid.h>
+#if defined  __v5_18__  || defined __v5_2__
 
-struct user_struct {
-  kuid_t uid;
-};
+#include <linux/sched/user.h>
 
-extern int free_uid(struct user_struct *);
+// extern int free_uid(struct user_struct *);
 extern struct cred * current_cred(void);
 extern int current_uid_gid(kuid_t *, kgid_t *);
+
+struct user_struct user_placeholder;
 
 struct cred {
 	kuid_t		uid;		/* real UID of the task */
@@ -25,7 +26,9 @@ struct cred {
 
 static struct cred c = {{1}, {1}, {1}, {1}, {1}, {1}, {1}, {1}, NULL};
 
-extern struct user_struct *get_current_user(void);
+struct user_struct * get_current_user(void) {
+	return &user_placeholder; // should never actually be used for anything since uninitialized
+}
 
 #define current_cred_xxx(xxx)			c.xxx
 
@@ -41,3 +44,4 @@ extern struct user_struct *get_current_user(void);
 #define current_user()		(current_cred_xxx(user))
 #define current_ucounts()	(current_cred_xxx(ucounts))
 #define current_user_ns() (current_cred_xxx(user_ns))
+#endif

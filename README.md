@@ -5,31 +5,33 @@ Linux kernel in order to allow efficient checks that an eBPF program will run
 on various kernel versions and configurations. It will also allow for detecting
 discrepencies in the eBPF verifier between different kernel versions.
 
-## Important files:
+## Architecture:
 
-* runtime.c contains stubbed out/reimplemented functions that verifier.c or a
-dependency requires.
+1. linux/src: git submodule of linux src
+2. libbpf/src: git submodule of libbpf mirror src
+3. samples: sample bpf programs
+4. src: harness runtime files
+5. scripts: miscellaneous scripts used to generate function declarations and such
 
-* main.c runs the actual harness.
+# Build System:
 
-* .h files include additional stubbed out functions/macros.
+This project uses cmake to an extent, but also heavily relies on Makefiles.
+In the future the build system should definitely be streamlined by someone that
+understands cmake.
 
-# General Workflow
+Here are some of the more useful build commands, but they are not comprehensive.
 
-Matches current implementation, not full harness yet.
+Use the following cmake command to change the linux source version:
+```cmake -S . -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBPFVERIFIER_LINUX_VERSION="v5.2" ```
+```cmake --build build --target linux_submodule_updater```
 
-## Get the compile commands:
+After updating kernel source version make
 
-1.  **compile the kernel with clang**
-2.  from inside kernel source root dir **run
-the scripts/clang-tools/gen_compile_commands.py**
-3.  put the compile_commands.json file in backup/
-4.  make compile_cmds to generate compile_cmds.sh
+To build kernel object:
+```cmake --build build --target kernel```
 
-## Actually get the bitcode:
+To build libbpf object:
+```cmake --build build --target libbpf```
 
-1. make bitcode to generate .bc files
-
-## Build harness:
-
-1. make harness
+To build harness for a sample/hello.bpf.c:
+```make hello```

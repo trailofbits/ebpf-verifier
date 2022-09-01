@@ -1,0 +1,13 @@
+/usr/bin/ld: /home/parallels/ebpf-verifier/linux/kernel.a(kernel.o): in function `__refcount_add':
+/home/parallels/ebpf-verifier/linux/src/./include/linux/refcount.h:193: undefined reference to `atomic_fetch_add_relaxed'
+/usr/bin/ld: /home/parallels/ebpf-verifier/linux/src/./include/linux/refcount.h:193: undefined reference to `atomic_fetch_add_relaxed'
+/usr/bin/ld: /home/parallels/ebpf-verifier/linux/kernel.a(kernel.o): in function `__refcount_add_not_zero':
+/home/parallels/ebpf-verifier/linux/src/./include/linux/refcount.h:157: undefined reference to `atomic_try_cmpxchg_relaxed'
+/usr/bin/ld: /home/parallels/ebpf-verifier/linux/kernel.a(kernel.o): in function `__refcount_add':
+/home/parallels/ebpf-verifier/linux/src/./include/linux/refcount.h:193: undefined reference to `atomic_fetch_add_relaxed'
+/usr/bin/ld: /home/parallels/ebpf-verifier/linux/src/./include/linux/refcount.h:193: undefined reference to `atomic_fetch_add_relaxed'
+/usr/bin/ld: /home/parallels/ebpf-verifier/linux/src/./include/linux/refcount.h:193: undefined reference to `atomic_fetch_add_relaxed'
+/usr/bin/ld: /home/parallels/ebpf-verifier/linux/src/./include/linux/refcount.h:193: undefined reference to `atomic_fetch_add_relaxed'
+/usr/bin/ld: /home/parallels/ebpf-verifier/linux/src/./include/linux/refcount.h:193: undefined reference to `atomic_fetch_add_relaxed'
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+make: *** [Makefile:82: hello] Error 1

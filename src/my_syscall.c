@@ -1,12 +1,16 @@
 #include <stdint.h>
 #include <stdlib.h>
-
 #include <stdarg.h>
-// #include <stdio.h>
-#include <linux/bpf.h> // TODO: make sure this is being included from correct place
+#include <linux/bpf.h>
 
-
-extern int bpf_sys_bpf(int, union bpf_attr *, uint32_t);
+#ifdef __v5_18__
+  // bpf_sys_bpf is a convenient global
+  extern int bpf_sys_bpf(int, union bpf_attr *, uint32_t);
+#elif __v5_2__
+  extern int lauras_sys_bpf(int, union bpf_attr *, unsigned int);
+#else
+  extern int sys_bpf(int, union bpf_attr *, uint32_t);
+#endif
 
 long int my_syscall(long int __sysno, ...) {
   va_list args;
@@ -22,7 +26,11 @@ long int my_syscall(long int __sysno, ...) {
   arg5 = va_arg (args, long int);
   va_end (args);
 
-  // printf("my_syscall triggered with sysno: %ld and cmd: %ld\n", __sysno, arg0);
-
+#ifdef __v5_18__
   return bpf_sys_bpf((int) arg0, (union bpf_attr *)arg1, (uint32_t) arg2);
+#elif __v5_2__
+  return lauras_sys_bpf((int) arg0, (union bpf_attr *)arg1, (unsigned int) arg2);
+#else
+  return sys_bpf((int) arg0, (union bpf_attr *)arg1, (uint32_t) arg2);
+#endif
 }

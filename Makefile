@@ -28,7 +28,11 @@ APPS := s \
 				sockfilter \
 				profile \
 				minimal_legacy \
-				kprobe fentry
+				kprobe \
+				fentry  \
+				bounded_loop \
+				infinite_loop
+
 
 LOCALAPPS := 	local-s \
 							local-hello \
@@ -40,7 +44,9 @@ LOCALAPPS := 	local-s \
 							local-profile \
 							local-minimal_legacy \
 							local-kprobe \
-							local-fentry
+							local-fentry \
+							local-bounded_loop \
+							local-infinite_loop
 
 HARNESS_SRC_FILES := 	$(SRC)/my_syscall.c \
 											$(SRC)/runtime.c \
@@ -60,7 +66,6 @@ $(SAMPLES)/%.bpf.o: $(SAMPLES)/%.bpf.c $(VMLINUX)
 
 # generate libbpf skel.h TODO: change bpftool to kernel spec. one
 $(SAMPLES)/%.skel.h: $(SAMPLES)/%.bpf.o
-	echo $@
 	bpftool gen skeleton $< > $@
 
 $(SAMPLES)/%_loader.o: $(SAMPLES)/%.skel.h
@@ -68,11 +73,18 @@ $(SAMPLES)/%_loader.o: $(SAMPLES)/%.skel.h
 	$(CC) $(CFLAGS) $(INCLUDES) \
 	-c -o $@ $(SAMPLES)/$*_loader.c
 
-# generate bpf loader executable (will call into my_syscall)
+# TODO: automated way to add kernel version macro. Right now manually modify
+# the below variable
+KVERSION := -D__v5_18__
+
+#generate bpf loader executable (will call into my_syscall)
 $(APPS): % : $(SAMPLES)/%_loader.o $(SAMPLES)/%.skel.h  $(SAMPLES)/%.bpf.o $(LIBBPF) $(KARCHIVE)
 	$(CC) $(CFLAGS) \
+	-I $(KERNEL)/usr/include/ \
+	-iquote $(EBPF)/linux/include \
 	-DHARNESS \
 	$<  \
+	$(KVERSION) \
 	$(HARNESS_SRC_FILES) \
 	$(LIBBPF) -lelf -lz \
 	$(KARCHIVE) \

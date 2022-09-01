@@ -16,6 +16,8 @@ inline void init_file(struct file *file, int flags, const struct file_operations
 	if ((file->f_mode & FMODE_WRITE) &&
 	     likely(fop->write || fop->write_iter))
 		file->f_mode |= FMODE_CAN_WRITE;
+#ifdef __v5_18__
 	file->f_mode |= FMODE_OPENED;
+#endif
   file->f_op = fop;
 }

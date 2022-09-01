@@ -2,7 +2,6 @@
 
 struct file;
 struct task_struct;
-// struct fd;
 
 extern void fput(struct file *);
 extern void put_unused_fd(unsigned int fd);
