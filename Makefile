@@ -9,7 +9,10 @@ REGLIBBPF := $(EBPF)/libbpf/build_reg/libbpf.a
 LIBBPF := $(EBPF)/libbpf/build/libbpf.a
 LIBBPFSRC := $(EBPF)/libbpf/
 KARCHIVE := $(EBPF)/linux/kernel.a
+<<<<<<< .merge_file_DhbFPL
 KARCHIVE18 := $(EBPF)/linux/kernel_5_18.a
+=======
+>>>>>>> .merge_file_7VHDmR
 KERNEL := $(EBPF)/linux/src
 
 # TODO: currently using my vmlinux.h generated from my /sys/kernel/btf/vmlinux
@@ -29,10 +32,14 @@ APPS := s \
 				sockfilter \
 				profile \
 				minimal_legacy \
+<<<<<<< .merge_file_DhbFPL
 				kprobe \
 				fentry  \
 				bounded_loop \
 				infinite_loop
+=======
+				kprobe fentry
+>>>>>>> .merge_file_7VHDmR
 
 LOCALAPPS := 	local-s \
 							local-hello \
@@ -44,9 +51,13 @@ LOCALAPPS := 	local-s \
 							local-profile \
 							local-minimal_legacy \
 							local-kprobe \
+<<<<<<< .merge_file_DhbFPL
 							local-fentry \
 							local-bounded_loop \
 							local-infinite_loop
+=======
+							local-fentry
+>>>>>>> .merge_file_7VHDmR
 
 HARNESS_SRC_FILES := 	$(SRC)/my_syscall.c \
 											$(SRC)/runtime.c \
@@ -67,13 +78,18 @@ $(SAMPLES)/%.bpf.o: $(SAMPLES)/%.bpf.c $(VMLINUX)
 # generate libbpf skel.h TODO: change bpftool to kernel spec. one
 $(SAMPLES)/%.skel.h: $(SAMPLES)/%.bpf.o
 	echo $@
+<<<<<<< .merge_file_DhbFPL
 	bpftool gen skeleton $< > $@ --debug
+=======
+	bpftool gen skeleton $< > $@
+>>>>>>> .merge_file_7VHDmR
 
 $(SAMPLES)/%_loader.o: $(SAMPLES)/%.skel.h
 	echo $<
 	$(CC) $(CFLAGS) $(INCLUDES) \
 	-c -o $@ $(SAMPLES)/$*_loader.c
 
+<<<<<<< .merge_file_DhbFPL
 # TODO: automated way to add kernel version macro. Right now manually modify
 # the below variable
 KVERSION := -D__v5_2__
@@ -86,12 +102,20 @@ $(APPS): % : $(SAMPLES)/%_loader.o $(SAMPLES)/%.skel.h  $(SAMPLES)/%.bpf.o $(LIB
 	-DHARNESS \
 	$<  \
 	$(KVERSION) \
+=======
+# generate bpf loader executable (will call into my_syscall)
+$(APPS): % : $(SAMPLES)/%_loader.o $(SAMPLES)/%.skel.h  $(SAMPLES)/%.bpf.o $(LIBBPF) $(KARCHIVE)
+	$(CC) $(CFLAGS) \
+	-DHARNESS \
+	$<  \
+>>>>>>> .merge_file_7VHDmR
 	$(HARNESS_SRC_FILES) \
 	$(LIBBPF) -lelf -lz \
 	$(KARCHIVE) \
 	-o $(BIN)/$@ \
 	-mcmodel=large
 
+<<<<<<< .merge_file_DhbFPL
 hello_18: %_18 : $(SAMPLES)/%_loader.o $(SAMPLES)/%.skel.h  $(SAMPLES)/%.bpf.o $(LIBBPF) $(KARCHIVE18)
 		$(CC) $(CFLAGS) \
 	-DHARNESS \
@@ -115,6 +139,8 @@ hello_18: %_18 : $(SAMPLES)/%_loader.o $(SAMPLES)/%.skel.h  $(SAMPLES)/%.bpf.o $
 # 	-o $(BIN)/$@ \
 # 	-mcmodel=large
 
+=======
+>>>>>>> .merge_file_7VHDmR
 # # generate bpf loader executable using standard libbpf (will make actual syscalls)
 $(LOCALAPPS) : local-% : $(SAMPLES)/%_loader.o $(SAMPLES)/%.bpf.o $(REGLIBBPF)
 	$(CC) $(CLAGS) \
