@@ -1,0 +1,18 @@
+/usr/bin/ld: /home/parallels/ebpf-verifier/linux/kernel.a(kernel.o): in function `bpf_map_put_uref':
+/home/parallels/ebpf-verifier/linux/src/kernel/bpf/syscall.c:307: undefined reference to `atomic_dec_and_test'
+/usr/bin/ld: /home/parallels/ebpf-verifier/linux/kernel.a(kernel.o): in function `bpf_map_inc':
+/home/parallels/ebpf-verifier/linux/src/kernel/bpf/syscall.c:657: undefined reference to `atomic_inc_return'
+/usr/bin/ld: /home/parallels/ebpf-verifier/linux/kernel.a(kernel.o): in function `bpf_prog_add':
+/home/parallels/ebpf-verifier/linux/src/kernel/bpf/syscall.c:1437: undefined reference to `atomic_add_return'
+/usr/bin/ld: /home/parallels/ebpf-verifier/linux/kernel.a(kernel.o): in function `bpf_prog_sub':
+/home/parallels/ebpf-verifier/linux/src/kernel/bpf/syscall.c:1452: undefined reference to `atomic_sub_return'
+/usr/bin/ld: /home/parallels/ebpf-verifier/linux/kernel.a(kernel.o): in function `__bpf_map_put':
+/home/parallels/ebpf-verifier/linux/src/kernel/bpf/syscall.c:318: undefined reference to `atomic_dec_and_test'
+/usr/bin/ld: /home/parallels/ebpf-verifier/linux/kernel.a(kernel.o): in function `bpf_map_inc_not_zero':
+/home/parallels/ebpf-verifier/linux/src/kernel/bpf/syscall.c:688: undefined reference to `atomic_fetch_add_unless'
+/usr/bin/ld: /home/parallels/ebpf-verifier/linux/kernel.a(kernel.o): in function `__bpf_prog_put':
+/home/parallels/ebpf-verifier/linux/src/kernel/bpf/syscall.c:1324: undefined reference to `atomic_dec_and_test'
+/usr/bin/ld: /home/parallels/ebpf-verifier/linux/kernel.a(kernel.o): in function `bpf_prog_inc_not_zero':
+/home/parallels/ebpf-verifier/linux/src/kernel/bpf/syscall.c:1467: undefined reference to `atomic_fetch_add_unless'
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+make: *** [Makefile:83: hello] Error 1

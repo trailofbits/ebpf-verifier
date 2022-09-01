@@ -1,0 +1,5 @@
+atomic_add_return
+atomic_dec_and_test
+atomic_fetch_add_unless
+atomic_inc_return
+atomic_sub_return
