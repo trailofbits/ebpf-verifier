@@ -5,7 +5,9 @@
 SEC("tracepoint/syscalls/sys_enter_execve")
 int handle_tp(void *ctx)
 {
-	bpf_printk("Hello World.\n");
+	for (int i = 0; i < 3; i++) {
+		bpf_printk("Hello World.\n");
+	}
 	return 0;
 }
 

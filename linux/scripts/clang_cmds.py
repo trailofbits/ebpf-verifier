@@ -69,7 +69,7 @@ def main():
 
     if output_file + "\n" in kfs:
       new_cmd += prefix[first_I:]
-      kernel_macro = " -D__v5_18__ "
+      kernel_macro = " -D__v5_2__ "
       file_macro = get_file_macro(output_file)
       print(file_macro)
       new_cmd += " -D" + file_macro
@@ -86,9 +86,17 @@ def main():
       new_cmd = new_cmd.replace("-Wframe-larger-than=2048", "")
       new_cmd = new_cmd.replace("-fstack-protector-strong", "")
 
+      # from the v5.2 commands (could be diff in other kernel versions)
+      new_cmd = new_cmd.replace("-mstack-protector-guard=sysreg -mstack-protector-guard-reg=sp_el0 -mstack-protector-guard-offset=1128 ", "")
+
+      if new_cmd.find("stack-protector") != -1:
+        print("CHECK THAT STACK PROTECTOR IS NOT ENABLED!!!!!")
+
       new_cmd += " -g "
       #TODO: compiler diff : gcc-5 doesn't recognize fdebug-default-version
-      new_cmd += " -fdebug-default-version=4 " # otherwise valgrind doesn't understand
+      if new_cmd.startswith("clang"):
+        new_cmd += " -fdebug-default-version=4 " # otherwise valgrind doesn't understand
+        new_cmd += " -mcmodel=large "
       libbpf = True
       if output_file == "kernel/bpf/btf.o" and libbpf:
         print("modifing btf.o for libbpf. change script if running old harness.")
@@ -100,7 +108,7 @@ def main():
         new_cmd += " -Dbpf_prog_kallsyms_add=bpf_prog_kallsyms_add_og "
 
       new_cmd += new_suffix
-      new_cmd += " -mcmodel=large "
+
 
       final_commands.append(new_cmd)
       output_filef.write(new_cmd)

@@ -2,7 +2,13 @@
 #define	_LINUX_SLAB_H
 #include<linux/types.h>
 
-#ifdef __v5_18__
+#ifdef __v5_2__
+
+void kzfree(const void *); // in v5.2 at least
+
+#endif
+
+#if defined __v5_18__  || defined __v5_2__
 #define ARCH_KMALLOC_MINALIGN __alignof__(unsigned long long)
 extern void kfree_sensitive(const void *objp);
 
@@ -213,11 +219,11 @@ extern struct kmem_cache *kmem_cache_create(const char *name, unsigned int size,
 extern void * kmem_cache_alloc(struct kmem_cache *s, gfp_t flags);
 extern void kmem_cache_free(struct kmem_cache *s, void *objp);
 extern void * kcalloc(int num, size_t size, gfp_t flags);
-extern void * kvmalloc(size_t size, gfp_t flags);
-extern void * kvcalloc(size_t n, size_t size, gfp_t flags);
+
+
 extern void *  krealloc(const void *objp, size_t new_size, gfp_t flags);
 extern void * kmalloc_array(size_t n, size_t size, gfp_t flags);
-extern void *kvmalloc_array(size_t n, size_t size, gfp_t flags);
+
 extern void *__kmalloc_track_caller(size_t size, gfp_t flags, unsigned long caller);
 #define kmalloc_track_caller(size, flags) \
 	__kmalloc_track_caller(size, flags, _RET_IP_)
@@ -238,9 +244,13 @@ extern int kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size,
 extern void * kmalloc_array_node(size_t n, size_t size, gfp_t flags, int node);
 extern struct kmem_cache *kmalloc_caches[NR_KMALLOC_TYPES][1];
 
+#ifndef __v5_2__
+extern void *kvmalloc_array(size_t n, size_t size, gfp_t flags);
+extern void * kvcalloc(size_t n, size_t size, gfp_t flags);
+extern void * kvmalloc(size_t size, gfp_t flags);
+#endif
 
-
-#else
+#elif __v4_0__
 #include <linux/gfp.h>
 struct kmem_cache;
 extern void * kzalloc(size_t size, gfp_t flags);
@@ -250,4 +260,6 @@ extern void * kcalloc(int num, size_t size, gfp_t flags);
 extern void * kmalloc_array(size_t n, size_t size, gfp_t flags);
 extern void * kmem_cache_alloc(struct kmem_cache *s, gfp_t flags);
 extern void kmem_cache_free(struct kmem_cache *s, void *objp);
-#endif /* __v5_18__ */
+
+
+#endif

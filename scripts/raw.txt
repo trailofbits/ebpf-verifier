@@ -1,0 +1,755 @@
+In file included from ./include/linux/atomic.h:76,
+                 from ./include/asm-generic/bitops/atomic.h:5,
+                 from ./arch/arm64/include/asm/bitops.h:26,
+                 from ./include/linux/bitops.h:19,
+                 from ./include/linux/kernel.h:12,
+                 from ./include/asm-generic/bug.h:18,
+                 from ./arch/arm64/include/asm/bug.h:26,
+                 from ./include/linux/bug.h:5,
+                 from ./include/linux/signal.h:5,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/current.h:3,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:18,
+                 from <command-line>:
+./include/asm-generic/atomic-long.h:26:1: error: static declaration of ‘atomic_long_read’ follows non-static declaration
+   26 | atomic_long_read(const atomic_long_t *v)
+      | ^~~~~~~~~~~~~~~~
+In file included from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:15,
+                 from <command-line>:
+/home/parallels/ebpf-verifier/linux/header_stubs/atomic-instrumented.h:44:13: note: previous declaration of ‘atomic_long_read’ was here
+   44 | extern long atomic_long_read(const atomic_long_t *v);
+      |             ^~~~~~~~~~~~~~~~
+In file included from ./include/linux/atomic.h:76,
+                 from ./include/asm-generic/bitops/atomic.h:5,
+                 from ./arch/arm64/include/asm/bitops.h:26,
+                 from ./include/linux/bitops.h:19,
+                 from ./include/linux/kernel.h:12,
+                 from ./include/asm-generic/bug.h:18,
+                 from ./arch/arm64/include/asm/bug.h:26,
+                 from ./include/linux/bug.h:5,
+                 from ./include/linux/signal.h:5,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/current.h:3,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:18,
+                 from <command-line>:
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_read_acquire’:
+./include/asm-generic/atomic-long.h:34:9: error: implicit declaration of function ‘atomic64_read_acquire’; did you mean ‘atomic_long_read_acquire’? [-Werror=implicit-function-declaration]
+   34 |  return atomic64_read_acquire(v);
+      |         ^~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_read_acquire
+./include/asm-generic/atomic-long.h: At top level:
+./include/asm-generic/atomic-long.h:38:1: error: static declaration of ‘atomic_long_set’ follows non-static declaration
+   38 | atomic_long_set(atomic_long_t *v, long i)
+      | ^~~~~~~~~~~~~~~
+In file included from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:15,
+                 from <command-line>:
+/home/parallels/ebpf-verifier/linux/header_stubs/atomic-instrumented.h:57:13: note: previous declaration of ‘atomic_long_set’ was here
+   57 | extern void atomic_long_set(atomic_long_t *v, long i);
+      |             ^~~~~~~~~~~~~~~
+In file included from ./include/linux/atomic.h:76,
+                 from ./include/asm-generic/bitops/atomic.h:5,
+                 from ./arch/arm64/include/asm/bitops.h:26,
+                 from ./include/linux/bitops.h:19,
+                 from ./include/linux/kernel.h:12,
+                 from ./include/asm-generic/bug.h:18,
+                 from ./arch/arm64/include/asm/bug.h:26,
+                 from ./include/linux/bug.h:5,
+                 from ./include/linux/signal.h:5,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/current.h:3,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:18,
+                 from <command-line>:
+./include/asm-generic/atomic-long.h:44:1: error: static declaration of ‘atomic_long_set_release’ follows non-static declaration
+   44 | atomic_long_set_release(atomic_long_t *v, long i)
+      | ^~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:15,
+                 from <command-line>:
+/home/parallels/ebpf-verifier/linux/header_stubs/atomic-instrumented.h:56:13: note: previous declaration of ‘atomic_long_set_release’ was here
+   56 | extern void atomic_long_set_release(atomic_long_t *v, long i);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./include/linux/atomic.h:76,
+                 from ./include/asm-generic/bitops/atomic.h:5,
+                 from ./arch/arm64/include/asm/bitops.h:26,
+                 from ./include/linux/bitops.h:19,
+                 from ./include/linux/kernel.h:12,
+                 from ./include/asm-generic/bug.h:18,
+                 from ./arch/arm64/include/asm/bug.h:26,
+                 from ./include/linux/bug.h:5,
+                 from ./include/linux/signal.h:5,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/current.h:3,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:18,
+                 from <command-line>:
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_set_release’:
+./include/asm-generic/atomic-long.h:46:2: error: implicit declaration of function ‘atomic64_set_release’; did you mean ‘atomic_set_release’? [-Werror=implicit-function-declaration]
+   46 |  atomic64_set_release(v, i);
+      |  ^~~~~~~~~~~~~~~~~~~~
+      |  atomic_set_release
+./include/asm-generic/atomic-long.h: At top level:
+./include/asm-generic/atomic-long.h:50:1: error: static declaration of ‘atomic_long_add’ follows non-static declaration
+   50 | atomic_long_add(long i, atomic_long_t *v)
+      | ^~~~~~~~~~~~~~~
+In file included from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:15,
+                 from <command-line>:
+/home/parallels/ebpf-verifier/linux/header_stubs/atomic-instrumented.h:53:13: note: previous declaration of ‘atomic_long_add’ was here
+   53 | extern void atomic_long_add(long i, atomic_long_t *v);
+      |             ^~~~~~~~~~~~~~~
+In file included from ./include/linux/atomic.h:76,
+                 from ./include/asm-generic/bitops/atomic.h:5,
+                 from ./arch/arm64/include/asm/bitops.h:26,
+                 from ./include/linux/bitops.h:19,
+                 from ./include/linux/kernel.h:12,
+                 from ./include/asm-generic/bug.h:18,
+                 from ./arch/arm64/include/asm/bug.h:26,
+                 from ./include/linux/bug.h:5,
+                 from ./include/linux/signal.h:5,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/current.h:3,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:18,
+                 from <command-line>:
+./include/asm-generic/atomic-long.h:56:1: error: static declaration of ‘atomic_long_add_return’ follows non-static declaration
+   56 | atomic_long_add_return(long i, atomic_long_t *v)
+      | ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:15,
+                 from <command-line>:
+/home/parallels/ebpf-verifier/linux/header_stubs/atomic-instrumented.h:40:13: note: previous declaration of ‘atomic_long_add_return’ was here
+   40 | extern long atomic_long_add_return(long i, atomic_long_t *v);
+      |             ^~~~~~~~~~~~~~~~~~~~~~
+In file included from ./include/linux/atomic.h:76,
+                 from ./include/asm-generic/bitops/atomic.h:5,
+                 from ./arch/arm64/include/asm/bitops.h:26,
+                 from ./include/linux/bitops.h:19,
+                 from ./include/linux/kernel.h:12,
+                 from ./include/asm-generic/bug.h:18,
+                 from ./arch/arm64/include/asm/bug.h:26,
+                 from ./include/linux/bug.h:5,
+                 from ./include/linux/signal.h:5,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/current.h:3,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:18,
+                 from <command-line>:
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_add_return’:
+./include/asm-generic/atomic-long.h:58:9: error: implicit declaration of function ‘atomic64_add_return’; did you mean ‘atomic64_sub_return’? [-Werror=implicit-function-declaration]
+   58 |  return atomic64_add_return(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~
+      |         atomic64_sub_return
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_add_return_acquire’:
+./include/asm-generic/atomic-long.h:64:9: error: implicit declaration of function ‘atomic64_add_return_acquire’; did you mean ‘atomic_add_return_acquire’? [-Werror=implicit-function-declaration]
+   64 |  return atomic64_add_return_acquire(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_add_return_acquire
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_add_return_release’:
+./include/asm-generic/atomic-long.h:70:9: error: implicit declaration of function ‘atomic64_add_return_release’; did you mean ‘atomic_long_add_return_release’? [-Werror=implicit-function-declaration]
+   70 |  return atomic64_add_return_release(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_add_return_release
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_add_return_relaxed’:
+./include/asm-generic/atomic-long.h:76:9: error: implicit declaration of function ‘atomic64_add_return_relaxed’; did you mean ‘atomic_long_add_return_relaxed’? [-Werror=implicit-function-declaration]
+   76 |  return atomic64_add_return_relaxed(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_add_return_relaxed
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_add’:
+./include/asm-generic/atomic-long.h:82:9: error: implicit declaration of function ‘atomic64_fetch_add’; did you mean ‘atomic_fetch_add’? [-Werror=implicit-function-declaration]
+   82 |  return atomic64_fetch_add(i, v);
+      |         ^~~~~~~~~~~~~~~~~~
+      |         atomic_fetch_add
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_add_acquire’:
+./include/asm-generic/atomic-long.h:88:9: error: implicit declaration of function ‘atomic64_fetch_add_acquire’; did you mean ‘atomic_long_fetch_add_acquire’? [-Werror=implicit-function-declaration]
+   88 |  return atomic64_fetch_add_acquire(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_fetch_add_acquire
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_add_release’:
+./include/asm-generic/atomic-long.h:94:9: error: implicit declaration of function ‘atomic64_fetch_add_release’; did you mean ‘atomic_fetch_add_release’? [-Werror=implicit-function-declaration]
+   94 |  return atomic64_fetch_add_release(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_fetch_add_release
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_add_relaxed’:
+./include/asm-generic/atomic-long.h:100:9: error: implicit declaration of function ‘atomic64_fetch_add_relaxed’; did you mean ‘atomic_fetch_add_relaxed’? [-Werror=implicit-function-declaration]
+  100 |  return atomic64_fetch_add_relaxed(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_fetch_add_relaxed
+./include/asm-generic/atomic-long.h: At top level:
+./include/asm-generic/atomic-long.h:104:1: error: static declaration of ‘atomic_long_sub’ follows non-static declaration
+  104 | atomic_long_sub(long i, atomic_long_t *v)
+      | ^~~~~~~~~~~~~~~
+In file included from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:15,
+                 from <command-line>:
+/home/parallels/ebpf-verifier/linux/header_stubs/atomic-instrumented.h:58:13: note: previous declaration of ‘atomic_long_sub’ was here
+   58 | extern void atomic_long_sub(long i, atomic_long_t *v);
+      |             ^~~~~~~~~~~~~~~
+In file included from ./include/linux/atomic.h:76,
+                 from ./include/asm-generic/bitops/atomic.h:5,
+                 from ./arch/arm64/include/asm/bitops.h:26,
+                 from ./include/linux/bitops.h:19,
+                 from ./include/linux/kernel.h:12,
+                 from ./include/asm-generic/bug.h:18,
+                 from ./arch/arm64/include/asm/bug.h:26,
+                 from ./include/linux/bug.h:5,
+                 from ./include/linux/signal.h:5,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/current.h:3,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:18,
+                 from <command-line>:
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_sub’:
+./include/asm-generic/atomic-long.h:106:2: error: implicit declaration of function ‘atomic64_sub’; did you mean ‘atomic64_set’? [-Werror=implicit-function-declaration]
+  106 |  atomic64_sub(i, v);
+      |  ^~~~~~~~~~~~
+      |  atomic64_set
+./include/asm-generic/atomic-long.h: At top level:
+./include/asm-generic/atomic-long.h:110:1: error: static declaration of ‘atomic_long_sub_return’ follows non-static declaration
+  110 | atomic_long_sub_return(long i, atomic_long_t *v)
+      | ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:15,
+                 from <command-line>:
+/home/parallels/ebpf-verifier/linux/header_stubs/atomic-instrumented.h:45:13: note: previous declaration of ‘atomic_long_sub_return’ was here
+   45 | extern long atomic_long_sub_return(long i, atomic_long_t *v);
+      |             ^~~~~~~~~~~~~~~~~~~~~~
+In file included from ./include/linux/atomic.h:76,
+                 from ./include/asm-generic/bitops/atomic.h:5,
+                 from ./arch/arm64/include/asm/bitops.h:26,
+                 from ./include/linux/bitops.h:19,
+                 from ./include/linux/kernel.h:12,
+                 from ./include/asm-generic/bug.h:18,
+                 from ./arch/arm64/include/asm/bug.h:26,
+                 from ./include/linux/bug.h:5,
+                 from ./include/linux/signal.h:5,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/current.h:3,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:18,
+                 from <command-line>:
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_sub_return_acquire’:
+./include/asm-generic/atomic-long.h:118:9: error: implicit declaration of function ‘atomic64_sub_return_acquire’; did you mean ‘atomic_long_sub_return_acquire’? [-Werror=implicit-function-declaration]
+  118 |  return atomic64_sub_return_acquire(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_sub_return_acquire
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_sub_return_release’:
+./include/asm-generic/atomic-long.h:124:9: error: implicit declaration of function ‘atomic64_sub_return_release’; did you mean ‘atomic_sub_return_release’? [-Werror=implicit-function-declaration]
+  124 |  return atomic64_sub_return_release(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_sub_return_release
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_sub_return_relaxed’:
+./include/asm-generic/atomic-long.h:130:9: error: implicit declaration of function ‘atomic64_sub_return_relaxed’; did you mean ‘atomic_long_sub_return_relaxed’? [-Werror=implicit-function-declaration]
+  130 |  return atomic64_sub_return_relaxed(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_sub_return_relaxed
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_sub’:
+./include/asm-generic/atomic-long.h:136:9: error: implicit declaration of function ‘atomic64_fetch_sub’; did you mean ‘atomic_long_fetch_sub’? [-Werror=implicit-function-declaration]
+  136 |  return atomic64_fetch_sub(i, v);
+      |         ^~~~~~~~~~~~~~~~~~
+      |         atomic_long_fetch_sub
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_sub_acquire’:
+./include/asm-generic/atomic-long.h:142:9: error: implicit declaration of function ‘atomic64_fetch_sub_acquire’; did you mean ‘atomic_long_fetch_sub_acquire’? [-Werror=implicit-function-declaration]
+  142 |  return atomic64_fetch_sub_acquire(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_fetch_sub_acquire
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_sub_release’:
+./include/asm-generic/atomic-long.h:148:9: error: implicit declaration of function ‘atomic64_fetch_sub_release’; did you mean ‘atomic_fetch_sub_release’? [-Werror=implicit-function-declaration]
+  148 |  return atomic64_fetch_sub_release(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_fetch_sub_release
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_sub_relaxed’:
+./include/asm-generic/atomic-long.h:154:9: error: implicit declaration of function ‘atomic64_fetch_sub_relaxed’; did you mean ‘atomic_long_fetch_sub_relaxed’? [-Werror=implicit-function-declaration]
+  154 |  return atomic64_fetch_sub_relaxed(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_fetch_sub_relaxed
+./include/asm-generic/atomic-long.h: At top level:
+./include/asm-generic/atomic-long.h:158:1: error: static declaration of ‘atomic_long_inc’ follows non-static declaration
+  158 | atomic_long_inc(atomic_long_t *v)
+      | ^~~~~~~~~~~~~~~
+In file included from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:15,
+                 from <command-line>:
+/home/parallels/ebpf-verifier/linux/header_stubs/atomic-instrumented.h:55:13: note: previous declaration of ‘atomic_long_inc’ was here
+   55 | extern void atomic_long_inc(atomic_long_t *v);
+      |             ^~~~~~~~~~~~~~~
+In file included from ./include/linux/atomic.h:76,
+                 from ./include/asm-generic/bitops/atomic.h:5,
+                 from ./arch/arm64/include/asm/bitops.h:26,
+                 from ./include/linux/bitops.h:19,
+                 from ./include/linux/kernel.h:12,
+                 from ./include/asm-generic/bug.h:18,
+                 from ./arch/arm64/include/asm/bug.h:26,
+                 from ./include/linux/bug.h:5,
+                 from ./include/linux/signal.h:5,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/current.h:3,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:18,
+                 from <command-line>:
+./include/asm-generic/atomic-long.h:164:1: error: static declaration of ‘atomic_long_inc_return’ follows non-static declaration
+  164 | atomic_long_inc_return(atomic_long_t *v)
+      | ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:15,
+                 from <command-line>:
+/home/parallels/ebpf-verifier/linux/header_stubs/atomic-instrumented.h:43:13: note: previous declaration of ‘atomic_long_inc_return’ was here
+   43 | extern long atomic_long_inc_return(atomic_long_t *v);
+      |             ^~~~~~~~~~~~~~~~~~~~~~
+In file included from ./include/linux/atomic.h:76,
+                 from ./include/asm-generic/bitops/atomic.h:5,
+                 from ./arch/arm64/include/asm/bitops.h:26,
+                 from ./include/linux/bitops.h:19,
+                 from ./include/linux/kernel.h:12,
+                 from ./include/asm-generic/bug.h:18,
+                 from ./arch/arm64/include/asm/bug.h:26,
+                 from ./include/linux/bug.h:5,
+                 from ./include/linux/signal.h:5,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/current.h:3,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:18,
+                 from <command-line>:
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_inc_return’:
+./include/asm-generic/atomic-long.h:166:9: error: implicit declaration of function ‘atomic64_inc_return’; did you mean ‘atomic_inc_return’? [-Werror=implicit-function-declaration]
+  166 |  return atomic64_inc_return(v);
+      |         ^~~~~~~~~~~~~~~~~~~
+      |         atomic_inc_return
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_inc_return_acquire’:
+./include/asm-generic/atomic-long.h:172:9: error: implicit declaration of function ‘atomic64_inc_return_acquire’; did you mean ‘atomic_long_inc_return_acquire’? [-Werror=implicit-function-declaration]
+  172 |  return atomic64_inc_return_acquire(v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_inc_return_acquire
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_inc_return_release’:
+./include/asm-generic/atomic-long.h:178:9: error: implicit declaration of function ‘atomic64_inc_return_release’; did you mean ‘atomic_long_inc_return_release’? [-Werror=implicit-function-declaration]
+  178 |  return atomic64_inc_return_release(v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_inc_return_release
+./include/asm-generic/atomic-long.h: At top level:
+./include/asm-generic/atomic-long.h:182:1: error: static declaration of ‘atomic_long_inc_return_relaxed’ follows non-static declaration
+  182 | atomic_long_inc_return_relaxed(atomic_long_t *v)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:15,
+                 from <command-line>:
+/home/parallels/ebpf-verifier/linux/header_stubs/atomic-instrumented.h:42:13: note: previous declaration of ‘atomic_long_inc_return_relaxed’ was here
+   42 | extern long atomic_long_inc_return_relaxed(atomic_long_t *v);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./include/linux/atomic.h:76,
+                 from ./include/asm-generic/bitops/atomic.h:5,
+                 from ./arch/arm64/include/asm/bitops.h:26,
+                 from ./include/linux/bitops.h:19,
+                 from ./include/linux/kernel.h:12,
+                 from ./include/asm-generic/bug.h:18,
+                 from ./arch/arm64/include/asm/bug.h:26,
+                 from ./include/linux/bug.h:5,
+                 from ./include/linux/signal.h:5,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/current.h:3,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:18,
+                 from <command-line>:
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_inc_return_relaxed’:
+./include/asm-generic/atomic-long.h:184:9: error: implicit declaration of function ‘atomic64_inc_return_relaxed’; did you mean ‘atomic_long_inc_return_relaxed’? [-Werror=implicit-function-declaration]
+  184 |  return atomic64_inc_return_relaxed(v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_inc_return_relaxed
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_inc’:
+./include/asm-generic/atomic-long.h:190:9: error: implicit declaration of function ‘atomic64_fetch_inc’; did you mean ‘atomic_long_fetch_inc’? [-Werror=implicit-function-declaration]
+  190 |  return atomic64_fetch_inc(v);
+      |         ^~~~~~~~~~~~~~~~~~
+      |         atomic_long_fetch_inc
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_inc_acquire’:
+./include/asm-generic/atomic-long.h:196:9: error: implicit declaration of function ‘atomic64_fetch_inc_acquire’; did you mean ‘atomic_long_fetch_inc_acquire’? [-Werror=implicit-function-declaration]
+  196 |  return atomic64_fetch_inc_acquire(v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_fetch_inc_acquire
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_inc_release’:
+./include/asm-generic/atomic-long.h:202:9: error: implicit declaration of function ‘atomic64_fetch_inc_release’; did you mean ‘atomic_long_fetch_inc_release’? [-Werror=implicit-function-declaration]
+  202 |  return atomic64_fetch_inc_release(v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_fetch_inc_release
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_inc_relaxed’:
+./include/asm-generic/atomic-long.h:208:9: error: implicit declaration of function ‘atomic64_fetch_inc_relaxed’; did you mean ‘atomic_long_fetch_inc_relaxed’? [-Werror=implicit-function-declaration]
+  208 |  return atomic64_fetch_inc_relaxed(v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_fetch_inc_relaxed
+./include/asm-generic/atomic-long.h: At top level:
+./include/asm-generic/atomic-long.h:212:1: error: static declaration of ‘atomic_long_dec’ follows non-static declaration
+  212 | atomic_long_dec(atomic_long_t *v)
+      | ^~~~~~~~~~~~~~~
+In file included from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:15,
+                 from <command-line>:
+/home/parallels/ebpf-verifier/linux/header_stubs/atomic-instrumented.h:54:13: note: previous declaration of ‘atomic_long_dec’ was here
+   54 | extern void atomic_long_dec(atomic_long_t *v);
+      |             ^~~~~~~~~~~~~~~
+In file included from ./include/linux/atomic.h:76,
+                 from ./include/asm-generic/bitops/atomic.h:5,
+                 from ./arch/arm64/include/asm/bitops.h:26,
+                 from ./include/linux/bitops.h:19,
+                 from ./include/linux/kernel.h:12,
+                 from ./include/asm-generic/bug.h:18,
+                 from ./arch/arm64/include/asm/bug.h:26,
+                 from ./include/linux/bug.h:5,
+                 from ./include/linux/signal.h:5,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/current.h:3,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:18,
+                 from <command-line>:
+./include/asm-generic/atomic-long.h:218:1: error: static declaration of ‘atomic_long_dec_return’ follows non-static declaration
+  218 | atomic_long_dec_return(atomic_long_t *v)
+      | ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:15,
+                 from <command-line>:
+/home/parallels/ebpf-verifier/linux/header_stubs/atomic-instrumented.h:41:13: note: previous declaration of ‘atomic_long_dec_return’ was here
+   41 | extern long atomic_long_dec_return(atomic_long_t *v);
+      |             ^~~~~~~~~~~~~~~~~~~~~~
+In file included from ./include/linux/atomic.h:76,
+                 from ./include/asm-generic/bitops/atomic.h:5,
+                 from ./arch/arm64/include/asm/bitops.h:26,
+                 from ./include/linux/bitops.h:19,
+                 from ./include/linux/kernel.h:12,
+                 from ./include/asm-generic/bug.h:18,
+                 from ./arch/arm64/include/asm/bug.h:26,
+                 from ./include/linux/bug.h:5,
+                 from ./include/linux/signal.h:5,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/current.h:3,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:18,
+                 from <command-line>:
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_dec_return’:
+./include/asm-generic/atomic-long.h:220:9: error: implicit declaration of function ‘atomic64_dec_return’; did you mean ‘atomic_dec_return’? [-Werror=implicit-function-declaration]
+  220 |  return atomic64_dec_return(v);
+      |         ^~~~~~~~~~~~~~~~~~~
+      |         atomic_dec_return
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_dec_return_acquire’:
+./include/asm-generic/atomic-long.h:226:9: error: implicit declaration of function ‘atomic64_dec_return_acquire’; did you mean ‘atomic_long_dec_return_acquire’? [-Werror=implicit-function-declaration]
+  226 |  return atomic64_dec_return_acquire(v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_dec_return_acquire
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_dec_return_release’:
+./include/asm-generic/atomic-long.h:232:9: error: implicit declaration of function ‘atomic64_dec_return_release’; did you mean ‘atomic_long_dec_return_release’? [-Werror=implicit-function-declaration]
+  232 |  return atomic64_dec_return_release(v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_dec_return_release
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_dec_return_relaxed’:
+./include/asm-generic/atomic-long.h:238:9: error: implicit declaration of function ‘atomic64_dec_return_relaxed’; did you mean ‘atomic_long_dec_return_relaxed’? [-Werror=implicit-function-declaration]
+  238 |  return atomic64_dec_return_relaxed(v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_dec_return_relaxed
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_dec’:
+./include/asm-generic/atomic-long.h:244:9: error: implicit declaration of function ‘atomic64_fetch_dec’; did you mean ‘atomic_long_fetch_dec’? [-Werror=implicit-function-declaration]
+  244 |  return atomic64_fetch_dec(v);
+      |         ^~~~~~~~~~~~~~~~~~
+      |         atomic_long_fetch_dec
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_dec_acquire’:
+./include/asm-generic/atomic-long.h:250:9: error: implicit declaration of function ‘atomic64_fetch_dec_acquire’; did you mean ‘atomic_long_fetch_dec_acquire’? [-Werror=implicit-function-declaration]
+  250 |  return atomic64_fetch_dec_acquire(v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_fetch_dec_acquire
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_dec_release’:
+./include/asm-generic/atomic-long.h:256:9: error: implicit declaration of function ‘atomic64_fetch_dec_release’; did you mean ‘atomic_long_fetch_dec_release’? [-Werror=implicit-function-declaration]
+  256 |  return atomic64_fetch_dec_release(v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_fetch_dec_release
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_dec_relaxed’:
+./include/asm-generic/atomic-long.h:262:9: error: implicit declaration of function ‘atomic64_fetch_dec_relaxed’; did you mean ‘atomic_long_fetch_dec_relaxed’? [-Werror=implicit-function-declaration]
+  262 |  return atomic64_fetch_dec_relaxed(v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_fetch_dec_relaxed
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_and’:
+./include/asm-generic/atomic-long.h:268:2: error: implicit declaration of function ‘atomic64_and’; did you mean ‘atomic64_add’? [-Werror=implicit-function-declaration]
+  268 |  atomic64_and(i, v);
+      |  ^~~~~~~~~~~~
+      |  atomic64_add
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_and’:
+./include/asm-generic/atomic-long.h:274:9: error: implicit declaration of function ‘atomic64_fetch_and’; did you mean ‘atomic_fetch_add’? [-Werror=implicit-function-declaration]
+  274 |  return atomic64_fetch_and(i, v);
+      |         ^~~~~~~~~~~~~~~~~~
+      |         atomic_fetch_add
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_and_acquire’:
+./include/asm-generic/atomic-long.h:280:9: error: implicit declaration of function ‘atomic64_fetch_and_acquire’; did you mean ‘atomic_long_fetch_and_acquire’? [-Werror=implicit-function-declaration]
+  280 |  return atomic64_fetch_and_acquire(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_fetch_and_acquire
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_and_release’:
+./include/asm-generic/atomic-long.h:286:9: error: implicit declaration of function ‘atomic64_fetch_and_release’; did you mean ‘atomic_fetch_add_release’? [-Werror=implicit-function-declaration]
+  286 |  return atomic64_fetch_and_release(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_fetch_add_release
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_and_relaxed’:
+./include/asm-generic/atomic-long.h:292:9: error: implicit declaration of function ‘atomic64_fetch_and_relaxed’; did you mean ‘atomic_fetch_add_relaxed’? [-Werror=implicit-function-declaration]
+  292 |  return atomic64_fetch_and_relaxed(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_fetch_add_relaxed
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_andnot’:
+./include/asm-generic/atomic-long.h:298:2: error: implicit declaration of function ‘atomic64_andnot’; did you mean ‘atomic64_add’? [-Werror=implicit-function-declaration]
+  298 |  atomic64_andnot(i, v);
+      |  ^~~~~~~~~~~~~~~
+      |  atomic64_add
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_andnot’:
+./include/asm-generic/atomic-long.h:304:9: error: implicit declaration of function ‘atomic64_fetch_andnot’; did you mean ‘atomic_long_fetch_andnot’? [-Werror=implicit-function-declaration]
+  304 |  return atomic64_fetch_andnot(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_fetch_andnot
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_andnot_acquire’:
+./include/asm-generic/atomic-long.h:310:9: error: implicit declaration of function ‘atomic64_fetch_andnot_acquire’; did you mean ‘atomic_long_fetch_andnot_acquire’? [-Werror=implicit-function-declaration]
+  310 |  return atomic64_fetch_andnot_acquire(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_fetch_andnot_acquire
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_andnot_release’:
+./include/asm-generic/atomic-long.h:316:9: error: implicit declaration of function ‘atomic64_fetch_andnot_release’; did you mean ‘atomic_long_fetch_andnot_release’? [-Werror=implicit-function-declaration]
+  316 |  return atomic64_fetch_andnot_release(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_fetch_andnot_release
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_andnot_relaxed’:
+./include/asm-generic/atomic-long.h:322:9: error: implicit declaration of function ‘atomic64_fetch_andnot_relaxed’; did you mean ‘atomic_long_fetch_andnot_relaxed’? [-Werror=implicit-function-declaration]
+  322 |  return atomic64_fetch_andnot_relaxed(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_fetch_andnot_relaxed
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_or’:
+./include/asm-generic/atomic-long.h:328:2: error: implicit declaration of function ‘atomic64_or’; did you mean ‘atomic64_set’? [-Werror=implicit-function-declaration]
+  328 |  atomic64_or(i, v);
+      |  ^~~~~~~~~~~
+      |  atomic64_set
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_or’:
+./include/asm-generic/atomic-long.h:334:9: error: implicit declaration of function ‘atomic64_fetch_or’; did you mean ‘atomic_long_fetch_or’? [-Werror=implicit-function-declaration]
+  334 |  return atomic64_fetch_or(i, v);
+      |         ^~~~~~~~~~~~~~~~~
+      |         atomic_long_fetch_or
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_or_acquire’:
+./include/asm-generic/atomic-long.h:340:9: error: implicit declaration of function ‘atomic64_fetch_or_acquire’; did you mean ‘atomic_long_fetch_or_acquire’? [-Werror=implicit-function-declaration]
+  340 |  return atomic64_fetch_or_acquire(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_fetch_or_acquire
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_or_release’:
+./include/asm-generic/atomic-long.h:346:9: error: implicit declaration of function ‘atomic64_fetch_or_release’; did you mean ‘atomic_long_fetch_or_release’? [-Werror=implicit-function-declaration]
+  346 |  return atomic64_fetch_or_release(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_fetch_or_release
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_or_relaxed’:
+./include/asm-generic/atomic-long.h:352:9: error: implicit declaration of function ‘atomic64_fetch_or_relaxed’; did you mean ‘atomic_long_fetch_or_relaxed’? [-Werror=implicit-function-declaration]
+  352 |  return atomic64_fetch_or_relaxed(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_fetch_or_relaxed
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_xor’:
+./include/asm-generic/atomic-long.h:358:2: error: implicit declaration of function ‘atomic64_xor’; did you mean ‘atomic64_set’? [-Werror=implicit-function-declaration]
+  358 |  atomic64_xor(i, v);
+      |  ^~~~~~~~~~~~
+      |  atomic64_set
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_xor’:
+./include/asm-generic/atomic-long.h:364:9: error: implicit declaration of function ‘atomic64_fetch_xor’; did you mean ‘atomic_long_fetch_xor’? [-Werror=implicit-function-declaration]
+  364 |  return atomic64_fetch_xor(i, v);
+      |         ^~~~~~~~~~~~~~~~~~
+      |         atomic_long_fetch_xor
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_xor_acquire’:
+./include/asm-generic/atomic-long.h:370:9: error: implicit declaration of function ‘atomic64_fetch_xor_acquire’; did you mean ‘atomic_long_fetch_xor_acquire’? [-Werror=implicit-function-declaration]
+  370 |  return atomic64_fetch_xor_acquire(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_fetch_xor_acquire
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_xor_release’:
+./include/asm-generic/atomic-long.h:376:9: error: implicit declaration of function ‘atomic64_fetch_xor_release’; did you mean ‘atomic_long_fetch_xor_release’? [-Werror=implicit-function-declaration]
+  376 |  return atomic64_fetch_xor_release(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_fetch_xor_release
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_fetch_xor_relaxed’:
+./include/asm-generic/atomic-long.h:382:9: error: implicit declaration of function ‘atomic64_fetch_xor_relaxed’; did you mean ‘atomic_long_fetch_xor_relaxed’? [-Werror=implicit-function-declaration]
+  382 |  return atomic64_fetch_xor_relaxed(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_fetch_xor_relaxed
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_xchg’:
+./include/asm-generic/atomic-long.h:388:9: error: implicit declaration of function ‘atomic64_xchg’; did you mean ‘atomic64_set’? [-Werror=implicit-function-declaration]
+  388 |  return atomic64_xchg(v, i);
+      |         ^~~~~~~~~~~~~
+      |         atomic64_set
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_xchg_acquire’:
+./include/asm-generic/atomic-long.h:394:9: error: implicit declaration of function ‘atomic64_xchg_acquire’; did you mean ‘atomic_long_xchg_acquire’? [-Werror=implicit-function-declaration]
+  394 |  return atomic64_xchg_acquire(v, i);
+      |         ^~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_xchg_acquire
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_xchg_release’:
+./include/asm-generic/atomic-long.h:400:9: error: implicit declaration of function ‘atomic64_xchg_release’; did you mean ‘atomic_long_xchg_release’? [-Werror=implicit-function-declaration]
+  400 |  return atomic64_xchg_release(v, i);
+      |         ^~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_xchg_release
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_xchg_relaxed’:
+./include/asm-generic/atomic-long.h:406:9: error: implicit declaration of function ‘atomic64_xchg_relaxed’; did you mean ‘atomic64_cmpxchg_relaxed’? [-Werror=implicit-function-declaration]
+  406 |  return atomic64_xchg_relaxed(v, i);
+      |         ^~~~~~~~~~~~~~~~~~~~~
+      |         atomic64_cmpxchg_relaxed
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_cmpxchg’:
+./include/asm-generic/atomic-long.h:412:9: error: implicit declaration of function ‘atomic64_cmpxchg’; did you mean ‘atomic_cmpxchg’? [-Werror=implicit-function-declaration]
+  412 |  return atomic64_cmpxchg(v, old, new);
+      |         ^~~~~~~~~~~~~~~~
+      |         atomic_cmpxchg
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_cmpxchg_acquire’:
+./include/asm-generic/atomic-long.h:418:9: error: implicit declaration of function ‘atomic64_cmpxchg_acquire’; did you mean ‘atomic_try_cmpxchg_acquire’? [-Werror=implicit-function-declaration]
+  418 |  return atomic64_cmpxchg_acquire(v, old, new);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_try_cmpxchg_acquire
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_cmpxchg_release’:
+./include/asm-generic/atomic-long.h:424:9: error: implicit declaration of function ‘atomic64_cmpxchg_release’; did you mean ‘atomic64_cmpxchg_relaxed’? [-Werror=implicit-function-declaration]
+  424 |  return atomic64_cmpxchg_release(v, old, new);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic64_cmpxchg_relaxed
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_try_cmpxchg’:
+./include/asm-generic/atomic-long.h:436:9: error: implicit declaration of function ‘atomic64_try_cmpxchg’; did you mean ‘atomic_long_try_cmpxchg’? [-Werror=implicit-function-declaration]
+  436 |  return atomic64_try_cmpxchg(v, (s64 *)old, new);
+      |         ^~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_try_cmpxchg
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_try_cmpxchg_acquire’:
+./include/asm-generic/atomic-long.h:442:9: error: implicit declaration of function ‘atomic64_try_cmpxchg_acquire’; did you mean ‘atomic_try_cmpxchg_acquire’? [-Werror=implicit-function-declaration]
+  442 |  return atomic64_try_cmpxchg_acquire(v, (s64 *)old, new);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_try_cmpxchg_acquire
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_try_cmpxchg_release’:
+./include/asm-generic/atomic-long.h:448:9: error: implicit declaration of function ‘atomic64_try_cmpxchg_release’; did you mean ‘atomic_long_try_cmpxchg_release’? [-Werror=implicit-function-declaration]
+  448 |  return atomic64_try_cmpxchg_release(v, (s64 *)old, new);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_try_cmpxchg_release
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_try_cmpxchg_relaxed’:
+./include/asm-generic/atomic-long.h:454:9: error: implicit declaration of function ‘atomic64_try_cmpxchg_relaxed’; did you mean ‘atomic_try_cmpxchg_relaxed’? [-Werror=implicit-function-declaration]
+  454 |  return atomic64_try_cmpxchg_relaxed(v, (s64 *)old, new);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_try_cmpxchg_relaxed
+./include/asm-generic/atomic-long.h: At top level:
+./include/asm-generic/atomic-long.h:458:1: error: static declaration of ‘atomic_long_sub_and_test’ follows non-static declaration
+  458 | atomic_long_sub_and_test(long i, atomic_long_t *v)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:15,
+                 from <command-line>:
+/home/parallels/ebpf-verifier/linux/header_stubs/atomic-instrumented.h:24:13: note: previous declaration of ‘atomic_long_sub_and_test’ was here
+   24 | extern bool atomic_long_sub_and_test(long i, atomic_long_t *v);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./include/linux/atomic.h:76,
+                 from ./include/asm-generic/bitops/atomic.h:5,
+                 from ./arch/arm64/include/asm/bitops.h:26,
+                 from ./include/linux/bitops.h:19,
+                 from ./include/linux/kernel.h:12,
+                 from ./include/asm-generic/bug.h:18,
+                 from ./arch/arm64/include/asm/bug.h:26,
+                 from ./include/linux/bug.h:5,
+                 from ./include/linux/signal.h:5,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/current.h:3,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:18,
+                 from <command-line>:
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_sub_and_test’:
+./include/asm-generic/atomic-long.h:460:9: error: implicit declaration of function ‘atomic64_sub_and_test’; did you mean ‘atomic_sub_and_test’? [-Werror=implicit-function-declaration]
+  460 |  return atomic64_sub_and_test(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~
+      |         atomic_sub_and_test
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_inc_and_test’:
+./include/asm-generic/atomic-long.h:472:9: error: implicit declaration of function ‘atomic64_inc_and_test’; did you mean ‘atomic64_dec_and_test’? [-Werror=implicit-function-declaration]
+  472 |  return atomic64_inc_and_test(v);
+      |         ^~~~~~~~~~~~~~~~~~~~~
+      |         atomic64_dec_and_test
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_add_negative’:
+./include/asm-generic/atomic-long.h:478:9: error: implicit declaration of function ‘atomic64_add_negative’; did you mean ‘atomic_long_add_negative’? [-Werror=implicit-function-declaration]
+  478 |  return atomic64_add_negative(i, v);
+      |         ^~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_add_negative
+./include/asm-generic/atomic-long.h: At top level:
+./include/asm-generic/atomic-long.h:488:1: error: static declaration of ‘atomic_long_add_unless’ follows non-static declaration
+  488 | atomic_long_add_unless(atomic_long_t *v, long a, long u)
+      | ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:15,
+                 from <command-line>:
+/home/parallels/ebpf-verifier/linux/header_stubs/atomic-instrumented.h:22:13: note: previous declaration of ‘atomic_long_add_unless’ was here
+   22 | extern bool atomic_long_add_unless(atomic_long_t *v, long a, long u);
+      |             ^~~~~~~~~~~~~~~~~~~~~~
+In file included from ./include/linux/atomic.h:76,
+                 from ./include/asm-generic/bitops/atomic.h:5,
+                 from ./arch/arm64/include/asm/bitops.h:26,
+                 from ./include/linux/bitops.h:19,
+                 from ./include/linux/kernel.h:12,
+                 from ./include/asm-generic/bug.h:18,
+                 from ./arch/arm64/include/asm/bug.h:26,
+                 from ./include/linux/bug.h:5,
+                 from ./include/linux/signal.h:5,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/current.h:3,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:18,
+                 from <command-line>:
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_add_unless’:
+./include/asm-generic/atomic-long.h:490:9: error: implicit declaration of function ‘atomic64_add_unless’; did you mean ‘atomic_add_unless’? [-Werror=implicit-function-declaration]
+  490 |  return atomic64_add_unless(v, a, u);
+      |         ^~~~~~~~~~~~~~~~~~~
+      |         atomic_add_unless
+./include/asm-generic/atomic-long.h: At top level:
+./include/asm-generic/atomic-long.h:494:1: error: static declaration of ‘atomic_long_inc_not_zero’ follows non-static declaration
+  494 | atomic_long_inc_not_zero(atomic_long_t *v)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:15,
+                 from <command-line>:
+/home/parallels/ebpf-verifier/linux/header_stubs/atomic-instrumented.h:23:13: note: previous declaration of ‘atomic_long_inc_not_zero’ was here
+   23 | extern bool atomic_long_inc_not_zero(atomic_long_t *v);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./include/linux/atomic.h:76,
+                 from ./include/asm-generic/bitops/atomic.h:5,
+                 from ./arch/arm64/include/asm/bitops.h:26,
+                 from ./include/linux/bitops.h:19,
+                 from ./include/linux/kernel.h:12,
+                 from ./include/asm-generic/bug.h:18,
+                 from ./arch/arm64/include/asm/bug.h:26,
+                 from ./include/linux/bug.h:5,
+                 from ./include/linux/signal.h:5,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/current.h:3,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:18,
+                 from <command-line>:
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_inc_not_zero’:
+./include/asm-generic/atomic-long.h:496:9: error: implicit declaration of function ‘atomic64_inc_not_zero’; did you mean ‘atomic_inc_not_zero’? [-Werror=implicit-function-declaration]
+  496 |  return atomic64_inc_not_zero(v);
+      |         ^~~~~~~~~~~~~~~~~~~~~
+      |         atomic_inc_not_zero
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_inc_unless_negative’:
+./include/asm-generic/atomic-long.h:502:9: error: implicit declaration of function ‘atomic64_inc_unless_negative’; did you mean ‘atomic_inc_unless_negative’? [-Werror=implicit-function-declaration]
+  502 |  return atomic64_inc_unless_negative(v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_inc_unless_negative
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_dec_unless_positive’:
+./include/asm-generic/atomic-long.h:508:9: error: implicit declaration of function ‘atomic64_dec_unless_positive’; did you mean ‘atomic_dec_unless_positive’? [-Werror=implicit-function-declaration]
+  508 |  return atomic64_dec_unless_positive(v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_dec_unless_positive
+./include/asm-generic/atomic-long.h: In function ‘atomic_long_dec_if_positive’:
+./include/asm-generic/atomic-long.h:514:9: error: implicit declaration of function ‘atomic64_dec_if_positive’; did you mean ‘atomic_long_dec_if_positive’? [-Werror=implicit-function-declaration]
+  514 |  return atomic64_dec_if_positive(v);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~
+      |         atomic_long_dec_if_positive
+In file included from ./include/asm-generic/bug.h:5,
+                 from ./arch/arm64/include/asm/bug.h:26,
+                 from ./include/linux/bug.h:5,
+                 from ./include/linux/signal.h:5,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/current.h:3,
+                 from /home/parallels/ebpf-verifier/linux/header_stubs/header_stubs.h:18,
+                 from <command-line>:
+./include/linux/syscalls.h: In function ‘addr_limit_user_check’:
+./include/linux/syscalls.h:265:29: error: implicit declaration of function ‘segment_eq’ [-Werror=implicit-function-declaration]
+  265 |  if (CHECK_DATA_CORRUPTION(!segment_eq(get_fs(), USER_DS),
+      |                             ^~~~~~~~~~
+./include/linux/compiler.h:78:42: note: in definition of macro ‘unlikely’
+   78 | # define unlikely(x) __builtin_expect(!!(x), 0)
+      |                                          ^
+./include/linux/syscalls.h:265:6: note: in expansion of macro ‘CHECK_DATA_CORRUPTION’
+  265 |  if (CHECK_DATA_CORRUPTION(!segment_eq(get_fs(), USER_DS),
+      |      ^~~~~~~~~~~~~~~~~~~~~
+./include/linux/syscalls.h:265:40: error: implicit declaration of function ‘get_fs’; did you mean ‘sget_fc’? [-Werror=implicit-function-declaration]
+  265 |  if (CHECK_DATA_CORRUPTION(!segment_eq(get_fs(), USER_DS),
+      |                                        ^~~~~~
+./include/linux/compiler.h:78:42: note: in definition of macro ‘unlikely’
+   78 | # define unlikely(x) __builtin_expect(!!(x), 0)
+      |                                          ^
+./include/linux/syscalls.h:265:6: note: in expansion of macro ‘CHECK_DATA_CORRUPTION’
+  265 |  if (CHECK_DATA_CORRUPTION(!segment_eq(get_fs(), USER_DS),
+      |      ^~~~~~~~~~~~~~~~~~~~~
+kernel/bpf/syscall.c: In function ‘bpf_check_uarg_tail_zero’:
+kernel/bpf/syscall.c:84:9: error: implicit declaration of function ‘get_user’; did you mean ‘get_super’? [-Werror=implicit-function-declaration]
+   84 |   err = get_user(val, addr);
+      |         ^~~~~~~~
+      |         get_super
+kernel/bpf/syscall.c: In function ‘bpf_map_precharge_memlock’:
+kernel/bpf/syscall.c:189:30: error: ‘struct user_struct’ has no member named ‘locked_vm’
+  189 |  cur = atomic_long_read(&user->locked_vm);
+      |                              ^~
+kernel/bpf/syscall.c: In function ‘bpf_charge_memlock’:
+kernel/bpf/syscall.c:200:41: error: ‘struct user_struct’ has no member named ‘locked_vm’
+  200 |  if (atomic_long_add_return(pages, &user->locked_vm) > memlock_limit) {
+      |                                         ^~
+kernel/bpf/syscall.c:201:31: error: ‘struct user_struct’ has no member named ‘locked_vm’
+  201 |   atomic_long_sub(pages, &user->locked_vm);
+      |                               ^~
+kernel/bpf/syscall.c: In function ‘bpf_uncharge_memlock’:
+kernel/bpf/syscall.c:209:30: error: ‘struct user_struct’ has no member named ‘locked_vm’
+  209 |  atomic_long_sub(pages, &user->locked_vm);
+      |                              ^~
+kernel/bpf/syscall.c: In function ‘bpf_map_inc_not_zero’:
+kernel/bpf/syscall.c:688:11: error: implicit declaration of function ‘atomic_fetch_add_unless’; did you mean ‘atomic64_fetch_add_unless’? [-Werror=implicit-function-declaration]
+  688 |  refold = atomic_fetch_add_unless(&map->refcnt, 1, 0);
+      |           ^~~~~~~~~~~~~~~~~~~~~~~
+      |           atomic64_fetch_add_unless
+kernel/bpf/syscall.c: In function ‘__bpf_prog_charge’:
+kernel/bpf/syscall.c:1230:50: error: ‘struct user_struct’ has no member named ‘locked_vm’
+ 1230 |   user_bufs = atomic_long_add_return(pages, &user->locked_vm);
+      |                                                  ^~
+kernel/bpf/syscall.c:1232:32: error: ‘struct user_struct’ has no member named ‘locked_vm’
+ 1232 |    atomic_long_sub(pages, &user->locked_vm);
+      |                                ^~
+kernel/bpf/syscall.c: In function ‘__bpf_prog_uncharge’:
+kernel/bpf/syscall.c:1243:31: error: ‘struct user_struct’ has no member named ‘locked_vm’
+ 1243 |   atomic_long_sub(pages, &user->locked_vm);
+      |                               ^~
+kernel/bpf/syscall.c: In function ‘bpf_prog_add’:
+kernel/bpf/syscall.c:1437:6: error: implicit declaration of function ‘atomic_add_return’; did you mean ‘atomic_sub_return’? [-Werror=implicit-function-declaration]
+ 1437 |  if (atomic_add_return(i, &prog->aux->refcnt) > BPF_MAX_REFCNT) {
+      |      ^~~~~~~~~~~~~~~~~
+      |      atomic_sub_return
+cc1: some warnings being treated as errors

@@ -3,19 +3,10 @@ extern unsigned long copy_to_user(void * to, const void * from, unsigned long n)
 extern long strncpy_from_user(char *dest, const char *src, long count);
 extern int check_zeroed_user(const void  *from, unsigned int size);
 
-#ifdef __v5_18__
+#if defined __v5_18__ || defined __v5_2__
 #define __LINUX_UACCESS_H__
 
 extern unsigned long strlen(const char *str);
-
-// inline static long strncpy_from_user(char *dest, const char *src, long count) {
-//   __builtin_strncpy(dest, src, count);
-//   // return min of strlen(src) and count
-//   if (strlen(src) < count) {
-//     return strlen(src);
-//   }
-//   return count;
-// }
 
 // TODO: don't really get this one
 inline static long put_user(unsigned long x, void *ptr) {return 0;}
@@ -23,7 +14,24 @@ inline static long put_user(unsigned long x, void *ptr) {return 0;}
 extern int pagefault_disable(void);
 extern int pagefault_enable(void);
 
-#else
+#endif
+
+#ifdef __v5_2__
+#define __ASM_UACCESS_H
+
+#undef access_ok
+#define access_ok(addr, size)	true
+#define get_fs()	(current_thread_info()->addr_limit)
+
+// #define segment_eq(a, b) ((a).seg == (b).seg)
+#define segment_eq(a, b) (a == b) // TODO? what is this?
+
+#define get_user(x, ptr) x = *ptr
+
+#endif
+
+#ifdef __v4_0
+
 #define __ASM_UACCESS_H
 
 #undef access_ok

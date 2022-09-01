@@ -7,22 +7,32 @@ kernel versions are handled using ifdefs.
 */
 
 /* Should be included for all kernel/bpf/...o files */
+
 #include "slab.h"
+#include "quirks.h"
+#include "signal.h"
 
 /* Most directly relevant files to verifier */
 #ifdef KERNEL_BPF_SYSCALL
-#include "atomic-instrumented.h"
+#include "atomics.h"
+#include "workqueue.h"
+#include "sched_signal.h"
 #include "lock.h"
 #include "uaccess.h"
 #include "current.h"
+#include "preempt.h"
 #include "percpu-defs.h"
 #include "cred.h"
 #include "current.h"
 #include "file.h"
+#include "sched_task.h"
+#include "syscalls.h"
+
 #endif /* kernel/bpf/syscall */
 
 #ifdef KERNEL_BPF_VERIFIER
-#include "printk.h"
+#include "mm.h"
+#include "kernel.h"
 #include "lock.h"
 #include "uaccess.h"
 #include "current.h"
@@ -33,9 +43,13 @@ kernel versions are handled using ifdefs.
 #endif /* kernel/bpf/verifier */
 
 #ifdef KERNEL_BPF_BTF
-#include "printk.h"
+#include "atomics.h"
+#include "mm.h"
 #include "lock.h"
 #include "file.h"
+#include "uaccess.h"
+#include "preempt.h"
+#include "refcount.h"
 #endif /* kernel/bpf/btf */
 
 /* Other kernel/bpf files */
@@ -65,6 +79,7 @@ kernel versions are handled using ifdefs.
 #endif /* kernel/bpf/cgroup */
 
 #ifdef KERNEL_BPF_CORE
+#include "percpumask.h"
 #endif /* kernel/bpf/core */
 
 #ifdef KERNEL_BPF_CPUMAP
@@ -96,6 +111,7 @@ kernel versions are handled using ifdefs.
 #endif /* kernel/bpf/lpm_trie */
 
 #ifdef KERNEL_BPF_MAP_IN_MAP
+#include <linux/gfp.h>
 #endif /* kernel/bpf/map_in_map */
 
 #ifdef KERNEL_BPF_MAP_ITER

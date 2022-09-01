@@ -9,7 +9,7 @@ REGLIBBPF := $(EBPF)/libbpf/build_reg/libbpf.a
 LIBBPF := $(EBPF)/libbpf/build/libbpf.a
 LIBBPFSRC := $(EBPF)/libbpf/
 KARCHIVE := $(EBPF)/linux/kernel.a
-KARCHIVE18 := $(EBPF)/linux/kernel_18.a
+KARCHIVE18 := $(EBPF)/linux/kernel_5_18.a
 KERNEL := $(EBPF)/linux/src
 
 # TODO: currently using my vmlinux.h generated from my /sys/kernel/btf/vmlinux
@@ -29,7 +29,10 @@ APPS := s \
 				sockfilter \
 				profile \
 				minimal_legacy \
-				kprobe fentry
+				kprobe \
+				fentry  \
+				bounded_loop \
+				infinite_loop
 
 LOCALAPPS := 	local-s \
 							local-hello \
@@ -41,7 +44,9 @@ LOCALAPPS := 	local-s \
 							local-profile \
 							local-minimal_legacy \
 							local-kprobe \
-							local-fentry
+							local-fentry \
+							local-bounded_loop \
+							local-infinite_loop
 
 HARNESS_SRC_FILES := 	$(SRC)/my_syscall.c \
 											$(SRC)/runtime.c \
@@ -71,11 +76,13 @@ $(SAMPLES)/%_loader.o: $(SAMPLES)/%.skel.h
 
 # TODO: automated way to add kernel version macro. Right now manually modify
 # the below variable
-KVERSION := -D__v5_18__
+KVERSION := -D__v5_2__
 
-# generate bpf loader executable (will call into my_syscall)
+#generate bpf loader executable (will call into my_syscall)
 $(APPS): % : $(SAMPLES)/%_loader.o $(SAMPLES)/%.skel.h  $(SAMPLES)/%.bpf.o $(LIBBPF) $(KARCHIVE)
 	$(CC) $(CFLAGS) \
+	-I $(KERNEL)/usr/include/ \
+	-iquote $(EBPF)/linux/include \
 	-DHARNESS \
 	$<  \
 	$(KVERSION) \
@@ -95,6 +102,18 @@ hello_18: %_18 : $(SAMPLES)/%_loader.o $(SAMPLES)/%.skel.h  $(SAMPLES)/%.bpf.o $
 	$(KARCHIVE18) \
 	-o $(BIN)/$@ \
 	-mcmodel=large
+
+# $(APPS): % : $(SAMPLES)/%_loader.o $(SAMPLES)/%.skel.h  $(SAMPLES)/%.bpf.o $(LIBBPF) $(KARCHIVE)
+# 	$(CC) $(CFLAGS) \
+# 	-I $(KERNEL)/usr/include/ \
+# 	-iquote $(EBPF)/linux/include \
+# 	-DHARNESS \
+# 	$<  \
+# 	$(KVERSION) \
+# 	$(HARNESS_SRC_FILES) \
+# 	$(KARCHIVE) \
+# 	-o $(BIN)/$@ \
+# 	-mcmodel=large
 
 # # generate bpf loader executable using standard libbpf (will make actual syscalls)
 $(LOCALAPPS) : local-% : $(SAMPLES)/%_loader.o $(SAMPLES)/%.bpf.o $(REGLIBBPF)

@@ -13,7 +13,7 @@ kernel_object_files:
 
 $(KERNEL)/compile_commands.json: kernel_object_files
 	cd $(KERNEL) && \
-	./scripts/clang-tools/gen_compile_commands.py
+	./scripts/gen_compile_commands.py
 
 
 # generate clang_cmds.sh
